@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Energy Analytics · Energy Department</title>
+<base target="_blank">
+<meta name="theme-color" content="#6d4fe0">
+<meta name="description" content="Energy Analytics: dashboards and key dates, Energy Department, Government of Bihar">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{
+  --ink:#1f2c4d; --muted:#5b6988; --faint:#9aa3b1; --page:#fbfaff; --line:#e6e9ee; --line2:#eef0f3;
+  --s:1;
+  --display:"Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+  --body:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,"Nirmala UI","Noto Sans Devanagari","Mangal",sans-serif;
+  /* calendar colours */
+  --gold:#c9961a; --gold-bg:#fffaeb;
+  --gh:#c62f3b; --gh-bg:#fdf0f1; --rh:#b8650c; --rh-bg:#fff5e8;
+  --en:#0f8273; --en-bg:#e8f6f3; --ob:#4553b8; --ob-bg:#eef0fc;
+  --qe:#4a5870; --qe-bg:#f0f2f5; --fc:#8048a6; --fc-bg:#f6effb;
+  --dp:#1767b3; --dp-bg:#eaf3fc; --sat:#3b78c2; --sat-bg:#f1f6fd; --sun:#2c62a8; --sun-bg:#e6effa;
+  --side-w:470px;
+}
+*{box-sizing:border-box}
+html{background:var(--page)}
+body{
+  margin:0;font-family:var(--body);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;
+  background:
+    radial-gradient(60rem 30rem at 0% 0%,#e6f1ff 0%,rgba(230,241,255,0) 70%),
+    radial-gradient(50rem 28rem at 100% 10%,#ffeef3 0%,rgba(255,238,243,0) 70%),
+    var(--page);
+  background-repeat:no-repeat;
+}
+button{font:inherit;color:inherit}
+.hi{font-family:"Nirmala UI","Noto Sans Devanagari","Mangal","Kohinoor Devanagari",sans-serif}
+
+/* ---------- Two-column shell ---------- */
+.shell{display:grid;grid-template-columns:minmax(0,1fr) var(--side-w);max-width:1640px;margin:0 auto;align-items:start}
+
+/* ================= LEFT: dashboards ================= */
+.page{padding:1.6em 28px 1.2em;font-size:calc(16px * var(--s));min-width:0}
+.masthead{margin-bottom:1.4em}
+.eyebrow{font-size:.74em;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 .25em}
+h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;letter-spacing:-.025em;margin:0 0 .2em}
+.summary{margin:0;color:var(--muted);font-size:1em;font-weight:500}
+
+.group+.group{margin-top:1.3em}
+.group-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4em .8em;margin:0 0 .55em}
+.group h2{font-family:var(--display);font-weight:600;font-size:1.3em;letter-spacing:-.015em;line-height:1.2;margin:0}
+.open-all{display:inline-flex;align-items:center;gap:.45em;height:2.35em;padding:0 .95em 0 .8em;font:600 .86em var(--body);color:var(--ink);background:#fff;border:1.5px solid #dfe3ee;border-radius:99px;cursor:pointer;white-space:nowrap;box-shadow:0 1px 2px rgba(31,44,77,.06);transition:background-color .2s,border-color .2s,color .2s,transform .15s}
+.open-all svg{width:1.15em;height:1.15em;color:#6d4fe0;transition:color .2s}
+.open-all .n{font-weight:700;font-size:.85em;background:#efeafd;color:#3a2792;border-radius:99px;padding:.05em .5em}
+.open-all:hover,.open-all:focus-visible{background:#6d4fe0;border-color:#6d4fe0;color:#fff}
+.open-all:hover svg,.open-all:focus-visible svg{color:#fff}
+.open-all:hover .n,.open-all:focus-visible .n{background:rgba(255,255,255,.22);color:#fff}
+.open-all:active{transform:scale(.97)}
+.open-all:focus-visible{outline:3px solid #b9a9f5;outline-offset:2px}
+
+.toast{position:fixed;left:50%;bottom:16px;z-index:30;transform:translateX(-50%);width:max-content;max-width:calc(100% - 32px);padding:.7em 1em;font:500 .9rem/1.4 var(--body);color:#fff;background:#1f2c4d;border-radius:14px;box-shadow:0 16px 34px -14px rgba(31,44,77,.6);animation:fade .2s ease both}
+.toast.warn{background:#fff6d6;color:#6b4e00;border:1px solid #f3e1a3}
+[hidden]{display:none!important}
+
+.tiles{display:grid;gap:.85em;grid-template-columns:repeat(auto-fill,minmax(min(100%,10.75em),1fr))}
+.tile{position:relative;overflow:hidden;display:flex;flex-direction:column;min-width:0;min-height:7.75em;padding:.9em;border-radius:20px;background:var(--tint);color:var(--deep);text-decoration:none;box-shadow:0 1px 2px var(--glow);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.tile::before{content:"";position:absolute;right:-2.1em;top:-2.1em;width:6em;height:6em;border-radius:50%;background:rgba(255,255,255,.5);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.tile>*{position:relative}
+.tile-icon{display:grid;place-items:center;width:2.25em;height:2.25em;border-radius:.7em;background:#fff;color:var(--accent);margin-bottom:.65em;box-shadow:0 4px 10px -4px var(--glow)}
+.tile-icon svg{width:1.2em;height:1.2em}
+.tile-name,.tile-desc{display:block;overflow-wrap:anywhere}
+.tile-name{font-weight:700;font-size:.97em;line-height:1.25;padding-right:1.6em}
+.tile-desc{margin-top:.2em;font-size:.8em;line-height:1.35;opacity:.8;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+
+
+.tile-go{position:absolute;top:.75em;right:.75em;display:grid;place-items:center;width:1.75em;height:1.75em;border-radius:50%;background:#fff;color:var(--accent);transition:background-color .3s,color .3s,transform .3s}
+.tile-go svg{width:.9em;height:.9em}
+.tile:hover,.tile:focus-visible{transform:translateY(-4px);box-shadow:0 14px 24px -12px var(--glow),0 3px 8px var(--glow)}
+.tile:hover::before,.tile:focus-visible::before{transform:scale(1.35)}
+.tile:hover .tile-go,.tile:focus-visible .tile-go{background:var(--accent);color:#fff;transform:rotate(-45deg)}
+.tile:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.tile:active{transform:translateY(-1px)}
+
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+
+/* ================= RIGHT: calendar panel ================= */
+.side{position:sticky;top:0;height:100vh;overflow-y:auto;padding:16px 16px 20px 0;font-size:14px;line-height:1.45;scrollbar-width:thin}
+.panel{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 30px -18px rgba(31,44,77,.35);overflow:hidden}
+.k-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px 12px;border-bottom:1px solid var(--line)}
+.k-top h2{margin:2px 0 0;font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:-.01em;color:#1f3b63}
+.k-top .eyebrow{font-size:10.5px;margin:0}
+.k-today{font-size:12px;color:var(--muted);margin-top:1px}
+.badge{flex:0 0 auto;width:46px;height:50px;border-radius:10px;border:1.5px solid var(--gold);background:var(--gold-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.badge b{font-size:20px;color:var(--ink)}
+.badge span{font-size:10px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-top:3px}
+
+.k-sec{padding:12px 16px;border-bottom:1px solid var(--line)}
+.k-sec:last-child{border-bottom:0}
+.k-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.k-h h3{margin:0;font-size:13px;font-weight:700;color:#1f3b63}
+.k-h small{font-weight:500;color:var(--muted);font-size:11.5px}
+
+/* filter chips */
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 9px 3px 7px;font-size:11.5px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
+.chip i{width:9px;height:9px;border-radius:3px;background:var(--c)}
+.chip[aria-pressed="true"]{color:var(--ink);border-color:#d4d9e1}
+.chip[aria-pressed="false"]{opacity:.5;text-decoration:line-through}
+
+/* month grid */
+.nav{display:flex;align-items:center;gap:4px}
+.nav button{border:1px solid var(--line);background:#fff;border-radius:8px;height:26px;min-width:26px;padding:0 7px;cursor:pointer;font-size:12px;font-weight:600;color:var(--muted)}
+.nav button:hover{color:var(--ink);border-color:#cfd5df}
+.nav button[disabled]{opacity:.35;cursor:default}
+.mg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+.mg .wd{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;text-align:center;color:var(--muted);padding:2px 0 4px}
+.mg .wd.sa{color:var(--sat)} .mg .wd.su{color:var(--sun)}
+.mc{position:relative;border:0;background:#fff;border-radius:8px;min-height:62px;padding:4px 2px 3px;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;gap:2px;box-shadow:inset 0 0 0 1px var(--line2);min-width:0;text-align:left}
+.mc b{font-size:12.5px;font-weight:600;line-height:1;text-align:center;margin-bottom:1px}
+.mc .lb{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:normal;word-break:normal;letter-spacing:-.02em;font-size:8.5px;line-height:1.15;font-weight:600;padding:1px 2px 1px 3px;border-radius:3px;border-left:2px solid var(--c);background:var(--cbg);color:var(--c)}
+.mc .lb.gh{background:var(--gh);color:#fff;border-left-color:var(--gh)}
+.mc .more{font-size:8.5px;color:var(--muted);text-align:center;line-height:1}
+.mc.out .lb,.mc.out .more{display:none}
+.mc:hover{box-shadow:inset 0 0 0 1px #c9d0db}
+.mc.sa{background:var(--sat-bg)} .mc.su{background:var(--sun-bg)}
+.mc.sa b{color:var(--sat)} .mc.su b{color:var(--sun)}
+.mc.hol{background:var(--gh-bg)} .mc.hol b{color:var(--gh)}
+.mc.out{opacity:.35}
+.mc.past b{opacity:.55}
+.mc.tdy{box-shadow:inset 0 0 0 2px var(--gold);background:var(--gold-bg)}
+.mc.sel{box-shadow:inset 0 0 0 2px #1f3b63}
+.mc.tdy.sel{box-shadow:inset 0 0 0 2px #1f3b63,inset 0 0 0 4px var(--gold)}
+.mc .dots{display:flex;gap:2px;justify-content:center}
+.mc .dots span{width:5px;height:5px;border-radius:50%;background:var(--c)}
+
+/* selected day */
+.detail .dh{font-weight:600;font-size:13.5px}
+.detail .dh span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.detail .empty{color:var(--muted);font-size:12.5px;margin-top:2px}
+.ev{border-left:3px solid var(--c);padding-left:9px;margin-top:6px}
+.ev .n{font-weight:600;font-size:13px;line-height:1.35}
+.ev .n .en{font-weight:400;color:var(--muted)}
+.ev .x{font-size:11.5px;color:var(--muted);margin-top:1px}
+.ev .x .tg{color:var(--c);font-weight:700;margin-right:5px}
+
+/* upcoming list */
+.mh{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1f3b63;margin:10px 0 2px}
+.mh:first-child{margin-top:0}
+.it{display:grid;grid-template-columns:44px minmax(0,1fr);gap:2px 10px;padding:7px 0;border-bottom:1px solid var(--line2);cursor:pointer}
+.it:last-child{border-bottom:0}
+.it:hover .ev .n{text-decoration:underline;text-decoration-color:#c9d0db}
+.it .dt{font-weight:700;font-size:15px;line-height:1.1;text-align:center;padding-top:4px}
+.it .dt small{display:block;font-weight:600;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+.it.sa .dt,.it.sa .dt small{color:var(--sat)} .it.su .dt,.it.su .dt small{color:var(--sun)}
+.it.hol .dt,.it.hol .dt small{color:var(--gh)}
+.it.tdy{background:var(--gold-bg);border-radius:8px}
+.it .ev:first-child{margin-top:0}
+.it .rel{font-size:11px;color:var(--muted);grid-column:2}
+.it.tdy .rel{color:var(--gold);font-weight:700}
+.none{color:var(--muted);font-size:12.5px}
+
+/* ---------- Stacked layout (tablet / phone) ---------- */
+@media (max-width:1000px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;height:auto;overflow:visible;padding:0 28px 28px}
+  .panel{max-width:640px}
+}
+@media (max-width:600px){
+  .page{padding:1.2em 12px 1em;font-size:calc(15px * var(--s))}
+  .masthead{margin-bottom:1em}
+  h1{font-size:1.9em}
+  .summary{font-size:.9em}
+  .group h2{font-size:1.1em}
+  .tiles{grid-template-columns:repeat(3,minmax(0,1fr));gap:.55em}
+  .tile{padding:.65em;min-height:6.6em;border-radius:14px}
+  .tile-icon{width:1.95em;height:1.95em;margin-bottom:.5em;border-radius:.6em}
+  .tile-name{font-size:.9em;line-height:1.22;padding-right:0}
+  .tile-desc{font-size:.72em}
+  .tile-go{top:.55em;right:.55em;width:1.5em;height:1.5em}
+  .side{padding:0 12px 20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ================= Dashboards ================= -->
+  <main class="page" id="main">
+    <header class="masthead">
+      <p class="eyebrow">Energy Department · Government of Bihar</p>
+      <h1>Energy Analytics</h1>
+      <p class="summary" id="summary"></p>
+    </header>
+    <div id="groups"></div>
+  </main>
+
+  <!-- ================= Key dates panel ================= -->
+  <aside class="side" aria-label="Key dates and holidays">
+    <div class="panel">
+      <div class="k-top">
+        <div>
+          <p class="eyebrow">Key Dates &amp; Holidays</p>
+          <h2 id="kDate"></h2>
+          <div class="k-today" id="kSub"></div>
+        </div>
+        <div class="badge"><b id="tNum"></b><span id="tMon"></span></div>
+      </div>
+
+      <div class="k-sec">
+        <div class="k-h">
+          <h3 id="mTitle"></h3>
+          <div class="nav">
+            <button type="button" id="mPrev" aria-label="Previous month">‹</button>
+            <button type="button" id="mToday">Today</button>
+            <button type="button" id="mNext" aria-label="Next month">›</button>
+          </div>
+        </div>
+        <div class="mg" id="month"></div>
+      </div>
+
+      <div class="k-sec detail" id="detail"></div>
+
+      <div class="k-sec">
+        <div class="k-h"><h3>Show</h3></div>
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <div class="k-sec">
+        <div class="k-h"><h3>Coming up <small id="winTxt"></small></h3></div>
+        <div id="list"></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+/* =====================================================================
+   DASHBOARDS — edit here (same columns as the Google Sheet)
+   name | url | desc | cat
+   Groups appear in the order of CATEGORY_ORDER; any new category is
+   added after them automatically.
+   ===================================================================== */
+const CATEGORY_ORDER = ['Priority', 'SBPDCL', 'Others'];
+
+const DASHBOARDS = [
+  // ---- Priority ----
+  { name: 'Daily Bulletin', url: 'https://sites.google.com/view/energy-department-analytics/energy-bulletin', desc: 'Summary of Priorities', cat: 'Priority' },
+  { name: 'Pending Issues', url: 'https://sites.google.com/view/energy-department-analytics/followup', desc: 'Pending Issues District Wise', cat: 'Priority' },
+  { name: 'Weather Prediction', url: 'https://sites.google.com/view/energy-department-analytics/dailymonitoring/weatherforecast', desc: 'Forecast of Outage and Complaints', cat: 'Priority' },
+  { name: 'CMD Cell Monitoring Sheet', url: 'https://sites.google.com/view/energy-department-analytics/dailymonitoring/daily-monitoring', desc: 'PwC Agenda Sheet', cat: 'Priority' },
+  { name: 'BSPHCL Daily News Briefing', url: 'https://sites.google.com/view/energy-department-analytics/dailymonitoring/daily-news', desc: 'Daily News Summary', cat: 'Priority' },
+  { name: 'PMSG-MBY (Regular)', url: 'https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-regular', desc: 'PMSG Dashboard for Districts', cat: 'Priority' },
+  { name: 'PMSG-MBY (ULA)', url: 'https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-ula', desc: 'PMSG (ULA) Dashboard for Agencies', cat: 'Priority' },
+  { name: '1912 Complaint Analytics', url: 'https://sites.google.com/view/energy-department-analytics/dailymonitoring/1912', desc: 'Consumer Complaints Statistics', cat: 'Priority' },
+  { name: 'Bihar Outage Analytics', url: 'https://sites.google.com/view/energy-department-analytics/dailymonitoring/outage', desc: 'Outage Monitoring', cat: 'Priority' },
+  { name: 'Energy Sector Updates', url: 'https://sites.google.com/view/energy-department-analytics/library/energy-weekly-digest', desc: 'Weekly Digest from All Over the World', cat: 'Priority' },
+
+  // ---- SBPDCL ----
+  { name: 'TRW Stock Status - SBPDCL', url: 'https://sites.google.com/view/energy-department-analytics/sbpdcl/trw', desc: 'TRW Status Analytics', cat: 'SBPDCL' },
+  { name: 'Stores Inventory Status - SBPDCL', url: 'https://sites.google.com/view/energy-department-analytics/sbpdcl/stores', desc: 'Stock Status in Stores', cat: 'SBPDCL' },
+  { name: 'PSS Details - SBPDCL', url: 'https://sites.google.com/view/energy-department-analytics/sbpdcl/pss', desc: 'PSS Details of South Bihar', cat: 'SBPDCL' },
+  { name: 'Pending Utility Shifting - SBPDCL', url: 'https://sites.google.com/view/energy-department-analytics/sbpdcl/utility-shifting', desc: 'Utility Shifting Status', cat: 'SBPDCL' },
+  { name: 'Project Monitoring - PSS - SBPDCL', url: 'https://sites.google.com/view/energy-department-analytics/sbpdcl/project-pss', desc: 'Project Monitoring - PSS State Plan and RDSS', cat: 'SBPDCL' },
+  { name: 'Pending Electrocution Cases - SBPDCL', url: 'https://sites.google.com/view/energy-department-analytics/sbpdcl/electocution', desc: 'Status of Pending Electrocution Cases', cat: 'SBPDCL' },
+
+  // ---- Others ----
+  { name: 'Revenue Collection Analytics', url: 'https://sites.google.com/view/energy-department-analytics/others/revenue', desc: 'Revenue Collection Monitoring', cat: 'Others' },
+  { name: 'NSC and Load Change Request Monitoring', url: 'https://sites.google.com/view/energy-department-analytics/others/nsc', desc: 'NSC & Load Change Tracker, Bihar', cat: 'Others' },
+  { name: 'OffGrid Electrification', url: 'https://sites.google.com/view/energy-department-analytics/others/offgrid-electrification', desc: 'Off grid to on grid connectivity under RDSS', cat: 'Others' },
+  { name: 'Energy Accounting Bihar', url: 'https://sites.google.com/view/energy-department-analytics/others/energy-accounting', desc: 'Energy Accounting Status', cat: 'Others' },
+  { name: 'Contacts', url: 'https://sites.google.com/view/energy-department-analytics/contacts', desc: 'All Contacts for BSPHCL', cat: 'Others' },
+  { name: 'Basic Explainers of Sector', url: 'https://sites.google.com/view/energy-department-analytics/library/energy-explainers', desc: 'Department Explainers', cat: 'Others' },
+];
+
+/* =====================================================================
+   KEY DATES — edit here
+   Categories: gh = Govt holiday (सामान्य अवकाश), rh = Restricted (ऐच्छिक),
+   en = Energy & safety, ob = National day / observance,
+   qe = Period end, fc = Finance & compliance, dp = Department event
+   ===================================================================== */
+// Holidays from Bihar Sarkar Din-Patri
+const FIXED = [
+  // ---- 2026 ----
+  ['2026-11-08','gh','दीपावली','Deepawali','Evening peak load, supply continuity and electrical safety in markets'],
+  ['2026-11-11','gh','चित्रगुप्त पूजा / भैयादूज','Chitragupta Puja / Bhai Dooj'],
+  ['2026-11-15','gh','छठ पूजा','Chhath Puja','Uninterrupted supply, ghat lighting and electrical safety'],
+  ['2026-11-16','gh','छठ पूजा','Chhath Puja','Uninterrupted supply, ghat lighting and electrical safety'],
+  ['2026-11-24','ob','गुरु नानक जयंती / कार्तिक पूर्णिमा','Guru Nanak Jayanti / Kartik Purnima','Supply and safety at ghats for Kartik Purnima snan'],
+  ['2026-12-25','gh','क्रिसमस डे','Christmas Day'],
+  // ---- 2027 ----
+  ['2027-01-01','rh','नव वर्ष','New Year'],
+  ['2027-01-15','gh','गुरु गोविन्द सिंह जन्म दिवस','Guru Gobind Singh Jayanti'],
+  ['2027-01-24','rh','कर्पूरी ठाकुर जयंती','Karpoori Thakur Jayanti'],
+  ['2027-01-26','gh','गणतंत्र दिवस','Republic Day'],
+  ['2027-02-11','gh','वसंत पंचमी','Vasant Panchami'],
+  ['2027-02-20','gh','संत रविदास जयंती','Sant Ravidas Jayanti'],
+  ['2027-03-06','gh','महाशिवरात्रि','Mahashivratri'],
+  ['2027-03-10','gh','ईद-उल-फित्र (ईद)','Id-ul-Fitr'],
+  ['2027-03-22','gh','बिहार दिवस','Bihar Diwas'],
+  ['2027-03-23','gh','होली','Holi','Supply continuity during festival'],
+  ['2027-03-24','gh','होली','Holi','Supply continuity during festival'],
+  ['2027-03-26','gh','गुड फ्राइडे','Good Friday'],
+  ['2027-04-14','gh','सम्राट अशोक जयंती / डॉ. अम्बेडकर जयंती','Samrat Ashok / Dr. Ambedkar Jayanti'],
+  ['2027-04-15','gh','रामनवमी','Ram Navami'],
+  ['2027-04-19','gh','महावीर जयंती','Mahavir Jayanti'],
+  ['2027-04-23','gh','वीर कुँवर सिंह जयंती','Veer Kunwar Singh Jayanti'],
+  ['2027-05-01','gh','मई दिवस (श्रम दिवस)','May Day'],
+  ['2027-05-17','gh','ईद-उल-जोहा (बकरीद)','Id-ul-Zuha (Bakrid)'],
+  ['2027-05-20','gh','बुद्ध पूर्णिमा','Buddha Purnima'],
+  ['2027-06-16','gh','मुहर्रम','Muharram','Procession routes: overhead line clearance and safety'],
+  ['2027-06-18','gh','कबीर जयंती','Kabir Jayanti'],
+  ['2027-07-25','gh','चेहल्लुम','Chehallum'],
+  ['2027-08-15','gh','स्वतंत्रता दिवस / हज़रत मोहम्मद साहब का जन्म दिवस','Independence Day / Prophet’s Birthday'],
+  ['2027-08-25','gh','श्री कृष्ण जन्माष्टमी','Janmashtami'],
+  ['2027-10-02','gh','महात्मा गांधी जयंती','Gandhi Jayanti'],
+  ['2027-10-06','gh','दुर्गा पूजा (सप्तमी)','Durga Puja – Saptami','Pandal temporary connections and safety'],
+  ['2027-10-07','gh','दुर्गा पूजा (महाअष्टमी)','Durga Puja – Ashtami','Pandal temporary connections and safety'],
+  ['2027-10-08','gh','दुर्गा पूजा (महानवमी)','Durga Puja – Navami','Pandal temporary connections and safety'],
+  ['2027-10-09','gh','दुर्गा पूजा (विजयादशमी)','Durga Puja – Vijayadashami'],
+  ['2027-10-29','gh','दीपावली','Deepawali','Evening peak load, supply continuity and electrical safety in markets'],
+  ['2027-10-31','gh','चित्रगुप्त पूजा / भैयादूज','Chitragupta Puja / Bhai Dooj'],
+  ['2027-11-04','gh','छठ पूजा','Chhath Puja','Uninterrupted supply, ghat lighting and electrical safety'],
+  ['2027-11-05','gh','छठ पूजा','Chhath Puja','Uninterrupted supply, ghat lighting and electrical safety'],
+  ['2027-12-25','gh','क्रिसमस डे','Christmas Day'],
+];
+
+// Add your own meetings / reviews here:  ['YYYY-MM-DD', 'Title', 'Optional note']
+const DEPT_EVENTS = [
+  // ['2026-11-20', 'Monthly review – DISCOMs', 'Venue / chair'],
+];
+
+// Dates that repeat every year
+function yearly(L, Y){
+  const P=(m,d)=>`${Y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  const add=(m,d,c,hi,en,n)=>L.push({d:P(m,d),c,hi,en,n});
+  add(3,4,'en','राष्ट्रीय सुरक्षा दिवस','National Safety Day','Electrical safety drive and accident review');
+  add(12,14,'en','राष्ट्रीय ऊर्जा संरक्षण दिवस','National Energy Conservation Day','Energy Conservation Week, 14–20 December');
+  add(6,5,'ob','विश्व पर्यावरण दिवस','World Environment Day');
+  add(10,31,'ob','राष्ट्रीय एकता दिवस','Rashtriya Ekta Diwas','Vigilance Awareness Week (CVC) is observed in this week');
+  add(11,26,'ob','संविधान दिवस','Constitution Day');
+  add(12,2,'ob','राष्ट्रीय प्रदूषण नियंत्रण दिवस','National Pollution Control Day');
+  add(12,24,'ob','राष्ट्रीय उपभोक्ता दिवस','National Consumer Day','Consumer service and complaint redressal');
+  add(12,25,'ob','सुशासन दिवस','Good Governance Day');
+  add(3,31,'qe','वित्तीय वर्ष समाप्ति','Financial year end','Year-end closing: revenue, capex and receivables');
+  add(4,1,'qe','नया वित्तीय वर्ष','New financial year begins');
+  add(6,30,'qe','प्रथम तिमाही समाप्ति','Q1 ends');
+  add(9,30,'qe','द्वितीय तिमाही / अर्धवार्षिक समाप्ति','Q2 / half-year ends');
+  add(12,31,'qe','तृतीय तिमाही समाप्ति','Q3 ends');
+  for(let m=1;m<=12;m++){
+    if(m!==4) add(m,7,'fc','','TDS/TCS deposit due (previous month)');
+    add(m,11,'fc','','GSTR-1 due (monthly filers)');
+    add(m,20,'fc','','GSTR-3B due (monthly filers)');
+  }
+  add(4,30,'fc','','TDS deposit due (March deductions)');
+  add(1,31,'fc','','Quarterly TDS return due (Q3)');
+  add(5,31,'fc','','Quarterly TDS return due (Q4)');
+  add(7,31,'fc','','Quarterly TDS return due (Q1)');
+  add(10,31,'fc','','Quarterly TDS return due (Q2)');
+  add(3,15,'fc','','Advance tax – final instalment');
+  add(6,15,'fc','','Advance tax – 1st instalment');
+  add(9,15,'fc','','Advance tax – 2nd instalment');
+  add(12,15,'fc','','Advance tax – 3rd instalment');
+}
+
+/* ===================================================================== */
+/*  DASHBOARD TILES                                                       */
+/* ===================================================================== */
+(function(){
+  const PALETTE=[
+    {tint:'#dcefff',accent:'#1f7fd6',deep:'#114a80',glow:'rgba(31,127,214,.30)'},
+    {tint:'#d8f5e6',accent:'#149a68',deep:'#0b5a3d',glow:'rgba(20,154,104,.30)'},
+    {tint:'#ffe6d2',accent:'#e0701f',deep:'#84400f',glow:'rgba(224,112,31,.30)'},
+    {tint:'#e9e2ff',accent:'#6d4fe0',deep:'#3a2792',glow:'rgba(109,79,224,.30)'},
+    {tint:'#ffdfe9',accent:'#d93b74',deep:'#861c43',glow:'rgba(217,59,116,.30)'},
+    {tint:'#fff1c2',accent:'#b98700',deep:'#6b4e00',glow:'rgba(185,135,0,.30)'},
+    {tint:'#d5f3f5',accent:'#0f95a3',deep:'#08545c',glow:'rgba(15,149,163,.30)'},
+    {tint:'#f5defd',accent:'#a341cc',deep:'#5d1f78',glow:'rgba(163,65,204,.30)'}
+  ];
+  const ICONS=[
+    '<path d="M5 20V10M12 20V4M19 20v-7"/>',
+    '<path d="M3 16l5-6 4 3 7-8"/><path d="M3 21h18"/>',
+    '<rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="14" width="8" height="7" rx="2"/>',
+    '<path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M16 3.6A9 9 0 0 1 20.4 8H16z"/>',
+    '<path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-6"/>',
+    '<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>'
+  ];
+  const ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const OPEN_ALL_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="13" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-8A2.5 2.5 0 0 0 3 6.5v8A2.5 2.5 0 0 0 5.5 17H8"/></svg>';
+  const OTHER='Other dashboards';
+
+  const root=document.documentElement;
+  const $=id=>document.getElementById(id);
+  const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!=null)n.textContent=text;return n;};
+  const plural=(n,w)=>n+' '+w+(n===1?'':'s');
+
+  /* Fit the dashboards column on one screen (wide screens only) */
+  function fit(){
+    const main=$('main');
+    let s=1;
+    root.style.setProperty('--s',s);
+    root.classList.remove('compact');
+    if(window.innerWidth<=1000) return;            // stacked layout scrolls normally
+    const fits=()=>main.offsetHeight<=window.innerHeight+1;
+    if(fits()) return;
+    // Descriptions always stay visible; only the size shrinks (page scrolls past 0.8)
+    while(!fits() && s>0.8){
+      s=Math.max(0.8,Math.round((s-0.02)*100)/100);
+      root.style.setProperty('--s',s);
+    }
+  }
+  let fitTimer;
+  window.addEventListener('resize',()=>{clearTimeout(fitTimer);fitTimer=setTimeout(fit,80);});
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fit);
+  // fonts now load in the background, so re-fit when they arrive
+  if(document.fonts&&document.fonts.addEventListener) document.fonts.addEventListener('loadingdone',()=>{clearTimeout(fitTimer);fitTimer=setTimeout(fit,50);});
+  window.addEventListener('load',()=>setTimeout(fit,100));
+
+  let toastTimer;
+  function toast(text,warn){
+    const t=$('toast');
+    t.textContent=text; t.className='toast'+(warn?' warn':''); t.hidden=false;
+    clearTimeout(toastTimer); toastTimer=setTimeout(()=>{t.hidden=true;},warn?9000:4000);
+  }
+
+  function openAll(group){
+    let opened=0, blocked=0;
+    group.items.forEach(d=>{
+      let w=null;
+      try{ w=window.open('about:blank','_blank'); }catch(e){}
+      if(w){ try{w.opener=null;}catch(e){} w.location.href=d.url; opened++; }
+      else blocked++;
+    });
+    if(blocked>0) toast('Your browser blocked '+plural(blocked,'tab')+'. Allow pop-ups for this page (icon at the right end of the address bar), then press Open all again.',true);
+    else toast('Opened '+plural(opened,'dashboard')+'.',false);
+  }
+
+  /* Build the tiles from a list (from dashboards.json, or the built-in list) */
+  function buildTiles(list, updated){
+    $('groups').textContent='';
+    /* Build groups */
+    const groups=[], lookup=new Map();
+    list.forEach(d=>{
+      if(!d||!d.name||!/^https?:\/\//i.test(d.url||'')) return;
+      const k=(d.cat||'').trim()||OTHER;
+      if(!lookup.has(k)){ lookup.set(k,{name:k,items:[]}); groups.push(lookup.get(k)); }
+      lookup.get(k).items.push(d);
+    });
+    const firstSeen=new Map(groups.map((g,i)=>[g.name,i]));
+    const rank=n=>{const i=CATEGORY_ORDER.indexOf(n);return i<0?CATEGORY_ORDER.length+firstSeen.get(n):i;};
+    groups.sort((a,b)=>rank(a.name)-rank(b.name));
+    const total=groups.reduce((s,g)=>s+g.items.length,0);
+    $('summary').textContent=plural(total,'dashboard')+(groups.length>1?' across '+plural(groups.length,'category').replace('categorys','categories'):'')+(updated?' · list updated '+updated:'');
+
+    let index=0;
+    groups.forEach(g=>{
+      const section=el('section','group');
+      const head=el('div','group-head');
+      head.appendChild(el('h2',null,g.name));
+      const btn=el('button','open-all');
+      btn.type='button';
+      btn.innerHTML=OPEN_ALL_ICON;
+      btn.appendChild(el('span',null,'Open all'));
+      btn.appendChild(el('span','n',String(g.items.length)));
+      btn.title='Opens '+plural(g.items.length,'dashboard')+' in new tabs.';
+      btn.setAttribute('aria-label','Open all '+plural(g.items.length,'dashboard')+' in '+g.name);
+      btn.addEventListener('click',()=>openAll(g));
+      head.appendChild(btn);
+      section.appendChild(head);
+
+      const grid=el('div','tiles');
+      g.items.forEach(d=>{
+        const c=PALETTE[index%PALETTE.length];
+        const a=el('a','tile');
+        a.href=d.url; a.target='_blank'; a.rel='noopener';
+        a.style.setProperty('--tint',c.tint); a.style.setProperty('--accent',c.accent);
+        a.style.setProperty('--deep',c.deep); a.style.setProperty('--glow',c.glow);
+        const icon=el('span','tile-icon');
+        icon.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+ICONS[index%ICONS.length]+'</svg>';
+        icon.setAttribute('aria-hidden','true');
+        a.appendChild(icon);
+        a.appendChild(el('span','tile-name',d.name));
+        const desc=(d.desc||'').trim();
+        if(desc&&desc.toLowerCase()!==d.name.toLowerCase()){
+          a.appendChild(el('span','tile-desc',desc));
+          a.title=d.name+' - '+desc;
+        }
+        const go=el('span','tile-go'); go.innerHTML=ARROW; go.setAttribute('aria-hidden','true');
+        a.appendChild(go);
+        grid.appendChild(a);
+        index++;
+      });
+      section.appendChild(grid);
+      $('groups').appendChild(section);
+    });
+    fit();
+  }
+
+  /* Load the latest list published from the Google Sheet (dashboards.json).
+     If it can't be read (e.g. the file opened from disk), use the built-in list. */
+  const fmtUpdated=t=>{ const d=new Date(t); return isNaN(d)?'':d.toLocaleString('en-IN',{timeZone:'Asia/Kolkata',day:'numeric',month:'short',year:'numeric',hour:'numeric',minute:'2-digit'}); };
+  // 1) Draw at once from the saved copy (instant on repeat visits).
+  // 2) Ask GitHub for the latest list in the background; redraw only if it changed.
+  let shown=null;                                   // items currently on screen, as text
+  const valid=j=>(j&&Array.isArray(j.items))?j.items.filter(d=>d&&d.name&&/^https?:\/\//i.test(d.url||'')):[];
+  const show=j=>{
+    const items=valid(j); if(!items.length) return false;
+    const sig=JSON.stringify(items);
+    if(sig===shown) return true;                     // same list: nothing to redraw
+    shown=sig; buildTiles(items, fmtUpdated(j.updated)); return true;
+  };
+  const getList=url=>fetch(url,{cache:'no-cache'}).then(r=>r.ok?r.json():Promise.reject(r.status));
+  const timer=setTimeout(()=>{ if(shown===null){ shown='builtin'; buildTiles(DASHBOARDS,''); } },4000);
+  getList('dashboards.json')
+    .then(j=>{ if(show(j)) clearTimeout(timer); else throw 'empty'; })
+    .catch(()=>{ clearTimeout(timer); if(shown===null){ shown='builtin'; buildTiles(DASHBOARDS,''); } })
+    .then(()=>{
+      // Only needed when the copy above came from this computer's cache
+      if(navigator.serviceWorker&&navigator.serviceWorker.controller)
+        return getList('dashboards.json?fresh='+Date.now()).then(show);
+    })
+    .catch(()=>{});
+})();
+
+/* ===================================================================== */
+/*  KEY DATES PANEL                                                       */
+/* ===================================================================== */
+(function(){
+  const DAY=864e5, IST=19800000, AHEAD=45;
+  const CAT={gh:{label:'Govt holiday'},rh:{label:'Restricted holiday'},en:{label:'Energy & safety'},
+    ob:{label:'National day'},qe:{label:'Period end'},fc:{label:'Finance & compliance'},dp:{label:'Department event'}};
+  const ORDER=['dp','gh','rh','en','ob','qe','fc'];
+  const dn=(y,m,d)=>Date.UTC(y,m-1,d)/DAY;
+  const fromKey=k=>{const[a,b,c]=k.split('-').map(Number);return dn(a,b,c)};
+  const key=n=>new Date(n*DAY).toISOString().slice(0,10);
+  const D=n=>new Date(n*DAY);
+  const dow=n=>D(n).getUTCDay();
+  const mon0=n=>(dow(n)+6)%7;                       // Monday = 0
+  const F=(n,o)=>new Intl.DateTimeFormat('en-IN',Object.assign({timeZone:'UTC'},o)).format(D(n));
+  const $=id=>document.getElementById(id);
+
+  function todayNum(){
+    const q=new URLSearchParams(location.search).get('date');
+    if(q&&/^\d{4}-\d{2}-\d{2}$/.test(q)&&key(fromKey(q))===q) return fromKey(q);
+    return Math.floor((Date.now()+IST)/DAY);
+  }
+  function rel(d){
+    if(d===0)return'Today'; if(d===1)return'Tomorrow'; if(d===-1)return'Yesterday';
+    return d>0?`in ${d} days`:`${-d} days ago`;
+  }
+
+  // Finance & compliance hidden by default to keep the view clean
+  let active=new Set(ORDER.filter(c=>c!=='fc')), sel=null, T=null, M={}, vY=0, vM=0, minYM=0, maxYM=0;
+  try{const s=JSON.parse(localStorage.getItem('kd2')||'null'); if(Array.isArray(s)) active=new Set(s);}catch(e){}
+  const save=()=>{try{localStorage.setItem('kd2',JSON.stringify([...active]))}catch(e){}};
+
+  function build(){
+    const L=[];
+    FIXED.forEach(([d,c,hi,en,n])=>L.push({d,c,hi,en,n}));
+    DEPT_EVENTS.forEach(([d,t,n])=>L.push({d,c:'dp',hi:'',en:t,n}));
+    const Y=D(T).getUTCFullYear();
+    for(let y=Y-1;y<=Y+1;y++) yearly(L,y);
+    minYM=(Y-1)*12; maxYM=(Y+1)*12+11;
+    M={}; L.forEach(e=>{(M[e.d]=M[e.d]||[]).push(e)});
+    Object.values(M).forEach(a=>a.sort((x,y)=>ORDER.indexOf(x.c)-ORDER.indexOf(y.c)));
+  }
+  const all=n=>M[key(n)]||[];
+  const vis=n=>all(n).filter(e=>active.has(e.c));
+  const hol=n=>active.has('gh')&&all(n).some(e=>e.c==='gh');
+  const st=c=>`--c:var(--${c});--cbg:var(--${c}-bg)`;
+  const short=e=>(e.en||e.hi).split(/ \/ | – | \(/)[0];
+  const nameOf=e=>e.hi?`${e.hi}${e.en?' · '+e.en:''}`:e.en;
+
+  function evFull(e){
+    const name=e.hi?`<span class="hi">${e.hi}</span>${e.en?` <span class="en">· ${e.en}</span>`:''}`:e.en;
+    return `<div class="ev" style="${st(e.c)}"><div class="n">${name}</div>
+      <div class="x"><span class="tg">${CAT[e.c].label}</span>${e.n?e.n:''}</div></div>`;
+  }
+
+  function header(){
+    $('kDate').textContent=F(T,{weekday:'long',day:'numeric',month:'long'});
+    $('kSub').textContent=F(T,{year:'numeric'})+' · Energy Department, Bihar';
+    $('tNum').textContent=D(T).getUTCDate();
+    $('tMon').textContent=F(T,{month:'short'});
+    $('winTxt').textContent=`· next ${AHEAD} days`;
+  }
+
+  function chips(){
+    const used=ORDER.filter(c=>c!=='dp'||DEPT_EVENTS.length);
+    $('chips').innerHTML=used.map(c=>`<button type="button" class="chip" data-c="${c}" aria-pressed="${active.has(c)}" style="${st(c)}"><i></i>${CAT[c].label}</button>`).join('');
+    $('chips').querySelectorAll('button.chip').forEach(b=>b.onclick=()=>{
+      const c=b.dataset.c; active.has(c)?active.delete(c):active.add(c); save(); draw();
+    });
+  }
+
+  function month(){
+    const first=dn(vY,vM+1,1);
+    const days=new Date(Date.UTC(vY,vM+1,0)).getUTCDate();
+    const last=first+days-1;
+    const g0=first-mon0(first), g1=last+(6-mon0(last));
+    $('mTitle').textContent=F(first,{month:'long',year:'numeric'});
+    const ym=vY*12+vM;
+    $('mPrev').disabled=ym<=minYM; $('mNext').disabled=ym>=maxYM;
+    let h=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d,i)=>`<div class="wd ${i===5?'sa':i===6?'su':''}">${d.slice(0,2)}</div>`).join('');
+    for(let n=g0;n<=g1;n++){
+      const w=dow(n), a=vis(n), c=['mc'];
+      if(w===6)c.push('sa'); if(w===0)c.push('su'); if(hol(n))c.push('hol');
+      if(n<first||n>last)c.push('out'); else if(n<T)c.push('past');
+      if(n===T)c.push('tdy'); if(n===sel)c.push('sel');
+      const labels=a.filter(x=>x.c!=='fc').slice(0,2);
+      const rest=a.length-labels.length;
+      const tip=F(n,{weekday:'short',day:'numeric',month:'short'})+(a.length?'\n'+a.map(nameOf).join('\n'):'');
+      h+=`<button type="button" class="${c.join(' ')}" data-n="${n}" title="${tip.replace(/"/g,'&quot;')}"><b>${D(n).getUTCDate()}</b>`
+        +labels.map(x=>`<span class="lb ${x.c==='gh'?'gh':''}" style="${st(x.c)}">${short(x)}</span>`).join('')
+        +(rest>0?`<span class="more">+${rest}</span>`:'')+`</button>`;
+    }
+    $('month').innerHTML=h;
+    $('month').querySelectorAll('.mc').forEach(b=>b.onclick=()=>select(+b.dataset.n));
+  }
+
+  function select(n){
+    sel=n;
+    const d=D(n);
+    if(d.getUTCFullYear()!==vY||d.getUTCMonth()!==vM){ vY=d.getUTCFullYear(); vM=d.getUTCMonth(); month(); }
+    document.querySelectorAll('.mc.sel').forEach(x=>x.classList.remove('sel'));
+    const el=document.querySelector(`.mc[data-n="${n}"]`); if(el) el.classList.add('sel');
+    const w=dow(n), a=vis(n);
+    $('detail').innerHTML=`<div class="dh">${F(n,{weekday:'long',day:'numeric',month:'long',year:'numeric'})}<span>${rel(n-T)}${w===6?' · Saturday':w===0?' · Sunday':''}</span></div>
+      ${a.length?a.map(evFull).join(''):'<div class="empty">No listed events.</div>'}`;
+  }
+
+  function list(){
+    let h='', lastM=-1;
+    for(let n=T;n<=T+AHEAD;n++){
+      const a=vis(n); if(!a.length&&n!==T) continue;
+      const d=D(n), w=dow(n);
+      if(d.getUTCMonth()!==lastM){ lastM=d.getUTCMonth(); h+=`<div class="mh">${F(n,{month:'long',year:'numeric'})}</div>`; }
+      const c=['it']; if(w===6)c.push('sa'); if(w===0)c.push('su'); if(hol(n))c.push('hol'); if(n===T)c.push('tdy');
+      h+=`<div class="${c.join(' ')}" data-n="${n}"><div class="dt">${d.getUTCDate()}<small>${F(n,{weekday:'short'})}</small></div>
+        <div>${a.length?a.map(evFull).join(''):'<div class="ev" style="--c:var(--gold)"><div class="x">No listed events today</div></div>'}</div>
+        <div class="rel">${rel(n-T)}</div></div>`;
+    }
+    $('list').innerHTML=h||'<div class="none">Nothing to show for the selected filters.</div>';
+    $('list').querySelectorAll('.it').forEach(r=>r.onclick=()=>{select(+r.dataset.n);$('month').scrollIntoView({behavior:'smooth',block:'start'});});
+  }
+
+  function draw(){ chips(); month(); list(); select(sel); }
+  function render(){
+    T=todayNum(); build(); sel=T;
+    vY=D(T).getUTCFullYear(); vM=D(T).getUTCMonth();
+    header(); draw();
+  }
+
+  $('mPrev').onclick=()=>{ if(--vM<0){vM=11;vY--;} month(); };
+  $('mNext').onclick=()=>{ if(++vM>11){vM=0;vY++;} month(); };
+  $('mToday').onclick=()=>select(T);
+
+  render();
+  function midnight(){ setTimeout(()=>{render();midnight();}, DAY-((Date.now()+IST)%DAY)+2000); }
+  midnight();
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden&&todayNum()!==T) render(); });
+})();
+</script>
+<script>
+/* Offline cache: after the first visit the page opens from this computer's cache */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    try{ navigator.serviceWorker.register('sw.js').catch(function(){}); }catch(e){}
+  });
+}
+</script>
+</body>
+</html>
