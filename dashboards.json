@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13T09:00:00+05:30",
+ "updated": "2026-11-13T06:03:34.340Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -132,6 +132,12 @@
    "url": "https://sites.google.com/view/energy-department-analytics/library/energy-explainers",
    "desc": "Department Explainers",
    "cat": "Others"
+  },
+  {
+   "name": "PMSG DM Feedback",
+   "url": "https://sites.google.com/view/energy-department-analytics/pmsg/feedback",
+   "desc": "Feedbacks related to banks, Vendors etc",
+   "cat": "Priority"
   }
  ]
 }
