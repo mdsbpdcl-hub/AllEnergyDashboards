@@ -380,10 +380,47 @@ def parse_cea_text(text):
     return out
 
 
+def cea_discover():
+    """Finds CEA report pages from the homepage menu; writes data/cea-debug.txt for diagnosis."""
+    pages, lines = [], []
+    try:
+        r = S.get("https://cea.nic.in/?lang=en", timeout=40, headers=CEA_HEADERS)
+        soup = BeautifulSoup(r.text, "html.parser")
+        for a in soup.find_all("a", href=True):
+            t = a.get_text(" ", strip=True); h = requests.compat.urljoin("https://cea.nic.in/", a["href"])
+            if re.search(r"power supply|executive summary|psp|monthly report", t + " " + h, re.I):
+                lines.append(f"{t} -> {h}")
+                if h not in pages and "cea.nic.in" in h:
+                    pages.append(h)
+    except Exception as e:
+        lines.append(f"homepage failed: {e!r}")
+    for pg in pages[:6]:
+        try:
+            r = S.get(pg, timeout=40, headers=CEA_HEADERS)
+            lines.append(f"\n== {pg} -> HTTP {r.status_code}, {len(r.content)} bytes")
+            soup = BeautifulSoup(r.text, "html.parser")
+            n = 0
+            for a in soup.find_all("a", href=True):
+                h = requests.compat.urljoin(pg, a["href"]); t = a.get_text(" ", strip=True)
+                if re.search(r"\.pdf|view-pdf|download|peak", h + " " + t, re.I):
+                    lines.append(f"   {t[:80]} -> {h}"); n += 1
+                if n > 80:
+                    break
+            for sc in re.findall(r"https?://[^\"' ]*(?:api|ajax|json)[^\"' ]*", r.text)[:15]:
+                lines.append(f"   script/api: {sc}")
+        except Exception as e:
+            lines.append(f"   {pg} failed: {e!r}")
+    try:
+        (OUT.parent / "cea-debug.txt").write_text("\n".join(lines) or "nothing found", encoding="utf-8")
+    except Exception:
+        pass
+    return [p for p in pages if re.search(r"power.?supply", p, re.I)]
+
+
 def cea_links():
     """Peak-report PDF links from CEA's report page: {(y,m): [(url, revised?)]}."""
     found = {}
-    for page in CEA_PAGES:
+    for page in cea_discover() + CEA_PAGES:
         try:
             r = S.get(page, timeout=40)
             log(f"CEA report page {page} -> HTTP {r.status_code}, {len(r.content)} bytes")
@@ -424,7 +461,8 @@ def pdf_text(content):
         return "\n".join((pg.extract_text() or "") for pg in pdf.pages[:4])
 
 
-CEA_KNOWN = ["https://cea.nic.in/wp-content/uploads/power_supply/2026/08/PSP_August26_Provisional_Peak.pdf",
+CEA_KNOWN = ["https://cea.nic.in/wp-content/uploads/executive/2026/07/Executive_Summary_July_2026_Actual.pdf",
+             "https://cea.nic.in/wp-content/uploads/power_supply/2026/08/PSP_August26_Provisional_Peak.pdf",
              "https://cea.nic.in/wp-content/uploads/power_supply/2026/07/Peak_July26_Provisional.pdf"]
 CEA_HEADERS = {"Accept": "application/pdf,text/html,application/xhtml+xml,*/*;q=0.8",
                "Referer": "https://cea.nic.in/", "Accept-Language": "en-IN,en;q=0.9"}
