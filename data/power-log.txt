@@ -1,4 +1,4 @@
-Run 2026-11-15T16:12+05:30
+Run 2026-11-15T16:16+05:30
 IEX DAM YESTERDAY 2026-11-14: avg 4241.45 Rs/MWh, 96 blocks
 IEX DAM TODAY 2026-11-15: avg 2696.48 Rs/MWh, 96 blocks
 IEX DAM TOMORROW 2026-11-16: avg 4026.69 Rs/MWh, 96 blocks
@@ -12,33 +12,3 @@ Grid-India report list: FAILED — ConnectionError(ProtocolError('Connection abo
   older addresses: nothing reachable either
 CEA Peak page -> HTTP 200, 299279 bytes
 CEA Peak page: 164 report files listed
-CEA 2026-08 (revised): Bihar peak demand 9591.0 MW, met 9578.0 MW; FY so far 9591.0 MW
-CEA 2026-07 (revised): Bihar peak demand 9475.0 MW, met 9475.0 MW; FY so far 9475.0 MW
-CEA 2026-06 (revised): Bihar peak demand 8917.0 MW, met 8917.0 MW; FY so far 8917.0 MW
-CEA 2026-05 (revised): Bihar peak demand 8646.0 MW, met 8628.0 MW; FY so far 8646.0 MW
-CEA 2026-04 (revised): Bihar peak demand 8172.0 MW, met 8158.0 MW; FY so far None MW
-CEA 2026-03 (revised): Bihar peak demand 6821.0 MW, met 6808.0 MW; FY so far 8597.0 MW
-CEA 2026-02 (revised): Bihar peak demand 5904.0 MW, met 5904.0 MW; FY so far 8597.0 MW
-CEA 2026-01 (revised): Bihar peak demand 6535.0 MW, met 6527.0 MW; FY so far 8597.0 MW
-CEA 2025-12 (revised): Bihar peak demand 6305.0 MW, met 6305.0 MW; FY so far 8597.0 MW
-CEA 2025-11 (revised): Bihar peak demand 5494.0 MW, met 5494.0 MW; FY so far 8597.0 MW
-CEA 2025-10 (revised): Bihar peak demand 7710.0 MW, met 7698.0 MW; FY so far 8597.0 MW
-CEA 2025-09 (revised): Bihar peak demand 8451.0 MW, met 8437.0 MW; FY so far 8597.0 MW
-CEA 2025-08 (revised): Bihar peak demand 8073.0 MW, met 8067.0 MW; FY so far 8597.0 MW
-CEA 2025-07 (revised): Bihar peak demand 8597.0 MW, met 8594.0 MW; FY so far 8597.0 MW
-CEA 2025-06 (revised): Bihar peak demand 8373.0 MW, met 8367.0 MW; FY so far 8373.0 MW
-CEA 2025-05 (revised): Bihar peak demand 7736.0 MW, met 7736.0 MW; FY so far 7736.0 MW
-CEA 2025-04 (revised): Bihar peak demand 7581.0 MW, met 7311.0 MW; FY so far None MW
-CEA 2025-03 (revised): Bihar peak demand 6148.0 MW, met 6139.0 MW; FY so far 8078.0 MW
-CEA 2025-02 (revised): Bihar peak demand 5388.0 MW, met 5388.0 MW; FY so far 8078.0 MW
-CEA 2025-01 (revised): Bihar peak demand 5702.0 MW, met 5702.0 MW; FY so far 8078.0 MW
-CEA 2024-12 (revised): Bihar peak demand 5252.0 MW, met 5252.0 MW; FY so far 8078.0 MW
-CEA 2024-11 (revised): Bihar peak demand 6076.0 MW, met 6076.0 MW; FY so far 8078.0 MW
-CEA 2024-10 (revised): Bihar peak demand 7224.0 MW, met 7221.0 MW; FY so far 8078.0 MW
-CEA 2024-09 (revised): Bihar peak demand 8078.0 MW, met 7852.0 MW; FY so far 8078.0 MW
-CEA 2024-08 (revised): Bihar peak demand 7666.0 MW, met 7666.0 MW; FY so far 7998.0 MW
-CEA 2024-07 (revised): Bihar peak demand 7998.0 MW, met 7888.0 MW; FY so far 7998.0 MW
-CEA 2024-06 (revised): Bihar peak demand 7604.0 MW, met 7601.0 MW; FY so far 7604.0 MW
-CEA 2024-05 (revised): Bihar peak demand 7485.0 MW, met 7466.0 MW; FY so far 7485.0 MW
-CEA 2024-04 (revised): Bihar peak demand 6949.0 MW, met 6949.0 MW; FY so far None MW
-CEA 2024-03 (revised): Bihar peak demand 5869.0 MW, met 5868.0 MW; FY so far 8049.0 MW
