@@ -1,4 +1,4 @@
-Run 2026-11-15T14:50+05:30
+Run 2026-11-15T14:59+05:30
 IEX DAM YESTERDAY 2026-11-14: avg 4241.45 Rs/MWh, 96 blocks
 IEX DAM TODAY 2026-11-15: avg 2696.48 Rs/MWh, 96 blocks
 IEX DAM TOMORROW: page read but no table found (site layout may have changed)
@@ -10,3 +10,21 @@ Grid-India report list: FAILED — ConnectionError(ProtocolError('Connection abo
   probe https://webcdn.grid-india.in/files/grdw/misc/menu_en.json -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://report.grid-india.in/ -> ConnectionError: HTTPSConnectionPool(host='report.grid-india.in', port=443): Max retries exceeded with url: / (Caused by NameResolutionEr
   older addresses: nothing reachable either
+CEA report page https://cea.nic.in/power-supply-report/?lang=en -> HTTP 404, 582 bytes
+CEA report page https://cea.nic.in/power-supply-report/ -> HTTP 404, 494 bytes
+CEA: 0 peak-report links found on the report page
+CEA 2026-11: report not found (may not be published yet)
+CEA 2026-10: report not found (may not be published yet)
+CEA 2026-09: report not found (may not be published yet)
+CEA 2026-08: report not found (may not be published yet)
+CEA 2026-07: report not found (may not be published yet)
+CEA 2026-06: report not found (may not be published yet)
+CEA 2026-05: report not found (may not be published yet)
+CEA 2026-04: report not found (may not be published yet)
+CEA 2026-03: report not found (may not be published yet)
+CEA 2026-02: report not found (may not be published yet)
+CEA 2026-01: report not found (may not be published yet)
+CEA 2025-12: report not found (may not be published yet)
+CEA 2025-11: report not found (may not be published yet)
+CEA 2025-10: report not found (may not be published yet)
+CEA 2025-09: report not found (may not be published yet)
