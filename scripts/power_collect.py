@@ -339,9 +339,132 @@ def collect_grid(data, today):
             log(f"Grid-India {key}: FAILED — {e!r}")
 
 
+# ----------------------------------------------------------------------------- CEA monthly peak report
+# Central Electricity Authority "Peak Power Supply Position Report" (monthly, state-wise).
+# Reachable from outside India (Grid-India is not). Published about 4-8 weeks after the month.
+CEA_PAGES = ["https://cea.nic.in/power-supply-report/?lang=en", "https://cea.nic.in/power-supply-report/"]
+CEA_UP = "https://cea.nic.in/wp-content/uploads/power_supply/"
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+          "October", "November", "December"]
+NUM_RE = re.compile(r"-?\d[\d,]*(?:\.\d+)?")
+
+
+def month_of(text):
+    """Finds 'August26' / 'Aug-2026' / 'August_26' / 'Aug 2026' in a link -> (2026, 8)."""
+    t = text.replace("%20", " ")
+    for i, m in enumerate(MONTHS):
+        for name in (m, m[:3]):
+            mm = re.search(name + r"[\s_\-,]*'?(20\d\d|\d\d)(?!\d)", t, re.I)
+            if mm:
+                y = int(mm.group(1)); y = y + 2000 if y < 100 else y
+                if 2015 <= y <= 2100:
+                    return y, i + 1
+    return None
+
+
+def parse_cea_text(text):
+    """Bihar and All-India rows of the peak report text -> dict (None if not found)."""
+    out = {}
+    for line in text.splitlines():
+        low = line.lower()
+        key = "bihar" if re.search(r"\bbihar\b", low) else ("all" if "all india" in low else None)
+        if not key or key in out:
+            continue
+        after = line[low.index("bihar") + 5:] if key == "bihar" else line[low.index("all india") + 9:]
+        nums = [float(x.replace(",", "")) for x in NUM_RE.findall(after)]
+        if len(nums) >= 8:
+            out[key] = {"peak_demand_mw": nums[0], "peak_met_mw": nums[1], "not_met_mw": nums[2],
+                        "fy_peak_demand_mw": nums[4], "fy_peak_met_mw": nums[5], "fy_not_met_mw": nums[6]}
+        elif len(nums) >= 3:
+            out[key] = {"peak_demand_mw": nums[0], "peak_met_mw": nums[1], "not_met_mw": nums[2]}
+    return out
+
+
+def cea_links():
+    """Peak-report PDF links from CEA's report page: {(y,m): [(url, revised?)]}."""
+    found = {}
+    for page in CEA_PAGES:
+        try:
+            r = S.get(page, timeout=40)
+            log(f"CEA report page {page} -> HTTP {r.status_code}, {len(r.content)} bytes")
+            if not r.ok:
+                continue
+            soup = BeautifulSoup(r.text, "html.parser")
+            for a in soup.find_all("a", href=True):
+                href, txt = a["href"], a.get_text(" ", strip=True)
+                blob = f"{href} {txt}"
+                if "peak" not in blob.lower():
+                    continue
+                if not (href.lower().endswith(".pdf") or "view-pdf/en" in href):
+                    continue
+                ym = month_of(href) or month_of(txt)
+                if ym:
+                    url = requests.compat.urljoin(page, href)
+                    found.setdefault(ym, []).append((url, "revis" in blob.lower()))
+            if found:
+                break
+        except Exception as e:
+            log(f"CEA report page {page}: FAILED — {e!r}")
+    return found
+
+
+def cea_guesses(y, m):
+    mon, yy = MONTHS[m - 1], f"{y % 100:02d}"
+    names = [f"PSP_{mon}{yy}_Revised_Peak.pdf", f"Peak_{mon}_{yy}_Revised.pdf", f"Peak_{mon}{yy}_Revised.pdf",
+             f"PSP_{mon}{yy}_Provisional_Peak.pdf", f"Peak_{mon}{yy}_Provisional.pdf",
+             f"peak_PSP_{mon}{yy}_Provisional.pdf", f"Peak_{mon}_{yy}_Provisional.pdf"]
+    nxt = (y + (m == 12), m % 12 + 1)
+    folders = [f"{y}/{m:02d}/", f"{nxt[0]}/{nxt[1]:02d}/"]
+    return [(CEA_UP + f + n, "revis" in n.lower()) for f in folders for n in names]
+
+
+def pdf_text(content):
+    import pdfplumber
+    with pdfplumber.open(io.BytesIO(content)) as pdf:
+        return "\n".join((pg.extract_text() or "") for pg in pdf.pages[:4])
+
+
+def collect_cea(data, today):
+    links = cea_links()
+    log(f"CEA: {sum(len(v) for v in links.values())} peak-report links found on the report page")
+    months = []
+    y, m = today.year, today.month
+    for _ in range(15):                      # this month back ~14 months
+        months.append((y, m)); y, m = (y - 1, 12) if m == 1 else (y, m - 1)
+    for (y, m) in months:
+        key = f"{y}-{m:02d}"
+        have = data["cea"].get(key)
+        if have and have.get("revised"):
+            continue                          # final figures already saved
+        cands = sorted(links.get((y, m), []), key=lambda x: not x[1])   # revised first
+        if not cands and (not have):
+            cands = cea_guesses(y, m)
+        elif not cands:
+            cands = [c for c in cea_guesses(y, m) if c[1]]              # only look for a revised version
+        for url, revised in cands:
+            try:
+                r = S.get(url, timeout=40)
+                if not r.ok or r.content[:4] != b"%PDF":
+                    continue
+                vals = parse_cea_text(pdf_text(r.content))
+                if "bihar" not in vals:
+                    log(f"CEA {key}: {url} read but Bihar row not recognised")
+                    continue
+                data["cea"][key] = {"bihar": vals.get("bihar"), "all": vals.get("all"), "revised": revised, "src": url}
+                b = vals["bihar"]
+                log(f"CEA {key} ({'revised' if revised else 'provisional'}): Bihar peak demand {b.get('peak_demand_mw')} MW, "
+                    f"met {b.get('peak_met_mw')} MW; FY so far {b.get('fy_peak_demand_mw')} MW")
+                break
+            except Exception as e:
+                log(f"CEA {key}: {url} FAILED — {type(e).__name__}")
+        else:
+            if not have:
+                log(f"CEA {key}: report not found (may not be published yet)")
+
+
 # ----------------------------------------------------------------------------- main
 def main():
-    data = {"iex": {"dam": {}, "rtm": {}}, "iex_blocks": {"dam": {}, "rtm": {}}, "grid": {}}
+    data = {"iex": {"dam": {}, "rtm": {}}, "iex_blocks": {"dam": {}, "rtm": {}}, "grid": {}, "cea": {}}
     if OUT.exists():
         try:
             old = json.loads(OUT.read_text(encoding="utf-8"))
@@ -350,11 +473,15 @@ def main():
                     data[k].update(old[k])
         except Exception as e:
             log(f"Old power.json unreadable, starting fresh: {e}")
-    before = json.dumps({k: data[k] for k in ("iex", "iex_blocks", "grid")}, sort_keys=True)
+    before = json.dumps({k: data[k] for k in ("iex", "iex_blocks", "grid", "cea")}, sort_keys=True)
 
     now = dt.datetime.now(IST)
     collect_iex(data)
     collect_grid(data, now.date())
+    try:
+        collect_cea(data, now.date())
+    except Exception as e:
+        log(f"CEA: FAILED — {e!r}")
 
     # Trim history
     cut = (now.date() - dt.timedelta(days=KEEP_DAYS)).isoformat()
@@ -363,10 +490,11 @@ def main():
         data["iex"][k] = dict(sorted((d, v) for d, v in data["iex"][k].items() if d >= cut))
         data["iex_blocks"][k] = dict(sorted((d, v) for d, v in data["iex_blocks"][k].items() if d >= cut_b))
     data["grid"] = dict(sorted((d, v) for d, v in data["grid"].items() if d >= cut))
+    data["cea"] = dict(sorted(data["cea"].items())[-36:])   # keep 3 years of monthly figures
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     (OUT.parent / "power-log.txt").write_text(f"Run {now.isoformat(timespec='minutes')}\n" + "\n".join(LOG), encoding="utf-8")
-    after = json.dumps({k: data[k] for k in ("iex", "iex_blocks", "grid")}, sort_keys=True)
+    after = json.dumps({k: data[k] for k in ("iex", "iex_blocks", "grid", "cea")}, sort_keys=True)
     if after == before and OUT.exists():
         log("No new figures; power.json left unchanged.")
         return 0

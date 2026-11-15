@@ -847,6 +847,12 @@ const WEATHER_PLACE = { name: 'Patna', lat: 25.5941, lon: 85.1376 };
     const gk=last(G);
     if(gk&&G[gk].all_peak_mw!=null) h+=item('India peak',(G[gk].all_peak_mw/1000).toFixed(1),'GW',fd(gk)+(G[gk].all_peak_time?' · '+G[gk].all_peak_time:''),'#0f7a52','#e9f7f0');
     if(gk&&G[gk].bihar_peak_mw!=null) h+=item('Bihar peak',Math.round(G[gk].bihar_peak_mw).toLocaleString('en-IN'),'MW',fd(gk)+(G[gk].bihar_energy_mu!=null?' · '+G[gk].bihar_energy_mu.toFixed(1)+' MU':''),'#b8285c','#fdeef3');
+    const C=J.cea||{}, ck=Object.keys(C).sort().filter(k=>C[k].bihar), lk=ck[ck.length-1];
+    const fm=k=>new Date(k+'-01T00:00:00Z').toLocaleDateString('en-IN',{timeZone:'UTC',month:'short',year:'2-digit'});
+    if(!(gk&&G[gk].bihar_peak_mw!=null)&&lk){
+      if(C[lk].all&&C[lk].all.peak_demand_mw) h+=item('India peak',(C[lk].all.peak_demand_mw/1000).toFixed(1),'GW',fm(lk)+' (month)','#0f7a52','#e9f7f0');
+      h+=item('Bihar peak',Math.round(C[lk].bihar.peak_demand_mw).toLocaleString('en-IN'),'MW',fm(lk)+' (month)','#b8285c','#fdeef3');
+    }
     if(!h) return;
     document.getElementById('pmGrid').innerHTML=h;
     box.hidden=false;
