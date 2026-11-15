@@ -1,7 +1,7 @@
 name: Power market data
 
 # Collects IEX prices and Grid-India demand figures into data/power.json.
-# Times are in UTC: 04:05 = 9:35 am IST, 06:35 = 12:05 pm IST, 08:35 = 2:05 pm IST.
+# Times are in UTC: 04:05 = 9:35 am, 06:35 = 12:05 pm, 08:35 = 2:05 pm, 10:05 = 3:35 pm IST.
 # (Grid-India's report for the previous day usually appears in the morning;
 #  IEX's day-ahead prices for tomorrow appear around 1 pm.)
 on:
@@ -9,6 +9,7 @@ on:
     - cron: "5 4 * * *"
     - cron: "35 6 * * *"
     - cron: "35 8 * * *"
+    - cron: "5 10 * * *"
   workflow_dispatch: {}   # lets you run it by hand from the Actions tab
 
 permissions:
