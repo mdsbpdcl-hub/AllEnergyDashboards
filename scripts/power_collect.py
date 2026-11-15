@@ -13,7 +13,7 @@ Writes data/power.json (keeps ~120 days of daily figures, 15-minute prices for t
 Each source is independent: if one website changes or is down, the other still updates and
 the old figures are kept. A short report of what was read is printed to the job log.
 """
-import io, json, re, sys, datetime as dt
+import io, json, re, sys, time, datetime as dt
 from pathlib import Path
 
 import requests
@@ -141,9 +141,18 @@ def psp_files(today):
     years = {fy_of(today), fy_of(today - dt.timedelta(days=10))}
     files = []
     for fy in years:
-        r = S.post(GI_LIST, json={"_source": "GRDW", "_type": "DAILY_PSP_REPORT", "_fileDate": fy, "_month": "00"},
-                   headers={"Origin": "https://grid-india.in", "Referer": "https://grid-india.in/"}, timeout=60)
-        r.raise_for_status()
+        r = None
+        for attempt in range(3):
+            try:
+                r = S.post(GI_LIST, json={"_source": "GRDW", "_type": "DAILY_PSP_REPORT", "_fileDate": fy, "_month": "00"},
+                           headers={"Origin": "https://grid-india.in", "Referer": "https://grid-india.in/",
+                                    "Accept": "application/json, text/plain, */*"}, timeout=40)
+                r.raise_for_status()
+                break
+            except Exception:
+                if attempt == 2:
+                    raise
+                time.sleep(5 * (attempt + 1))
         for f in r.json().get("retData") or []:
             if "excel" not in (f.get("MimeType") or "") and not str(f.get("FilePath", "")).lower().endswith((".xls", ".xlsx")):
                 continue
@@ -157,6 +166,32 @@ def psp_files(today):
         if rep not in best or fid > best[rep][0]:
             best[rep] = (fid, url)
     return sorted(((d, u) for d, (_, u) in best.items()), reverse=True)
+
+
+LEGACY = "https://report.grid-india.in/ReportData/Daily%20Report/PSP%20Report/{fy}/{mon}%20{yyyy}/{dd}.{mm}.{yy}_NLDC_PSP{new}.{ext}"
+
+
+def legacy_candidates(today):
+    """Older fixed-pattern addresses for the last few reports (tried when the list service is refused)."""
+    out = []
+    for back in range(1, 5):
+        d = today - dt.timedelta(days=back)
+        urls = [LEGACY.format(fy=fy_of(d), mon=d.strftime("%B"), yyyy=d.year, dd=f"{d.day:02d}", mm=f"{d.month:02d}",
+                              yy=f"{d.year % 100:02d}", new=new, ext=ext)
+                for new in ("NEW", "") for ext in ("xls", "xlsx")]
+        out.append((d, urls))
+    return out
+
+
+def probe():
+    """Logs which Grid-India addresses answer from this server (helps choose a route)."""
+    for u in ("https://grid-india.in/", "https://webapi.grid-india.in/api/v1/last-update-date",
+              "https://webcdn.grid-india.in/files/grdw/misc/menu_en.json", "https://report.grid-india.in/"):
+        try:
+            r = S.get(u, timeout=25)
+            log(f"  probe {u} -> HTTP {r.status_code}, {len(r.content)} bytes")
+        except Exception as e:
+            log(f"  probe {u} -> {type(e).__name__}: {str(e)[:120]}")
 
 
 def norm(x):
@@ -264,10 +299,23 @@ def psp_debug(content, url):
 def collect_grid(data, today):
     try:
         files = psp_files(today)
+        log(f"Grid-India report list: {len(files)} Excel reports found, newest {files[0][0] if files else 'none'}")
     except Exception as e:
         log(f"Grid-India report list: FAILED — {e!r}")
-        return
-    log(f"Grid-India report list: {len(files)} Excel reports found, newest {files[0][0] if files else 'none'}")
+        probe()
+        files = []
+        for d, urls in legacy_candidates(today):   # fall back to the older fixed addresses
+            for u in urls:
+                try:
+                    r = S.get(u, timeout=40)
+                    if r.ok and len(r.content) > 20000 and r.content[:2] in (b"\xd0\xcf", b"PK"):
+                        files.append((d, u)); log(f"  older address works for {d}: {u}")
+                        break
+                except Exception:
+                    pass
+        if not files:
+            log("  older addresses: nothing reachable either")
+            return
     for rep, url in files[:5]:
         key = rep.isoformat()
         have = data["grid"].get(key)
