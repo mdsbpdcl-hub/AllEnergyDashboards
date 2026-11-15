@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T10:35:51.046Z",
+ "updated": "2026-11-15T10:55:41.611Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -203,5 +203,14 @@
    "subsidy_disbursed": 10167,
    "asOf": "2026-11-15"
   }
+ },
+ "outage": {
+  "date": "14-Nov-2026",
+  "complete": true,
+  "avg_min": 22.2,
+  "interruptions_per_feeder": 1.71,
+  "over4h": 34,
+  "sbpdcl_min": 21.9,
+  "nbpdcl_min": 22.5
  }
 }
