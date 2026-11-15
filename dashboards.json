@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T08:19:52.861Z",
+ "updated": "2026-11-13T09:00:00+05:30",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -17,17 +17,13 @@
    "name": "Weather Prediction",
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/weatherforecast",
    "desc": "Forecast of Outage and Complaints",
-   "cat": "Priority",
-   "dataAt": "2026-11-15T04:34:33.791Z",
-   "freq": "Daily"
+   "cat": "Priority"
   },
   {
    "name": "CMD Cell Monitoring Sheet",
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/daily-monitoring",
    "desc": "PwC Agenda Sheet",
-   "cat": "Priority",
-   "dataAt": "2026-11-15T07:17:23.882Z",
-   "freq": "Daily"
+   "cat": "Priority"
   },
   {
    "name": "BSPHCL Daily News Briefing",
@@ -39,125 +35,96 @@
    "name": "PMSG-MBY (Regular)",
    "url": "https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-regular",
    "desc": "PMSG Dashboard for Districts",
-   "cat": "Priority",
-   "dataAt": "2026-11-15T04:39:48.543Z",
-   "freq": "Daily"
+   "cat": "Priority"
   },
   {
    "name": "PMSG-MBY (ULA)",
    "url": "https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-ula",
    "desc": "PMSG (ULA) Dashboard for Agencies",
-   "cat": "Priority",
-   "dataAt": "2026-11-14T20:37:01.730Z",
-   "freq": "Daily"
+   "cat": "Priority"
   },
   {
    "name": "1912 Complaint Analytics",
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/1912",
    "desc": "Consumer Complaints Statistics",
-   "cat": "Priority",
-   "dataAt": "2026-11-15T02:01:00.819Z",
-   "freq": "Daily"
+   "cat": "Priority"
   },
   {
    "name": "Bihar Outage Analytics",
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/outage",
    "desc": "Outage Monitoring",
-   "cat": "Priority",
-   "dataAt": "2026-11-15T02:22:52.418Z",
-   "freq": "Daily"
+   "cat": "Priority"
   },
   {
    "name": "Energy Sector Updates",
    "url": "https://sites.google.com/view/energy-department-analytics/library/energy-weekly-digest",
    "desc": "Weekly Digest from All Over the World",
-   "cat": "Priority",
-   "freq": "Weekly"
+   "cat": "Priority"
   },
   {
    "name": "Revenue Collection Analytics",
    "url": "https://sites.google.com/view/energy-department-analytics/others/revenue",
    "desc": "Revenue Collection Monitoring",
-   "cat": "Others",
-   "dataAt": "2026-11-12T09:20:19.252Z",
-   "freq": "Daily"
+   "cat": "Others"
   },
   {
    "name": "NSC and Load Change Request Monitoring",
    "url": "https://sites.google.com/view/energy-department-analytics/others/nsc",
    "desc": "NSC & Load Change Tracker, Bihar",
-   "cat": "Others",
-   "dataAt": "2026-11-13T04:33:29.895Z",
-   "freq": "Daily"
+   "cat": "Others"
   },
   {
    "name": "TRW Stock Status - SBPDCL",
    "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/trw",
    "desc": "TRW Status Analytics",
-   "cat": "SBPDCL",
-   "dataAt": "2026-10-16T06:53:00.709Z",
-   "freq": "Daily"
+   "cat": "SBPDCL"
   },
   {
    "name": "Stores Inventory Status - SBPDCL",
    "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/stores",
    "desc": "Stock Status in Stores",
-   "cat": "SBPDCL",
-   "dataAt": "2026-10-13T04:59:42.697Z",
-   "freq": "Weekly"
+   "cat": "SBPDCL"
   },
   {
    "name": "PSS Details - SBPDCL",
    "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/pss",
    "desc": "PSS Details of South Bihar",
-   "cat": "SBPDCL",
-   "dataAt": "2026-10-26T23:18:57.901Z",
-   "freq": "Monthly"
+   "cat": "SBPDCL"
   },
   {
    "name": "Pending Utility Shifting - SBPDCL",
    "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/utility-shifting",
    "desc": "Utility Shifting Status",
-   "cat": "SBPDCL",
-   "dataAt": "2026-11-10T14:20:01.836Z",
-   "freq": "Weekly"
+   "cat": "SBPDCL"
   },
   {
    "name": "Project Monitoring - PSS - SBPDCL",
    "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/project-pss",
    "desc": "Project Monitoring - PSS State Plan and RDSS",
-   "cat": "SBPDCL",
-   "dataAt": "2026-11-14T12:03:40.218Z",
-   "freq": "Weekly"
+   "cat": "SBPDCL"
   },
   {
    "name": "Pending Electrocution Cases - SBPDCL",
    "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/electocution",
    "desc": "Status of Pending Electrocution Cases",
-   "cat": "SBPDCL",
-   "dataAt": "2026-11-10T10:18:35.206Z",
-   "freq": "Monthly"
+   "cat": "SBPDCL"
   },
   {
    "name": "OffGrid Electrification",
    "url": "https://sites.google.com/view/energy-department-analytics/others/offgrid-electrification",
    "desc": "Off grid to on grid connectivity under RDSS",
-   "cat": "Others",
-   "dataAt": "2026-10-26T23:32:37.085Z",
-   "freq": "Weekly"
+   "cat": "Others"
   },
   {
    "name": "Energy Accounting Bihar",
    "url": "https://sites.google.com/view/energy-department-analytics/others/energy-accounting",
    "desc": "Energy Accounting Status",
-   "cat": "Others",
-   "dataAt": "2026-10-18T18:27:36.804Z",
-   "freq": "Monthly"
+   "cat": "Others"
   },
   {
    "name": "Contacts",
    "url": "https://sites.google.com/view/energy-department-analytics/contacts",
-   "desc": "All Contacts for BSPHCL",
+   "desc": "All Contacts fo BSPHCL",
    "cat": "Others"
   },
   {
@@ -165,18 +132,6 @@
    "url": "https://sites.google.com/view/energy-department-analytics/library/energy-explainers",
    "desc": "Department Explainers",
    "cat": "Others"
-  },
-  {
-   "name": "PMSG DM Feedback",
-   "url": "https://sites.google.com/view/energy-department-analytics/pmsg/feedback",
-   "desc": "Feedbacks related to banks, Vendors etc",
-   "cat": "Priority"
-  },
-  {
-   "name": "Power Market",
-   "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/power-market",
-   "desc": "IEX prices & All-India / Bihar demand",
-   "cat": "Priority"
   }
  ]
 }
