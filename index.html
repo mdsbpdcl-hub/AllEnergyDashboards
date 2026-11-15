@@ -640,7 +640,7 @@ function yearly(L, Y){
 /*  KEY DATES PANEL                                                       */
 /* ===================================================================== */
 (function(){
-  const DAY=864e5, IST=19800000, AHEAD=45;
+  const DAY=864e5, IST=19800000, AHEAD=183;   // 'Coming up' list: next 6 months
   const CAT={gh:{label:'Govt holiday'},rh:{label:'Restricted holiday'},en:{label:'Energy & safety'},
     ob:{label:'National day'},qe:{label:'Period end'},fc:{label:'Finance & compliance'},dp:{label:'Department event'}};
   const ORDER=['dp','gh','rh','en','ob','qe','fc'];
@@ -696,7 +696,7 @@ function yearly(L, Y){
     $('kSub').textContent=F(T,{year:'numeric'})+' · Energy Department, Bihar';
     $('tNum').textContent=D(T).getUTCDate();
     $('tMon').textContent=F(T,{month:'short'});
-    $('winTxt').textContent=`· next ${AHEAD} days`;
+    $('winTxt').textContent='· next 6 months';
   }
 
   function chips(){
