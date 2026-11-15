@@ -240,12 +240,34 @@ def parse_psp(content):
     return {k: (round(v, 2) if isinstance(v, float) else v) for k, v in res.items() if v is not None}
 
 
+def psp_debug(content, url):
+    """Writes data/psp-debug.txt: sheet names and the first rows of each sheet (public report data)."""
+    try:
+        import pandas as pd
+        engine = "xlrd" if content[:4] == b"\xd0\xcf\x11\xe0" else None
+        sheets = pd.read_excel(io.BytesIO(content), sheet_name=None, header=None, engine=engine)
+        lines = [f"Source: {url}", f"Sheets: {list(sheets)}"]
+        for name, df in sheets.items():
+            lines.append(f"\n===== {name}  ({df.shape[0]} rows x {df.shape[1]} cols)")
+            for i, r in enumerate(df.itertuples(index=False)):
+                cells = [norm(v)[:40] for v in r]
+                if any(c and c.lower() != "nan" for c in cells):
+                    lines.append(f"{i:>3}: " + " | ".join("" if c.lower() == "nan" else c for c in cells))
+                if i > 140:
+                    lines.append("...")
+                    break
+        (OUT.parent / "psp-debug.txt").write_text("\n".join(lines), encoding="utf-8")
+    except Exception as e:
+        (OUT.parent / "psp-debug.txt").write_text(f"Could not read {url}: {e!r}", encoding="utf-8")
+
+
 def collect_grid(data, today):
     try:
         files = psp_files(today)
     except Exception as e:
-        log(f"Grid-India report list: FAILED — {e}")
+        log(f"Grid-India report list: FAILED — {e!r}")
         return
+    log(f"Grid-India report list: {len(files)} Excel reports found, newest {files[0][0] if files else 'none'}")
     for rep, url in files[:5]:
         key = rep.isoformat()
         have = data["grid"].get(key)
@@ -254,6 +276,8 @@ def collect_grid(data, today):
         try:
             r = S.get(url, timeout=90)
             r.raise_for_status()
+            if rep == files[0][0]:
+                psp_debug(r.content, url)
             vals = parse_psp(r.content)
             if not vals:
                 log(f"Grid-India {key}: file read but no figures recognised (report layout may have changed)")
@@ -264,7 +288,7 @@ def collect_grid(data, today):
                 f"energy {vals.get('all_energy_mu')} MU; Bihar peak {vals.get('bihar_peak_mw')} MW, "
                 f"energy {vals.get('bihar_energy_mu')} MU")
         except Exception as e:
-            log(f"Grid-India {key}: FAILED — {e}")
+            log(f"Grid-India {key}: FAILED — {e!r}")
 
 
 # ----------------------------------------------------------------------------- main
@@ -292,6 +316,8 @@ def main():
         data["iex_blocks"][k] = dict(sorted((d, v) for d, v in data["iex_blocks"][k].items() if d >= cut_b))
     data["grid"] = dict(sorted((d, v) for d, v in data["grid"].items() if d >= cut))
 
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    (OUT.parent / "power-log.txt").write_text(f"Run {now.isoformat(timespec='minutes')}\n" + "\n".join(LOG), encoding="utf-8")
     after = json.dumps({k: data[k] for k in ("iex", "iex_blocks", "grid")}, sort_keys=True)
     if after == before and OUT.exists():
         log("No new figures; power.json left unchanged.")
