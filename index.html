@@ -71,6 +71,9 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 .tile-icon svg{width:1.2em;height:1.2em}
 .tile-name,.tile-desc{display:block;overflow-wrap:anywhere}
 .tile-name{font-weight:700;font-size:.97em;line-height:1.25;padding-right:1.6em}
+.tile-fresh{margin-top:auto;padding-top:.45em;display:flex;align-items:center;gap:.35em;font-size:.72em;font-weight:600;line-height:1.2;color:var(--deep);opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile-fresh i{flex:0 0 auto;width:.62em;height:.62em;border-radius:50%;background:var(--fc);box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+.tile-fresh.g{--fc:#16a34a} .tile-fresh.a{--fc:#f59e0b} .tile-fresh.r{--fc:#dc2626}
 .tile-desc{margin-top:.2em;font-size:.8em;line-height:1.35;opacity:.8;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 
 
@@ -92,6 +95,14 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 .k-top h2{margin:2px 0 0;font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:-.01em;color:#1f3b63}
 .k-top .eyebrow{font-size:10.5px;margin:0}
 .k-today{font-size:12px;color:var(--muted);margin-top:1px}
+.chiprow{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.wx{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 7px;border-radius:999px;background:#f1f6fd;border:1px solid #dbe7f6;font-size:12px;color:var(--muted);white-space:nowrap}
+.wx .ic{font-size:15px;line-height:1}
+.wx b{font-size:14px;color:var(--ink);font-weight:700}
+.wx .hl{color:var(--faint)}
+.aq{background:var(--aqbg,#f0f2f5);border-color:var(--aqbd,#dfe3ee)}
+.aq .dot{width:9px;height:9px;border-radius:50%;background:var(--aqc,#888)}
+.aq b{color:var(--aqc,#444)}
 .badge{flex:0 0 auto;width:46px;height:50px;border-radius:10px;border:1.5px solid var(--gold);background:var(--gold-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
 .badge b{font-size:20px;color:var(--ink)}
 .badge span{font-size:10px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-top:3px}
@@ -179,6 +190,7 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
   .tile-name{font-size:.9em;line-height:1.22;padding-right:0}
   .tile-desc{font-size:.72em}
   .tile-go{top:.55em;right:.55em;width:1.5em;height:1.5em}
+  .tile-fresh .tm{display:none}
   .side{padding:0 12px 20px}
 }
 @media (prefers-reduced-motion:reduce){
@@ -207,6 +219,7 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
           <p class="eyebrow">Key Dates &amp; Holidays</p>
           <h2 id="kDate"></h2>
           <div class="k-today" id="kSub"></div>
+          <div class="chiprow"><div class="wx" id="wx" hidden></div><div class="wx aq" id="aq" hidden></div></div>
         </div>
         <div class="badge"><b id="tNum"></b><span id="tMon"></span></div>
       </div>
@@ -441,8 +454,28 @@ function yearly(L, Y){
     else toast('Opened '+plural(opened,'dashboard')+'.',false);
   }
 
+  /* Data freshness: d.dataAt = when the dashboard's source sheet last changed,
+     d.freq = Daily (default) / Weekly / Monthly. Colour is judged at viewing time. */
+  const IST=19800000, DAYMS=864e5;
+  const istDay=t=>Math.floor((t+IST)/DAYMS);
+  const LIMITS={daily:[0,1],weekly:[7,10],monthly:[31,40]};   // [green up to, amber up to] days
+  function freshness(d){
+    const t=Date.parse(d&&d.dataAt||''); if(isNaN(t)) return null;
+    const age=istDay(Date.now())-istDay(t);
+    const lim=LIMITS[String(d.freq||'daily').toLowerCase()]||LIMITS.daily;
+    const cls=age<=lim[0]?'g':age<=lim[1]?'a':'r';
+    const time=new Date(t).toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata',hour:'numeric',minute:'2-digit'});
+    const date=new Date(t).toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata',day:'numeric',month:'short'});
+    const text=age<=0?'Today':age===1?'Yesterday':age+' days ago';
+    const tm=age<=1?', '+time:'';
+    return {cls, text, tm, title:'Data last updated '+date+', '+time+(d.freq?' · expected '+d.freq:'')};
+  }
+  // Recolour the dots once an hour, so a page left open stays correct
+  setInterval(()=>{ if(window.__lastTiles) buildTiles.apply(null,window.__lastTiles); }, 3600e3);
+
   /* Build the tiles from a list (from dashboards.json, or the built-in list) */
   function buildTiles(list, updated){
+    window.__lastTiles=[list,updated];
     $('groups').textContent='';
     /* Build groups */
     const groups=[], lookup=new Map();
@@ -490,6 +523,12 @@ function yearly(L, Y){
         if(desc&&desc.toLowerCase()!==d.name.toLowerCase()){
           a.appendChild(el('span','tile-desc',desc));
           a.title=d.name+' - '+desc;
+        }
+        const fr=freshness(d);
+        if(fr){
+          const f=el('span','tile-fresh '+fr.cls); f.title=fr.title;
+          f.appendChild(el('i')); const ft=el('span',null,fr.text); if(fr.tm) ft.appendChild(el('span','tm',fr.tm)); f.appendChild(ft);
+          a.appendChild(f);
         }
         const go=el('span','tile-go'); go.innerHTML=ARROW; go.setAttribute('aria-hidden','true');
         a.appendChild(go);
@@ -665,6 +704,107 @@ function yearly(L, Y){
   function midnight(){ setTimeout(()=>{render();midnight();}, DAY-((Date.now()+IST)%DAY)+2000); }
   midnight();
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden&&todayNum()!==T) render(); });
+})();
+</script>
+<script>
+/* =====================================================================
+   WEATHER — current temperature from Open-Meteo (free, no key needed).
+   Change the place here if you want another city.
+   ===================================================================== */
+const WEATHER_PLACE = { name: 'Patna', lat: 25.5941, lon: 85.1376 };
+(function(){
+  const box=document.getElementById('wx'); if(!box) return;
+  const KEY='wx1', FRESH=30*60*1000;                 // refresh every 30 minutes
+  const CODES={0:['☀️','Clear'],1:['🌤️','Mainly clear'],2:['⛅','Partly cloudy'],3:['☁️','Cloudy'],45:['🌫️','Fog'],48:['🌫️','Fog'],
+    51:['🌦️','Drizzle'],53:['🌦️','Drizzle'],55:['🌦️','Drizzle'],56:['🌦️','Drizzle'],57:['🌦️','Drizzle'],
+    61:['🌧️','Rain'],63:['🌧️','Rain'],65:['🌧️','Heavy rain'],66:['🌧️','Rain'],67:['🌧️','Heavy rain'],
+    71:['🌨️','Snow'],73:['🌨️','Snow'],75:['🌨️','Snow'],77:['🌨️','Snow'],80:['🌦️','Showers'],81:['🌧️','Showers'],82:['⛈️','Heavy showers'],
+    85:['🌨️','Snow showers'],86:['🌨️','Snow showers'],95:['⛈️','Thunderstorm'],96:['⛈️','Thunderstorm'],99:['⛈️','Thunderstorm']};
+  const r=n=>Math.round(n);
+  function show(w){
+    if(!w||w.t==null) return;
+    let [ic,txt]=CODES[w.code]||['🌡️',''];
+    if(!w.day && (w.code===0||w.code===1)) ic='🌙';
+    box.innerHTML='';
+    const add=(cls,t)=>{const s=document.createElement('span'); if(cls) s.className=cls; s.textContent=t; box.appendChild(s); return s;};
+    add('ic',ic); const b=document.createElement('b'); b.textContent=r(w.t)+'°C'; box.appendChild(b);
+    add('',WEATHER_PLACE.name+(txt?' · '+txt:''));
+    if(w.max!=null) add('hl','↑'+r(w.max)+'° ↓'+r(w.min)+'°');
+    box.title='Feels like '+r(w.feels)+'°C · updated '+new Date(w.at).toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'});
+    box.hidden=false;
+  }
+  function load(){
+    const u='https://api.open-meteo.com/v1/forecast?latitude='+WEATHER_PLACE.lat+'&longitude='+WEATHER_PLACE.lon+
+      '&current=temperature_2m,apparent_temperature,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FKolkata&forecast_days=1';
+    fetch(u).then(x=>x.ok?x.json():Promise.reject(x.status)).then(j=>{
+      const c=j.current||{}, d=j.daily||{};
+      const w={t:c.temperature_2m,feels:c.apparent_temperature,code:c.weather_code,day:c.is_day===1,
+        max:d.temperature_2m_max&&d.temperature_2m_max[0],min:d.temperature_2m_min&&d.temperature_2m_min[0],at:Date.now()};
+      show(w); try{localStorage.setItem(KEY,JSON.stringify(w))}catch(e){}
+    }).catch(()=>{});                                   // no internet: keep the last reading (or stay hidden)
+  }
+  let saved=null; try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+  if(saved) show(saved);                                // instant: last known reading
+  if(!saved||Date.now()-saved.at>FRESH) load(); else setTimeout(load, FRESH-(Date.now()-saved.at));
+  setInterval(load, FRESH);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ let s=null; try{s=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){} if(!s||Date.now()-s.at>FRESH) load(); } });
+})();
+
+/* =====================================================================
+   AIR QUALITY — estimated Indian AQI (CPCB method) for the same place,
+   from the 24-hour average of modelled PM2.5 and PM10 (Open-Meteo, free).
+   It is an estimate, not an official CPCB station reading.
+   ===================================================================== */
+(function(){
+  const box=document.getElementById('aq'); if(!box) return;
+  const KEY='aq1', FRESH=60*60*1000;
+  // CPCB breakpoints: [concentration low, high, index low, high]
+  const BP={pm25:[[0,30,0,50],[30,60,51,100],[60,90,101,200],[90,120,201,300],[120,250,301,400],[250,500,401,500]],
+            pm10:[[0,50,0,50],[50,100,51,100],[100,250,101,200],[250,350,201,300],[350,430,301,400],[430,600,401,500]]};
+  const CAT=[[50,'Good','#15803d','#e7f6ec','#bfe5cb'],[100,'Satisfactory','#4d7c0f','#f0f7e4','#d3e8b4'],
+             [200,'Moderate','#a16207','#fdf6dc','#f1e0a0'],[300,'Poor','#c2410c','#fff0e6','#f8cdb0'],
+             [400,'Very poor','#b91c1c','#fdecec','#f4bcbc'],[1e9,'Severe','#7e22ce','#f5ecfd','#dcc2f5']];
+  function sub(c,table){
+    if(c==null||isNaN(c)) return null;
+    for(const [cl,ch,il,ih] of table) if(c<=ch) return il+(ih-il)*(c-cl)/(ch-cl);
+    return 500;
+  }
+  const avg24=(times,vals,nowKey)=>{
+    let end=times.indexOf(nowKey); if(end<0) end=times.length-1;
+    const v=vals.slice(Math.max(0,end-23),end+1).filter(x=>x!=null);
+    return v.length>=16?v.reduce((a,b)=>a+b,0)/v.length:null;   // CPCB needs at least 16 hours
+  };
+  function show(a){
+    if(!a||a.aqi==null) return;
+    const c=CAT.find(x=>a.aqi<=x[0]);
+    box.style.setProperty('--aqc',c[2]); box.style.setProperty('--aqbg',c[3]); box.style.setProperty('--aqbd',c[4]);
+    box.innerHTML='';
+    const dot=document.createElement('span'); dot.className='dot'; box.appendChild(dot);
+    const b=document.createElement('b'); b.textContent='AQI '+Math.round(a.aqi); box.appendChild(b);
+    const t=document.createElement('span'); t.textContent=c[1]; box.appendChild(t);
+    box.title='Estimated Indian AQI for '+WEATHER_PLACE.name+' (24-hour average): PM2.5 '+Math.round(a.pm25)+' µg/m³, PM10 '+Math.round(a.pm10)+
+      ' µg/m³. Main pollutant: '+a.main+'. Modelled data from Open-Meteo, not an official CPCB reading. Updated '+
+      new Date(a.at).toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'});
+    box.hidden=false;
+  }
+  function load(){
+    const u='https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+WEATHER_PLACE.lat+'&longitude='+WEATHER_PLACE.lon+
+      '&hourly=pm10,pm2_5&past_days=1&forecast_days=1&timezone=Asia%2FKolkata';
+    fetch(u).then(x=>x.ok?x.json():Promise.reject(x.status)).then(j=>{
+      const h=j.hourly||{}, times=h.time||[];
+      const nowKey=new Date(Date.now()+19800000).toISOString().slice(0,13)+':00';
+      const pm25=avg24(times,h.pm2_5||[],nowKey), pm10=avg24(times,h.pm10||[],nowKey);
+      const s25=sub(pm25,BP.pm25), s10=sub(pm10,BP.pm10);
+      if(s25==null&&s10==null) return;
+      const a={aqi:Math.max(s25||0,s10||0),pm25:pm25||0,pm10:pm10||0,main:(s25||0)>=(s10||0)?'PM2.5':'PM10',at:Date.now()};
+      show(a); try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}
+    }).catch(()=>{});
+  }
+  let saved=null; try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+  if(saved) show(saved);
+  if(!saved||Date.now()-saved.at>FRESH) load();
+  setInterval(load, FRESH);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ let s=null; try{s=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){} if(!s||Date.now()-s.at>FRESH) load(); } });
 })();
 </script>
 <script>
