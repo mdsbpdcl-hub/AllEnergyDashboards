@@ -113,6 +113,19 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 .k-h h3{margin:0;font-size:13px;font-weight:700;color:#1f3b63}
 .k-h small{font-weight:500;color:var(--muted);font-size:11.5px}
 
+/* PMSG card */
+.pmsg-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.ps{display:block;text-decoration:none;color:inherit;border-radius:10px;padding:7px 9px 8px;background:var(--b);border-left:3px solid var(--c);transition:filter .15s}
+.ps:hover{filter:brightness(.97)}
+.ps .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--c);display:flex;justify-content:space-between;gap:4px}
+.ps .l span{font-weight:600;text-transform:none;letter-spacing:0;color:var(--muted)}
+.ps .v{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2;margin-top:1px}
+.ps .v small{font-size:11px;font-weight:600;color:var(--muted);margin-left:3px}
+.ps .bar{height:5px;border-radius:3px;background:rgba(0,0,0,.08);margin:4px 0 4px;overflow:hidden}
+.ps .bar i{display:block;height:100%;background:var(--c);border-radius:3px}
+.ps .s{font-size:11px;color:var(--muted);line-height:1.35}
+.ps .s b{color:var(--ink);font-weight:700}
+
 /* power market card */
 .pm{display:block;text-decoration:none;color:inherit;transition:background .15s}
 .pm:hover{background:#faf8ff}
@@ -235,7 +248,12 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
         <div class="badge"><b id="tNum"></b><span id="tMon"></span></div>
       </div>
 
-      <a class="k-sec pm" id="pm" href="power.html" hidden>
+      <div class="k-sec pmsg" id="pmsg" hidden>
+        <div class="k-h"><h3>PM Surya Ghar <small id="pmsgWhen"></small></h3></div>
+        <div class="pmsg-grid" id="pmsgGrid"></div>
+      </div>
+
+      <a class="k-sec pm" id="pm" href="https://sites.google.com/view/energy-department-analytics/dailymonitoring/power-market" target="_blank" rel="noopener" hidden>
         <div class="k-h"><h3>Power market <small id="pmWhen"></small></h3><span class="pm-go">Open ›</span></div>
         <div class="pm-grid" id="pmGrid"></div>
       </a>
@@ -565,6 +583,7 @@ function yearly(L, Y){
   let shown=null;                                   // items currently on screen, as text
   const valid=j=>(j&&Array.isArray(j.items))?j.items.filter(d=>d&&d.name&&/^https?:\/\//i.test(d.url||'')):[];
   const show=j=>{
+    if(j&&j.pmsg&&window.renderPmsg) window.renderPmsg(j.pmsg);
     const items=valid(j); if(!items.length) return false;
     const sig=JSON.stringify(items);
     if(sig===shown) return true;                     // same list: nothing to redraw
@@ -847,6 +866,12 @@ const WEATHER_PLACE = { name: 'Patna', lat: 25.5941, lon: 85.1376 };
     const gk=last(G);
     if(gk&&G[gk].all_peak_mw!=null) h+=item('India peak',(G[gk].all_peak_mw/1000).toFixed(1),'GW',fd(gk)+(G[gk].all_peak_time?' · '+G[gk].all_peak_time:''),'#0f7a52','#e9f7f0');
     if(gk&&G[gk].bihar_peak_mw!=null) h+=item('Bihar peak',Math.round(G[gk].bihar_peak_mw).toLocaleString('en-IN'),'MW',fd(gk)+(G[gk].bihar_energy_mu!=null?' · '+G[gk].bihar_energy_mu.toFixed(1)+' MU':''),'#b8285c','#fdeef3');
+    const C=J.cea||{}, ck=Object.keys(C).sort().filter(k=>C[k].bihar), lk=ck[ck.length-1];
+    const fm=k=>new Date(k+'-01T00:00:00Z').toLocaleDateString('en-IN',{timeZone:'UTC',month:'short',year:'2-digit'});
+    if(!(gk&&G[gk].bihar_peak_mw!=null)&&lk){
+      if(C[lk].all&&C[lk].all.peak_demand_mw) h+=item('India peak',(C[lk].all.peak_demand_mw/1000).toFixed(1),'GW',fm(lk)+' (month)','#0f7a52','#e9f7f0');
+      h+=item('Bihar peak',Math.round(C[lk].bihar.peak_demand_mw).toLocaleString('en-IN'),'MW',fm(lk)+' (month)','#b8285c','#fdeef3');
+    }
     if(!h) return;
     document.getElementById('pmGrid').innerHTML=h;
     box.hidden=false;
@@ -856,6 +881,42 @@ const WEATHER_PLACE = { name: 'Patna', lat: 25.5941, lon: 85.1376 };
     .then(()=>{ if(navigator.serviceWorker&&navigator.serviceWorker.controller) return get('data/power.json?fresh='+Date.now()).then(show); })
     .catch(()=>{});
 })();
+</script>
+<script>
+/* =====================================================================
+   PM SURYA GHAR card — figures published from the PMSG sheets with the tile list
+   ===================================================================== */
+window.renderPmsg=function(P){
+  const box=document.getElementById('pmsg'); if(!box||!P) return;
+  const fmt=v=>v==null?'–':Math.round(v).toLocaleString('en-IN');
+  const pc=(a,b)=>a!=null&&b?Math.min(100,a/b*100):null;
+  const LINK_REG='https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-regular';
+  const LINK_ULA='https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-ula';
+  let h='';
+  const R=P.regular;
+  if(R&&R.installed!=null){
+    const p=pc(R.installed,R.target);
+    h+=`<a class="ps" href="${LINK_REG}" target="_blank" rel="noopener" style="--c:#c27a00;--b:#fff7e6" title="PMSG-MBY (Regular), Bihar">
+      <div class="l">Regular<span>${p!=null?p.toFixed(1)+'%':''}</span></div>
+      <div class="v">${fmt(R.installed)}<small>installed</small></div>
+      <div class="bar"><i style="width:${p||0}%"></i></div>
+      <div class="s">of ${fmt(R.target)} target<br>${R.last7!=null?'<b>+'+fmt(R.last7)+'</b> in 7 days':''}${R.capacity_kw!=null?' · '+(R.capacity_kw/1000).toFixed(1)+' MW':''}</div></a>`;
+  }
+  const U=P.ula;
+  if(U&&U.portal!=null){
+    const p=pc(U.portal,U.target), pp=pc(U.portal,U.inverters);
+    h+=`<a class="ps" href="${LINK_ULA}" target="_blank" rel="noopener" style="--c:#0f7a8a;--b:#e8f6f8" title="PMSG-MBY (ULA): updated on PM Surya Ghar portal and inverters installed">
+      <div class="l">ULA<span>${p!=null?p.toFixed(1)+'%':''}</span></div>
+      <div class="v">${fmt(U.portal)}<small>on portal</small></div>
+      <div class="bar"><i style="width:${p||0}%"></i></div>
+      <div class="s">of ${fmt(U.target)} target<br><b>${fmt(U.inverters)}</b> inverters installed${pp!=null?' ('+pp.toFixed(0)+'% updated)':''}</div></a>`;
+  }
+  if(!h) return;
+  document.getElementById('pmsgGrid').innerHTML=h;
+  const when=(U&&U.asOf)||(R&&R.asOf&&R.asOf.slice(0,10));
+  document.getElementById('pmsgWhen').textContent=when?'· '+new Date(when+'T00:00:00Z').toLocaleDateString('en-IN',{timeZone:'UTC',day:'numeric',month:'short'}):'';
+  box.hidden=false;
+};
 </script>
 <script>
 /* Offline cache: after the first visit the page opens from this computer's cache */
