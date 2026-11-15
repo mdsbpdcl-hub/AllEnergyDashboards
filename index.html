@@ -89,9 +89,9 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 @keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
 
 /* ================= RIGHT: calendar panel ================= */
-.side{position:sticky;top:0;height:100vh;overflow-y:auto;padding:16px 16px 20px 0;font-size:14px;line-height:1.45;scrollbar-width:thin}
+.side{position:sticky;top:0;height:100vh;overflow-y:auto;padding:10px 14px 16px 0;font-size:14px;line-height:1.45;scrollbar-width:thin}
 .panel{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 30px -18px rgba(31,44,77,.35);overflow:hidden}
-.k-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px 12px;border-bottom:1px solid var(--line)}
+.k-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 10px;padding:10px 14px 9px;border-bottom:1px solid var(--line)}
 .k-top h2{margin:2px 0 0;font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:-.01em;color:#1f3b63}
 .k-top .eyebrow{font-size:10.5px;margin:0}
 .k-today{font-size:12px;color:var(--muted);margin-top:1px}
@@ -109,39 +109,39 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 @media (max-width:480px){.og .og-l,.og .og-d{display:none}.og .og-s{display:inline}.chiprow .wx{padding:3px 8px 3px 6px;gap:5px}}
 .aq .dot{width:9px;height:9px;border-radius:50%;background:var(--aqc,#888)}
 .aq b{color:var(--aqc,#444)}
-.badge{flex:0 0 auto;width:46px;height:50px;border-radius:10px;border:1.5px solid var(--gold);background:var(--gold-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.badge{flex:0 0 auto;width:42px;height:44px;border-radius:10px;border:1.5px solid var(--gold);background:var(--gold-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
 .badge b{font-size:20px;color:var(--ink)}
 .badge span{font-size:10px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-top:3px}
 
-.k-sec{padding:12px 16px;border-bottom:1px solid var(--line)}
+.k-sec{padding:8px 14px;border-bottom:1px solid var(--line)}
 .k-sec:last-child{border-bottom:0}
-.k-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.k-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}
 .k-h h3{margin:0;font-size:13px;font-weight:700;color:#1f3b63}
 .k-h small{font-weight:500;color:var(--muted);font-size:11.5px}
 
 /* PMSG card */
 .pmsg-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
-.ps{display:block;text-decoration:none;color:inherit;border-radius:10px;padding:7px 9px 8px;background:var(--b);border-left:3px solid var(--c);transition:filter .15s}
+.ps{display:block;text-decoration:none;color:inherit;border-radius:9px;padding:5px 8px 6px;background:var(--b);border-left:3px solid var(--c);transition:filter .15s}
 .ps:hover{filter:brightness(.97)}
 .ps .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--c);display:flex;justify-content:space-between;gap:4px}
 .ps .l span{font-weight:600;text-transform:none;letter-spacing:0;color:var(--muted)}
-.ps .v{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2;margin-top:1px}
+.ps .v{font-size:15.5px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2;margin-top:1px}
 .ps .v small{font-size:11px;font-weight:600;color:var(--muted);margin-left:3px}
-.ps .bar{height:5px;border-radius:3px;background:rgba(0,0,0,.08);margin:4px 0 4px;overflow:hidden}
+.ps .bar{height:4px;border-radius:3px;background:rgba(0,0,0,.08);margin:3px 0 3px;overflow:hidden}
 .ps .bar i{display:block;height:100%;background:var(--c);border-radius:3px}
-.ps .s{font-size:11px;color:var(--muted);line-height:1.35}
+.ps .s{font-size:10.5px;color:var(--muted);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ps .s b{color:var(--ink);font-weight:700}
 
 /* power market card */
 .pm{display:block;text-decoration:none;color:inherit;transition:background .15s}
 .pm:hover{background:#faf8ff}
 .pm-go{font-size:12px;font-weight:700;color:#6d4fe0}
-.pm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
-.pm-it{border-radius:10px;padding:6px 9px;background:var(--b);border-left:3px solid var(--c)}
-.pm-it .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--c)}
-.pm-it .v{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
-.pm-it .v small{font-size:11px;font-weight:600;color:var(--muted);margin-left:2px}
-.pm-it .s{font-size:11px;color:var(--muted)}
+.pm-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.pm-it{min-width:0;border-radius:8px;padding:4px 6px 4px 7px;background:var(--b);border-left:3px solid var(--c)}
+.pm-it .l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--c)}
+.pm-it .v{white-space:nowrap;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
+.pm-it .v small{font-size:10px;font-weight:600;color:var(--muted);margin-left:2px}
+.pm-it .s{font-size:10px;color:var(--muted);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* filter chips */
 .chips{display:flex;gap:5px;flex-wrap:wrap}
@@ -158,9 +158,9 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 .mg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
 .mg .wd{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;text-align:center;color:var(--muted);padding:2px 0 4px}
 .mg .wd.sa{color:var(--sat)} .mg .wd.su{color:var(--sun)}
-.mc{position:relative;border:0;background:#fff;border-radius:8px;min-height:62px;padding:4px 2px 3px;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;gap:2px;box-shadow:inset 0 0 0 1px var(--line2);min-width:0;text-align:left}
-.mc b{font-size:12.5px;font-weight:600;line-height:1;text-align:center;margin-bottom:1px}
-.mc .lb{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:normal;word-break:normal;letter-spacing:-.02em;font-size:8.5px;line-height:1.15;font-weight:600;padding:1px 2px 1px 3px;border-radius:3px;border-left:2px solid var(--c);background:var(--cbg);color:var(--c)}
+.mc{position:relative;border:0;background:#fff;border-radius:7px;min-height:42px;padding:3px 2px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;gap:2px;box-shadow:inset 0 0 0 1px var(--line2);min-width:0;text-align:left}
+.mc b{font-size:12px;font-weight:600;line-height:1;text-align:center;margin-bottom:1px}
+.mc .lb{display:block;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;overflow-wrap:normal;word-break:normal;letter-spacing:-.02em;font-size:8.5px;line-height:1.15;font-weight:600;padding:1px 2px 1px 3px;border-radius:3px;border-left:2px solid var(--c);background:var(--cbg);color:var(--c)}
 .mc .lb.gh{background:var(--gh);color:#fff;border-left-color:var(--gh)}
 .mc .more{font-size:8.5px;color:var(--muted);text-align:center;line-height:1}
 .mc.out .lb,.mc.out .more{display:none}
@@ -694,7 +694,7 @@ function yearly(L, Y){
       if(w===6)c.push('sa'); if(w===0)c.push('su'); if(hol(n))c.push('hol');
       if(n<first||n>last)c.push('out'); else if(n<T)c.push('past');
       if(n===T)c.push('tdy'); if(n===sel)c.push('sel');
-      const labels=a.filter(x=>x.c!=='fc').slice(0,2);
+      const labels=a.filter(x=>x.c!=='fc').slice(0,1);
       const rest=a.length-labels.length;
       const tip=F(n,{weekday:'short',day:'numeric',month:'short'})+(a.length?'\n'+a.map(nameOf).join('\n'):'');
       h+=`<button type="button" class="${c.join(' ')}" data-n="${n}" title="${tip.replace(/"/g,'&quot;')}"><b>${D(n).getUTCDate()}</b>`
@@ -867,17 +867,17 @@ const WEATHER_PLACE = { name: 'Patna', lat: 25.5941, lon: 85.1376 };
     const dam=(J.iex||{}).dam||{}, rtm=(J.iex||{}).rtm||{}, G=J.grid||{};
     let h='';
     const dk=dam[TM]?TM:dam[T]?T:last(dam,T);
-    if(dk) h+=item('IEX DAM',(dam[dk].avg/1000).toFixed(2),'₹/unit',dk===TM?'tomorrow':dk===T?'today':fd(dk),'#1f7fd6','#eef5fd');
+    if(dk) h+=item('DAM',(dam[dk].avg/1000).toFixed(2),'₹/unit',dk===TM?'tomorrow':dk===T?'today':fd(dk),'#1f7fd6','#eef5fd');
     const rk=last(rtm,Y);
-    if(rk) h+=item('IEX RTM',(rtm[rk].avg/1000).toFixed(2),'₹/unit',rk===Y?'yesterday':fd(rk),'#c2570f','#fff3ea');
+    if(rk) h+=item('RTM',(rtm[rk].avg/1000).toFixed(2),'₹/unit',rk===Y?'yesterday':fd(rk),'#c2570f','#fff3ea');
     const gk=last(G);
-    if(gk&&G[gk].all_peak_mw!=null) h+=item('India peak',(G[gk].all_peak_mw/1000).toFixed(1),'GW',fd(gk)+(G[gk].all_peak_time?' · '+G[gk].all_peak_time:''),'#0f7a52','#e9f7f0');
-    if(gk&&G[gk].bihar_peak_mw!=null) h+=item('Bihar peak',Math.round(G[gk].bihar_peak_mw).toLocaleString('en-IN'),'MW',fd(gk)+(G[gk].bihar_energy_mu!=null?' · '+G[gk].bihar_energy_mu.toFixed(1)+' MU':''),'#b8285c','#fdeef3');
+    if(gk&&G[gk].all_peak_mw!=null) h+=item('India peak',(G[gk].all_peak_mw/1000).toFixed(1),'GW',fd(gk),'#0f7a52','#e9f7f0');
+    if(gk&&G[gk].bihar_peak_mw!=null) h+=item('Bihar peak',Math.round(G[gk].bihar_peak_mw).toLocaleString('en-IN'),'MW',fd(gk),'#b8285c','#fdeef3');
     const C=J.cea||{}, ck=Object.keys(C).sort().filter(k=>C[k].bihar), lk=ck[ck.length-1];
     const fm=k=>new Date(k+'-01T00:00:00Z').toLocaleDateString('en-IN',{timeZone:'UTC',month:'short',year:'2-digit'});
     if(!(gk&&G[gk].bihar_peak_mw!=null)&&lk){
-      if(C[lk].all&&C[lk].all.peak_demand_mw) h+=item('India peak',(C[lk].all.peak_demand_mw/1000).toFixed(1),'GW',fm(lk)+' (month)','#0f7a52','#e9f7f0');
-      h+=item('Bihar peak',Math.round(C[lk].bihar.peak_demand_mw).toLocaleString('en-IN'),'MW',fm(lk)+' (month)','#b8285c','#fdeef3');
+      if(C[lk].all&&C[lk].all.peak_demand_mw) h+=item('India peak',(C[lk].all.peak_demand_mw/1000).toFixed(1),'GW',fm(lk),'#0f7a52','#e9f7f0');
+      h+=item('Bihar peak',Math.round(C[lk].bihar.peak_demand_mw).toLocaleString('en-IN'),'MW',fm(lk),'#b8285c','#fdeef3');
     }
     if(!h) return;
     document.getElementById('pmGrid').innerHTML=h;
@@ -918,19 +918,19 @@ window.renderPmsg=function(P){
   if(R&&R.installed!=null){
     const p=pc(R.installed,R.target);
     h+=`<a class="ps" href="${LINK_REG}" target="_blank" rel="noopener" style="--c:#c27a00;--b:#fff7e6" title="PMSG-MBY (Regular), Bihar">
-      <div class="l">Regular<span>${p!=null?p.toFixed(1)+'%':''}</span></div>
+      <div class="l">Regular<span>${p!=null?p.toFixed(1)+'% of '+fmt(R.target):''}</span></div>
       <div class="v">${fmt(R.installed)}<small>installed</small></div>
       <div class="bar"><i style="width:${p||0}%"></i></div>
-      <div class="s">of ${fmt(R.target)} target<br>${R.last7!=null?'<b>+'+fmt(R.last7)+'</b> in 7 days':''}${R.capacity_kw!=null?' · '+(R.capacity_kw/1000).toFixed(1)+' MW':''}</div></a>`;
+      <div class="s">${R.last7!=null?'<b>+'+fmt(R.last7)+'</b> in 7 days':''}${R.capacity_kw!=null?' · '+(R.capacity_kw/1000).toFixed(1)+' MW':''}</div></a>`;
   }
   const U=P.ula;
   if(U&&U.portal!=null){
     const p=pc(U.portal,U.target), pp=pc(U.portal,U.inverters);
     h+=`<a class="ps" href="${LINK_ULA}" target="_blank" rel="noopener" style="--c:#0f7a8a;--b:#e8f6f8" title="PMSG-MBY (ULA): updated on PM Surya Ghar portal and inverters installed">
-      <div class="l">ULA<span>${p!=null?p.toFixed(1)+'%':''}</span></div>
+      <div class="l">ULA<span>${p!=null?p.toFixed(1)+'% of '+fmt(U.target):''}</span></div>
       <div class="v">${fmt(U.portal)}<small>on portal</small></div>
       <div class="bar"><i style="width:${p||0}%"></i></div>
-      <div class="s">of ${fmt(U.target)} target<br><b>${fmt(U.inverters)}</b> inverters installed${pp!=null?' ('+pp.toFixed(0)+'% updated)':''}</div></a>`;
+      <div class="s"><b>${fmt(U.inverters)}</b> inverters${pp!=null?' · '+pp.toFixed(0)+'% updated':''}</div></a>`;
   }
   if(!h) return;
   document.getElementById('pmsgGrid').innerHTML=h;
