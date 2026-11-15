@@ -209,6 +209,16 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 .it.tdy .rel{color:var(--gold);font-weight:700}
 .none{color:var(--muted);font-size:12.5px}
 
+/* ---------- Install banner (phones) ---------- */
+.inst{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:40;display:flex;align-items:center;gap:10px;
+  padding:10px 10px 10px 12px;background:#fff;border:1px solid #e3ddfb;border-radius:16px;box-shadow:0 16px 40px -14px rgba(31,44,77,.45);animation:pop .3s ease both;max-width:520px;margin:0 auto}
+.inst img{flex:0 0 auto;border-radius:11px}
+.inst-t{flex:1;min-width:0;font-size:12.5px;line-height:1.35;color:var(--muted)}
+.inst-t b{display:block;font-size:14px;color:var(--ink)}
+.inst-go{flex:0 0 auto;height:38px;padding:0 16px;border:0;border-radius:99px;background:#6d4fe0;color:#fff;font-weight:700;font-size:14px;cursor:pointer}
+.inst-go[hidden]{display:none}
+.inst-x{flex:0 0 auto;width:30px;height:30px;border:0;border-radius:50%;background:#f1f0f7;color:#5b6988;font-size:18px;line-height:1;cursor:pointer}
+
 /* ---------- Stacked layout (tablet / phone) ---------- */
 @media (max-width:1000px){
   .shell{grid-template-columns:minmax(0,1fr)}
@@ -299,6 +309,16 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<div class="inst" id="inst" role="dialog" aria-label="Install Energy Analytics" hidden>
+  <img src="icon-192.png" alt="" width="44" height="44">
+  <div class="inst-t">
+    <b>Install Energy Analytics</b>
+    <span id="instMsg">Opens like an app from your home screen, even on a slow connection.</span>
+  </div>
+  <button type="button" class="inst-go" id="instGo">Install</button>
+  <button type="button" class="inst-x" id="instX" aria-label="Not now">×</button>
+</div>
 
 <script>
 /* =====================================================================
@@ -1020,6 +1040,52 @@ window.renderPmsg=function(P){
   if(saved&&sameDay) show(saved);
   if(!saved||!sameDay||Date.now()-saved.at>FRESH) load();
   setInterval(load, FRESH);
+})();
+</script>
+<script>
+/* =====================================================================
+   INSTALL BANNER — on phones, offers to install the page as an app.
+   Android: real "Install" button. iPhone: shows the Share → Add to Home Screen steps.
+   ===================================================================== */
+(function(){
+  const box=document.getElementById('inst'); if(!box) return;
+  const KEY='inst-dismissed', WAIT=7*864e5;
+  const standalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+  let framed=false; try{ framed=window.self!==window.top; }catch(e){ framed=true; }
+  const phone=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Macintosh/.test(navigator.userAgent));
+  let dismissedAt=0; try{ dismissedAt=+localStorage.getItem(KEY)||0; }catch(e){}
+  if(standalone||framed||!phone||Date.now()-dismissedAt<WAIT) return;
+
+  const ios=/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Macintosh/.test(navigator.userAgent));
+  const go=document.getElementById('instGo'), msg=document.getElementById('instMsg');
+  let deferred=null;
+  const show=()=>{ box.hidden=false; };
+  const hide=()=>{ box.hidden=true; };
+  document.getElementById('instX').onclick=()=>{ hide(); try{ localStorage.setItem(KEY,String(Date.now())); }catch(e){} };
+
+  window.addEventListener('beforeinstallprompt',e=>{
+    e.preventDefault(); deferred=e;
+    msg.textContent='Opens like an app from your home screen, even on a slow connection.';
+    go.hidden=false; show();
+  });
+  go.onclick=async()=>{
+    if(!deferred) return;
+    deferred.prompt();
+    const r=await deferred.userChoice.catch(()=>null);
+    deferred=null; hide();
+    if(r&&r.outcome==='dismissed'){ try{ localStorage.setItem(KEY,String(Date.now())); }catch(e){} }
+  };
+  window.addEventListener('appinstalled',hide);
+
+  // Browsers without an install button (iPhone Safari, some others): show the steps instead.
+  setTimeout(()=>{
+    if(deferred||!box.hidden) return;
+    go.hidden=true;
+    msg.innerHTML=ios
+      ?'Tap <b style="display:inline;font-size:inherit">Share ⬆︎</b>, then <b style="display:inline;font-size:inherit">Add to Home Screen</b>.'
+      :'Open the browser menu <b style="display:inline;font-size:inherit">⋮</b>, then <b style="display:inline;font-size:inherit">Install app</b> or <b style="display:inline;font-size:inherit">Add to Home screen</b>.';
+    show();
+  }, ios?1200:3500);
 })();
 </script>
 <script>
