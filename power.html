@@ -50,6 +50,10 @@ h1{margin:0;font-size:34px;line-height:1.05;letter-spacing:-.02em;font-weight:70
 .tip{position:absolute;pointer-events:none;background:#1f2c4d;color:#fff;font-size:12px;line-height:1.4;padding:6px 9px;border-radius:9px;white-space:nowrap;transform:translate(-50%,-110%);box-shadow:0 8px 20px -10px rgba(0,0,0,.5)}
 .tip b{font-weight:700}
 .empty{padding:40px 10px;text-align:center;color:var(--muted);font-size:14px}
+.bsec{margin:4px 0 14px}
+.bh{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:0 0 8px}
+.bh h2{margin:0;font-size:17px;font-weight:700}
+.note{font-size:12px;color:var(--muted)}
 footer{margin-top:16px;font-size:12.5px;color:var(--muted)}
 footer p{margin:3px 0}
 @media (max-width:820px){ .grid2{grid-template-columns:minmax(0,1fr)} h1{font-size:28px} .wrap{padding:16px 12px 24px} .kpi .v{font-size:22px} }
@@ -62,12 +66,17 @@ footer p{margin:3px 0}
     <div>
       <p class="eyebrow">Energy Department · Government of Bihar</p>
       <h1>Power Market</h1>
-      <p class="sub" id="sub">IEX exchange prices and Grid-India demand, collected daily</p>
+      <p class="sub" id="sub">IEX exchange prices and Bihar / All-India peak demand, collected daily</p>
     </div>
     <a class="back" href="./" target="_self">← All dashboards</a>
   </div>
 
   <div class="kpis" id="kpis"></div>
+
+  <div class="bsec" id="bsec" hidden>
+    <div class="bh"><h2>Bihar peak demand</h2><span class="note" id="bnote"></span></div>
+    <div class="kpis" id="bkpis"></div>
+  </div>
 
   <div class="grid2">
     <div class="card">
@@ -81,12 +90,12 @@ footer p{margin:3px 0}
       <div class="chart" id="c2"></div>
     </div>
     <div class="card">
-      <div class="h"><h2>All-India peak demand met</h2><span class="note">GW, last 30 days</span></div>
+      <div class="h"><h2 id="t3">All-India peak demand met</h2><span class="note" id="n3">GW, last 30 days</span></div>
       <div class="legend" id="lg3"></div>
       <div class="chart" id="c3"></div>
     </div>
     <div class="card">
-      <div class="h"><h2>Bihar peak demand met</h2><span class="note">MW, last 30 days</span></div>
+      <div class="h"><h2 id="t4">Bihar peak demand met</h2><span class="note" id="n4">MW, last 30 days</span></div>
       <div class="legend" id="lg4"></div>
       <div class="chart" id="c4"></div>
     </div>
@@ -94,7 +103,7 @@ footer p{margin:3px 0}
 
   <footer>
     <p id="upd"></p>
-    <p>Sources: IEX market snapshot (Day-Ahead and Real-Time Markets, market clearing price) and Grid-India daily Power Supply Position report. ₹/unit = MCP in ₹/MWh ÷ 1000. Peak demand is the maximum demand met during the day.</p>
+    <p>Sources: IEX market snapshot (Day-Ahead and Real-Time Markets, market clearing price); CEA monthly Peak Power Supply Position report (provisional figures are replaced by revised ones when published); Grid-India daily Power Supply Position report where reachable. ₹/unit = MCP in ₹/MWh ÷ 1000. Peak demand is the maximum demand met during the day.</p>
   </footer>
 </div>
 
@@ -120,6 +129,7 @@ function chart(el, opt){
   let lo=opt.zero?0:Math.min(...all), hi=Math.max(...all);
   if(lo===hi){ lo-=1; hi+=1; }
   const pad=(hi-lo)*.08; if(!opt.zero) lo-=pad; hi+=pad;
+  if(Math.min(...all)>=0) lo=Math.max(0,lo);
   const step=niceStep((hi-lo)/4); lo=Math.floor(lo/step)*step; hi=Math.ceil(hi/step)*step;
   const X=i=>L+(n===1?(W-L-R)/2:i*(W-L-R)/(n-1)), Y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo));
   const bw=Math.max(2,(W-L-R)/n*.62), Xb=i=>L+(i+.5)*(W-L-R)/n;
@@ -200,6 +210,42 @@ function render(J){
     fx:k=>fmtD(k),tx:k=>fmtDW(k),fy:v=>'₹'+v,ft:v=>'₹'+v.toFixed(2),aria:'IEX daily average price'});
   legend('lg2',[['DAM (day-ahead)','#1f7fd6'],['RTM (real-time)','#e0701f']]);
 
+  // ---------- CEA monthly (Bihar section + fallback charts)
+  const C=J.cea||{}, ck=Object.keys(C).sort(), MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const ml=k=>MN[+k.slice(5,7)-1]+' '+k.slice(2,4), mlf=k=>new Date(k+'-01T00:00:00Z').toLocaleDateString('en-IN',{timeZone:'UTC',month:'long',year:'numeric'});
+  const bp=k=>C[k]&&C[k].bihar?(C[k].bihar.peak_demand_mw):null, bm=k=>C[k]&&C[k].bihar?C[k].bihar.peak_met_mw:null;
+  const fyOf=k=>{const y=+k.slice(0,4),m=+k.slice(5,7);return m>=4?y:y-1;};
+  if(ck.length){
+    const lk=ck[ck.length-1], lb=C[lk].bihar||{};
+    const last6=ck.slice(-6).filter(k=>bp(k)!=null), best6=last6.reduce((a,k)=>a&&bp(a)>=bp(k)?a:k,null);
+    const fy=fyOf(lk), thisFy=ck.filter(k=>fyOf(k)===fy), prevFy=ck.filter(k=>fyOf(k)===fy-1);
+    const bestOf=arr=>arr.filter(k=>bp(k)!=null).reduce((a,k)=>a&&bp(a)>=bp(k)?a:k,null);
+    const fyBest=lb.fy_peak_demand_mw!=null?lb.fy_peak_demand_mw:(bestOf(thisFy)?bp(bestOf(thisFy)):null);
+    const pfLast=prevFy.length?prevFy[prevFy.length-1]:null;
+    const pfBest=pfLast&&+pfLast.slice(5,7)===3&&C[pfLast].bihar&&C[pfLast].bihar.fy_peak_demand_mw!=null?C[pfLast].bihar.fy_peak_demand_mw:(bestOf(prevFy)?bp(bestOf(prevFy)):null);
+    const sameLy=(+lk.slice(0,4)-1)+lk.slice(4), ly=bp(sameLy);
+    const pct=(a,b)=>a!=null&&b?`<div class="d ${a>=b?'up':'down'}" style="color:var(--muted)">${a>=b?'▲':'▼'} ${Math.abs((a-b)/b*100).toFixed(1)}% vs ${ml(sameLy)} (${n0(b)} MW)</div>`:'';
+    let bh='';
+    bh+=kpi('Latest month · '+ml(lk),n0(lb.peak_demand_mw),'MW',`peak met ${n0(lb.peak_met_mw)} MW${lb.not_met_mw?' · not met '+n0(lb.not_met_mw)+' MW':''}${C[lk].revised?'':' · provisional'}`,'var(--bihar)',pct(lb.peak_demand_mw,ly));
+    if(best6) bh+=kpi('Highest · last 6 months',n0(bp(best6)),'MW',`in ${mlf(best6)}`,'#a3285a');
+    if(fyBest!=null) bh+=kpi(`Highest · FY ${fy}-${String(fy+1).slice(2)} so far`,n0(fyBest),'MW',`April to ${MN[+lk.slice(5,7)-1]} ${lk.slice(0,4)}`,'#7a1f45');
+    if(pfBest!=null) bh+=kpi(`Highest · FY ${fy-1}-${String(fy).slice(2)}`,n0(pfBest),'MW','last financial year','#5b6988');
+    $('bkpis').innerHTML=bh; $('bsec').hidden=false;
+    $('bnote').textContent='CEA monthly report · latest available: '+mlf(lk)+' (published 4–8 weeks after the month)';
+  }
+
+  if(!Object.keys(G).length && ck.length){     // no daily Grid-India figures: show CEA monthly instead
+    const mk=ck.slice(-14);
+    $('t3').textContent='All-India peak demand, monthly'; $('n3').textContent='GW, CEA monthly report';
+    chart($('c3'),{labels:mk,bars:true,zero:false,series:[{name:'Peak demand',color:'#149a68',values:mk.map(k=>C[k].all&&C[k].all.peak_demand_mw!=null?C[k].all.peak_demand_mw/1000:null)}],
+      fx:k=>ml(k),tx:k=>mlf(k),fy:v=>v,ft:v=>v.toFixed(1)+' GW',maxTicks:7,aria:'All-India monthly peak demand'});
+    legend('lg3',[['Peak demand (monthly)','#149a68']]);
+    $('t4').textContent='Bihar peak demand, monthly'; $('n4').textContent='MW, CEA monthly report';
+    chart($('c4'),{labels:mk,bars:true,zero:false,series:[{name:'Bihar peak demand',color:'#d93b74',values:mk.map(bp)}],
+      fx:k=>ml(k),tx:k=>mlf(k),fy:v=>v.toLocaleString('en-IN'),ft:v=>n0(v)+' MW',maxTicks:7,
+      extra:i=>{const k=mk[i]; return C[k]&&C[k].bihar?`<div>Peak met: <b>${n0(bm(k))} MW</b>${C[k].revised?'':' (provisional)'}</div>`:''},aria:'Bihar monthly peak demand'});
+    legend('lg4',[['Bihar peak demand (monthly)','#d93b74']]);
+  } else {
   // Chart 3: All-India peak
   const gd=[...Array(30)].map((_,i)=>addDays(T,i-30));
   chart($('c3'),{labels:gd,bars:true,zero:false,series:[{name:'Peak met',color:'#149a68',values:gd.map(k=>G[k]&&G[k].all_peak_mw!=null?G[k].all_peak_mw/1000:null)}],
@@ -212,6 +258,7 @@ function render(J){
     fx:k=>fmtD(k),tx:k=>fmtDW(k),fy:v=>v.toLocaleString('en-IN'),ft:v=>n0(v)+' MW',
     extra:i=>{const g=G[gd[i]]; return g&&g.bihar_energy_mu!=null?`<div>Energy met: <b>${g.bihar_energy_mu.toFixed(1)} MU</b></div>`:''},aria:'Bihar peak demand met'});
   legend('lg4',[['Bihar maximum demand met','#d93b74']]);
+  }
 
   $('upd').textContent=J.updated?'Figures collected '+new Date(J.updated).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})+'.':'';
 }
