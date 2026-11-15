@@ -1,16 +1,19 @@
-Run 2026-11-15T14:59+05:30
+Run 2026-11-15T15:35+05:30
 IEX DAM YESTERDAY 2026-11-14: avg 4241.45 Rs/MWh, 96 blocks
 IEX DAM TODAY 2026-11-15: avg 2696.48 Rs/MWh, 96 blocks
 IEX DAM TOMORROW: page read but no table found (site layout may have changed)
 IEX RTM YESTERDAY 2026-11-14: avg 3771.53 Rs/MWh, 96 blocks
-IEX RTM TODAY 2026-11-15: avg None Rs/MWh, 64 blocks
+IEX RTM TODAY 2026-11-15: avg None Rs/MWh, 66 blocks
 Grid-India report list: FAILED — ConnectionError(ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')))
   probe https://grid-india.in/ -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://webapi.grid-india.in/api/v1/last-update-date -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://webcdn.grid-india.in/files/grdw/misc/menu_en.json -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://report.grid-india.in/ -> ConnectionError: HTTPSConnectionPool(host='report.grid-india.in', port=443): Max retries exceeded with url: / (Caused by NameResolutionEr
   older addresses: nothing reachable either
-CEA report page https://cea.nic.in/power-supply-report/?lang=en -> HTTP 404, 582 bytes
+  CEA probe https://cea.nic.in/wp-content/uploads/power_supply/2026/08/PSP_August26_Provisional_Peak.pdf -> HTTP 404, text/html;charset=UTF-8, 582 bytes, final https://cea.nic.in/wp-content/uploads/power_supply/2026/08/PSP_August26_Provisional_Peak.pdf, starts b'<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <meta charset="UTF-8">\r\n '
+  CEA probe https://cea.nic.in/wp-content/uploads/power_supply/2026/07/Peak_July26_Provisional.pdf -> HTTP 404, text/html;charset=UTF-8, 494 bytes, final https://cea.nic.in/wp-content/uploads/power_supply/2026/07/Peak_July26_Provisional.pdf, starts b'<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <meta charset="UTF-8">\r\n '
+  CEA probe https://cea.nic.in/ -> HTTP 200, text/html;charset=UTF-8, 232066 bytes, final https://cea.nic.in/, starts b'<!DOCTYPE html>\r\n<html lang="hi">\r\n\r\n<head>\r\n<meta charset="'
+CEA report page https://cea.nic.in/power-supply-report/?lang=en -> HTTP 404, 494 bytes
 CEA report page https://cea.nic.in/power-supply-report/ -> HTTP 404, 494 bytes
 CEA: 0 peak-report links found on the report page
 CEA 2026-11: report not found (may not be published yet)
@@ -28,3 +31,4 @@ CEA 2025-12: report not found (may not be published yet)
 CEA 2025-11: report not found (may not be published yet)
 CEA 2025-10: report not found (may not be published yet)
 CEA 2025-09: report not found (may not be published yet)
+CEA replies seen: {'HTTP 404 text/html': 210}
