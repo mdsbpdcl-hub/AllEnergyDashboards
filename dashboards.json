@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T18:55:00.022Z",
+ "updated": "2026-11-15T19:13:47.116Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -242,5 +242,10 @@
   "over4h": 34,
   "sbpdcl_min": 21.9,
   "nbpdcl_min": 22.5
+ },
+ "followups": {
+  "total": 0,
+  "items": [],
+  "asOf": "2026-11-15T18:44:24.752Z"
  }
 }
