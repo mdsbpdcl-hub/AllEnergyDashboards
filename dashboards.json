@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T19:13:47.116Z",
+ "updated": "2026-11-15T19:24:34.099Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -26,7 +26,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/daily-monitoring",
    "desc": "PwC Agenda Sheet",
    "cat": "Priority",
-   "dataAt": "2026-11-15T17:17:14.983Z",
+   "dataAt": "2026-11-15T19:16:42.837Z",
    "freq": "Daily"
   },
   {
@@ -244,8 +244,37 @@
   "nbpdcl_min": 22.5
  },
  "followups": {
-  "total": 0,
-  "items": [],
-  "asOf": "2026-11-15T18:44:24.752Z"
+  "total": 7,
+  "items": [
+   {
+    "t": "Complete BSRTC EV charging stations",
+    "h": true
+   },
+   {
+    "t": "Complete geotagging of PSS and modernization works",
+    "h": true
+   },
+   {
+    "t": "Complete power-supply reliability city-ranking data",
+    "h": true
+   },
+   {
+    "t": "Resolve wayleave payment and bank guarantee requirements",
+    "h": false
+   },
+   {
+    "t": "Review industrial electricity tariff competitiveness",
+    "h": false
+   },
+   {
+    "t": "Complete net-metering of on-grid solar installation in Ara",
+    "h": false
+   },
+   {
+    "t": "Process eligible BCF Advance payments",
+    "h": false
+   }
+  ],
+  "asOf": "2026-11-15T19:23:42.710Z"
  }
 }
