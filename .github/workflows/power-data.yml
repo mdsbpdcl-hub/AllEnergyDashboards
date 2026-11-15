@@ -37,13 +37,14 @@ jobs:
 
       - name: Save if changed
         run: |
-          if git diff --quiet -- data/power.json && git ls-files --error-unmatch data/power.json >/dev/null 2>&1; then
+          git add -N data/ 2>/dev/null || true
+          if git diff --quiet -- data/; then
             echo "No change."
             exit 0
           fi
           git config user.name  "power-data-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/power.json
+          git add data/
           git commit -m "Update power market data"
           git pull --rebase --autostash || true
           git push
