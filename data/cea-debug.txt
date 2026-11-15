@@ -1,0 +1,267 @@
+Monthly Reports -> https://cea.nic.in/
+Executive Summary -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10071&title=Executive%20Summary&lang=en
+Power Supply Position -> https://cea.nic.in/
+Power Supply Position - Energy -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10010&title=Power%20Supply%20Position%20-%20Energy&lang=en
+Power Supply Position - Peak -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+
+== https://cea.nic.in/ -> HTTP 200, 232066 bytes
+   नागरिक चार्टर -> https://cea.nic.in/api/pdf/view/citizen_charter/_to_Director_Administration_CEA.pdf
+   2035-36 तक 100 गीगावाट
+											जलविद्युत पंप भंडारण परियोजनाओं के लिए रोडमैप -> https://cea.nic.in/api/pdf/view/pumped_storage/pumped_storage.pdf
+   आईआईटी दिल्ली
+											रिपोर्ट, 2024: ताप विद्युत संयंत्रों (टीपीपी) से निकटत -> https://cea.nic.in/api/pdf/view/IIT_Delhi_Study_2024/IIT_Delhi_Study_2024.pdf
+   जल विद्युत परियोजनाओं
+											में ढलान स्थिरता के लिए दिशानिर्देश -> https://cea.nic.in/api/pdf/view/Guidelines/Guidelines.pdf
+   जलविद्युत
+											परियोजनाओं में किसी भी भूवैज्ञानिक आश्चर्य की स्थिति में
+ -> https://cea.nic.in/api/pdf/view/Standing_Technical_Committ/Standing_Technical_Committ.pdf
+   पाठ प्रतिलेख (81.49 KB) -> https://cea.nic.in/videos/Central_Electricity_Authority_theme_song_hindi.docx.pdf
+
+== https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10071&title=Executive%20Summary&lang=en -> HTTP 200, 384249 bytes
+   Citizen Charter -> https://cea.nic.in/api/pdf/view/citizen_charter/_to_Director_Administration_CEA.pdf
+   Power Supply Position - Peak -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/bb3dee94-1e7d-46f8-90d6-4571696752cf
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/bb3dee94-1e7d-46f8-90d6-4571696752cf
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/ea049f7f-542e-4a4e-b332-9ad0a93bcdee
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/ea049f7f-542e-4a4e-b332-9ad0a93bcdee
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/12f297ca-ebd9-460d-bdf0-3feb7425303a
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/12f297ca-ebd9-460d-bdf0-3feb7425303a
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/6cd312b7-8247-4c98-9838-64ae60d03e8a
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/6cd312b7-8247-4c98-9838-64ae60d03e8a
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/09fd0621-34e4-429e-b837-b3474ae57870
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/09fd0621-34e4-429e-b837-b3474ae57870
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/9b40304a-4fbb-4279-9aea-a48b47e7980c
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/9b40304a-4fbb-4279-9aea-a48b47e7980c
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/46600c4d-66b3-4a22-b9b5-ea3e8b2691c3
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/46600c4d-66b3-4a22-b9b5-ea3e8b2691c3
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/72b63dcb-8fb7-41ad-a23d-c46591a3866d
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/72b63dcb-8fb7-41ad-a23d-c46591a3866d
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/d281bc20-42a6-4958-8ef1-dfb1f3186bad
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/d281bc20-42a6-4958-8ef1-dfb1f3186bad
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/01517ea0-5d6a-49ee-84c1-28891a937508
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/01517ea0-5d6a-49ee-84c1-28891a937508
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/cb12cf09-3d32-4462-913c-821ff9def033
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/cb12cf09-3d32-4462-913c-821ff9def033
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/67f5b005-26a9-49b5-a540-89c9247a9254
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/67f5b005-26a9-49b5-a540-89c9247a9254
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/c38a5d8e-ee57-4531-81a1-336c5f8cfe4c
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/c38a5d8e-ee57-4531-81a1-336c5f8cfe4c
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/8cbd148e-6b64-4827-a3c8-382d0f0556c8
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/8cbd148e-6b64-4827-a3c8-382d0f0556c8
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/15403215-6d57-496a-ab36-093baed50839
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/15403215-6d57-496a-ab36-093baed50839
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/20cf5a03-8ddd-445e-9678-061e7409c909
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/20cf5a03-8ddd-445e-9678-061e7409c909
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/a5ccb300-9496-4b1d-9194-bd71eaf268ab
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/a5ccb300-9496-4b1d-9194-bd71eaf268ab
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/9a971987-057b-4058-9f64-0e15e4ad259c
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/9a971987-057b-4058-9f64-0e15e4ad259c
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/cb83ded7-ecd4-48e8-a761-2f8086ef2351
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/cb83ded7-ecd4-48e8-a761-2f8086ef2351
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/e455c622-1fa9-4fa0-be20-36144a06ceee
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/e455c622-1fa9-4fa0-be20-36144a06ceee
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/f0dbd742-0384-46b0-b525-17ed673ea689
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/f0dbd742-0384-46b0-b525-17ed673ea689
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/1ffb44b9-3d6e-4376-8a6f-b8a12bde96af
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/1ffb44b9-3d6e-4376-8a6f-b8a12bde96af
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/9bd7ea30-0ebc-4b56-8cd3-d82ac289e81a
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/9bd7ea30-0ebc-4b56-8cd3-d82ac289e81a
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/716baf47-8e74-49e1-84ea-12f32e2991fd
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/716baf47-8e74-49e1-84ea-12f32e2991fd
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/e9a800d3-d3d3-4c66-8e36-fdd4a019cdcf
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/e9a800d3-d3d3-4c66-8e36-fdd4a019cdcf
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/057ad2d8-25bb-4173-b3dd-c9f995c5121a
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/057ad2d8-25bb-4173-b3dd-c9f995c5121a
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/10496ffa-b569-43e4-8976-22ac6701b274
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/10496ffa-b569-43e4-8976-22ac6701b274
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/c5ed122d-5ba7-412a-b3e1-a394bb790798
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/c5ed122d-5ba7-412a-b3e1-a394bb790798
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/45003077-48a7-4f4b-ad1f-847693bfcf4a
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/45003077-48a7-4f4b-ad1f-847693bfcf4a
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/5dc29be5-28d8-47f3-8003-5d5416bba2c5
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/5dc29be5-28d8-47f3-8003-5d5416bba2c5
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/cc3f2576-dca6-4f48-8d50-6fa7dbdae6b7
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/cc3f2576-dca6-4f48-8d50-6fa7dbdae6b7
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/c82ecbcb-f2d2-46ef-97e4-91d5a338eb25
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/c82ecbcb-f2d2-46ef-97e4-91d5a338eb25
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/4be85c24-0486-4024-aaac-c1c704b6f69b
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/4be85c24-0486-4024-aaac-c1c704b6f69b
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/25481516-855e-4085-92fb-a1c5296d5671
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/25481516-855e-4085-92fb-a1c5296d5671
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/33e259b3-2271-4276-98e9-cd2ea79edc6b
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/33e259b3-2271-4276-98e9-cd2ea79edc6b
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/845b1dde-e8ef-4b06-b4d7-36331111b3aa
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/845b1dde-e8ef-4b06-b4d7-36331111b3aa
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/7da1fd6f-e214-4663-9f88-bc82b9f89918
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/7da1fd6f-e214-4663-9f88-bc82b9f89918
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/cd79514b-d97a-400c-9b9e-c0b9d483d91c
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/cd79514b-d97a-400c-9b9e-c0b9d483d91c
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/405252fa-0221-45b5-bcf7-7f3c29cd0442
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/405252fa-0221-45b5-bcf7-7f3c29cd0442
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/99f3a115-1afc-4f78-af32-cb650e69d9ac
+
+== https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10010&title=Power%20Supply%20Position%20-%20Energy&lang=en -> HTTP 200, 299678 bytes
+   Citizen Charter -> https://cea.nic.in/api/pdf/view/citizen_charter/_to_Director_Administration_CEA.pdf
+   Power Supply Position - Peak -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/d48d202b-fe6c-428c-9b60-ff147d51a183
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/d48d202b-fe6c-428c-9b60-ff147d51a183
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/d0f4f1af-fe28-447a-a9f2-605d20afc4d8
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/d0f4f1af-fe28-447a-a9f2-605d20afc4d8
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/d54a89c7-dd36-463b-b296-03965f0c4155
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/d54a89c7-dd36-463b-b296-03965f0c4155
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/12fadab9-ce24-42cc-a187-cc1a725be789
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/12fadab9-ce24-42cc-a187-cc1a725be789
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/d7fe7ebb-d3f8-44b0-ac48-209bf39cb368
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/d7fe7ebb-d3f8-44b0-ac48-209bf39cb368
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/5d398a34-d1c3-4af4-90f0-34251c41de05
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/5d398a34-d1c3-4af4-90f0-34251c41de05
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/ad86047e-e751-48cb-88a5-ce7e8821af8f
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/ad86047e-e751-48cb-88a5-ce7e8821af8f
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/c5bf7c96-c561-49db-9f2c-0cd7339eb4d1
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/c5bf7c96-c561-49db-9f2c-0cd7339eb4d1
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/9fd6dca0-6577-4652-8bdc-2f3a5b5da2d8
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/9fd6dca0-6577-4652-8bdc-2f3a5b5da2d8
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/2008c586-9302-4e46-a76e-084330d7fb14
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/2008c586-9302-4e46-a76e-084330d7fb14
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/72704ef0-2e9b-457f-9e44-92ae3e841b8c
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/72704ef0-2e9b-457f-9e44-92ae3e841b8c
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/5ac17b6a-8c3e-403c-b98e-3b79fcb6f4f4
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/5ac17b6a-8c3e-403c-b98e-3b79fcb6f4f4
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/7078637f-e995-43a2-a12a-4d16dad7cfda
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/7078637f-e995-43a2-a12a-4d16dad7cfda
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/6b416768-a9ed-42dd-b30c-cd8ff77ac1cd
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/6b416768-a9ed-42dd-b30c-cd8ff77ac1cd
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/6c3a2145-8147-46b5-b43e-3d95606af64c
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/6c3a2145-8147-46b5-b43e-3d95606af64c
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/b98d017a-eb22-460e-be67-d766a02bb1ec
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/b98d017a-eb22-460e-be67-d766a02bb1ec
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/31780fab-eb69-434d-af2c-a070eb67a117
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/31780fab-eb69-434d-af2c-a070eb67a117
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/727fa73e-4de7-4a5e-b5cf-f1b0ced008ad
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/727fa73e-4de7-4a5e-b5cf-f1b0ced008ad
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/a6e7fe0b-65a8-4c2c-8165-44ae1bee8301
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/a6e7fe0b-65a8-4c2c-8165-44ae1bee8301
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/da308321-6a87-450f-8dbc-ce19751bbbaf
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/da308321-6a87-450f-8dbc-ce19751bbbaf
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/e9cb927a-aff9-4d2f-9697-27c63fc6d15f
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/e9cb927a-aff9-4d2f-9697-27c63fc6d15f
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/57eb23e5-409e-42dd-8f04-2d177ebfff19
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/57eb23e5-409e-42dd-8f04-2d177ebfff19
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/1d18bfd2-e258-4097-9843-87ba58a74a57
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/1d18bfd2-e258-4097-9843-87ba58a74a57
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/c55e6d7a-98cf-4de2-b544-f6a2c849e090
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/c55e6d7a-98cf-4de2-b544-f6a2c849e090
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/66f35a10-2f1b-4a05-88a0-76080eb0d743
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/66f35a10-2f1b-4a05-88a0-76080eb0d743
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/cffa9336-b702-4a05-8189-145c6a6a4231
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/cffa9336-b702-4a05-8189-145c6a6a4231
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/1c326531-cce8-4f69-b047-9a3cd5d5db63
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/1c326531-cce8-4f69-b047-9a3cd5d5db63
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/bbb64b17-cc9f-42c7-a88a-b197657f7c1b
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/bbb64b17-cc9f-42c7-a88a-b197657f7c1b
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/167c6872-2a66-431e-8ef0-3929eba7f2ba
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/167c6872-2a66-431e-8ef0-3929eba7f2ba
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/53f2bf07-042e-4268-860f-e3f4468bc3c2
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/53f2bf07-042e-4268-860f-e3f4468bc3c2
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/a5bc46be-d8d6-46d6-8651-22fb70f9075e
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/a5bc46be-d8d6-46d6-8651-22fb70f9075e
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/4a2cb56a-c916-45ec-b34f-268634dabb40
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/4a2cb56a-c916-45ec-b34f-268634dabb40
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/297c620d-4757-474c-bb69-e755d9993ac3
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/297c620d-4757-474c-bb69-e755d9993ac3
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/29171624-ced0-4a72-9ed4-bd57b1347fdc
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/29171624-ced0-4a72-9ed4-bd57b1347fdc
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/7b848237-bb7a-4d52-8684-c6dab3605ff1
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/7b848237-bb7a-4d52-8684-c6dab3605ff1
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/a238c1d2-57f5-4731-a4a7-eb7d79d4e47a
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/a238c1d2-57f5-4731-a4a7-eb7d79d4e47a
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/629102bb-0232-4a4d-bd3c-6c55de83f515
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/629102bb-0232-4a4d-bd3c-6c55de83f515
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/01673a16-28c6-4ffc-9c35-ddebd834e79e
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/01673a16-28c6-4ffc-9c35-ddebd834e79e
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/b2486c61-05ab-4874-9f6f-3734c342e972
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/b2486c61-05ab-4874-9f6f-3734c342e972
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/43cb91e2-f360-4b8e-9cfb-4e30b0cc8899
+
+== https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en -> HTTP 200, 299279 bytes
+    -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en#main-content
+   About Us -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Citizen Charter -> https://cea.nic.in/api/pdf/view/citizen_charter/_to_Director_Administration_CEA.pdf
+   Reports -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Daily Reports -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Monthly Reports -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Hydro -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Power Supply Position -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Power Supply Position - Peak -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Transmission Reports -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Quarterly Reports -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Annual Reports -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Resource Adequacy Study Reports -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Committee/Meetings -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Regional Power Committee(Transmission Planning) -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Standing Committee on Failure of Power Equipment -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Standing Committee on Failure of Transmission Line Tower -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Wings -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Economic & Commercial -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Grid Operation & Distribution -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Hydro -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Planning -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Power System -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Thermal -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Office of Principal Chief Engineer-I -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Office of Principal Chief Engineer-II -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Office of Secretary -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Important Links -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Vigilance -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Regulations -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+   Notices -> https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011&title=Power%20Supply%20Position%20-%20Peak&lang=en
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/ce864323-6dde-45d1-a03d-cb216852cc8d
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/ce864323-6dde-45d1-a03d-cb216852cc8d
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/2241de50-2323-4dc8-8a9e-a2035390ca2a
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/2241de50-2323-4dc8-8a9e-a2035390ca2a
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/43e96fe8-8e01-431a-8f6a-a3fda6ed50ad
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/43e96fe8-8e01-431a-8f6a-a3fda6ed50ad
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/edefdd80-d09f-4961-8025-c1723216e5f0
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/edefdd80-d09f-4961-8025-c1723216e5f0
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/ae90ae4e-8d04-4a52-9ba3-01d8f0a91a9f
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/ae90ae4e-8d04-4a52-9ba3-01d8f0a91a9f
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/ce1c28db-a693-44ba-b354-090766ef17d6
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/ce1c28db-a693-44ba-b354-090766ef17d6
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/05d43e13-8ce0-4875-ac37-8b12d773e205
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/05d43e13-8ce0-4875-ac37-8b12d773e205
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/39d4b67b-03f3-4223-96a4-888a1ae84a9d
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/39d4b67b-03f3-4223-96a4-888a1ae84a9d
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/ee4e78bf-0b8d-4751-bc30-8ad5107946e9
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/ee4e78bf-0b8d-4751-bc30-8ad5107946e9
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/e59c6a6b-7262-4d84-a2ae-304d7a20e655
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/e59c6a6b-7262-4d84-a2ae-304d7a20e655
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/1ea548ca-91f4-4936-870a-c87f732b96fa
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/1ea548ca-91f4-4936-870a-c87f732b96fa
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/327e2e59-991b-420c-ade9-82a52d26f9b3
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/327e2e59-991b-420c-ade9-82a52d26f9b3
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/ae97c542-b522-4c17-98f7-a4db05a2315a
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/ae97c542-b522-4c17-98f7-a4db05a2315a
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/9747bcc0-62fd-4a4c-b630-7d8736981f56
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/9747bcc0-62fd-4a4c-b630-7d8736981f56
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/87227788-6d41-4781-bd1a-d09c2772096f
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/87227788-6d41-4781-bd1a-d09c2772096f
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/fa601602-90b8-40a1-904b-0373d4f1267e
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/fa601602-90b8-40a1-904b-0373d4f1267e
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/cec7fd60-d73d-4d9b-99cd-70b9958d2184
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/cec7fd60-d73d-4d9b-99cd-70b9958d2184
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/adf838ea-8778-4110-b19a-4dca725e011c
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/adf838ea-8778-4110-b19a-4dca725e011c
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/e2408356-cb6e-405f-bbb2-4463e1690cf8
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/e2408356-cb6e-405f-bbb2-4463e1690cf8
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/edf3338c-4b48-4b44-92c5-19c20afd4210
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/edf3338c-4b48-4b44-92c5-19c20afd4210
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/12e32ae2-cae2-47f6-9281-0805cc73ba12
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/12e32ae2-cae2-47f6-9281-0805cc73ba12
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/b94b2102-48a1-4804-9d79-f535c5781c20
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/b94b2102-48a1-4804-9d79-f535c5781c20
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/f3236793-86b8-4217-9204-eba45aca517e
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/f3236793-86b8-4217-9204-eba45aca517e
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/644c8943-8a46-4d8b-95cd-976637334767
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/644c8943-8a46-4d8b-95cd-976637334767
+    -> https://cea.nic.in/api/dashboardReports/download-pdf/en/f56c6bdf-2fe9-4837-9a2c-5d96309db5cb
+    -> https://cea.nic.in/api/dashboardReports/view-pdf/en/f56c6bdf-2fe9-4837-9a2c-5d96309db5cb
