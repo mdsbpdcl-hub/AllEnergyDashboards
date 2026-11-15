@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T08:17:12.859Z",
+ "updated": "2026-11-15T08:19:52.861Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -174,7 +174,7 @@
   },
   {
    "name": "Power Market",
-   "url": "https://mdsbpdcl-hub.github.io/AllEnergyDashboards/power.html",
+   "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/power-market",
    "desc": "IEX prices & All-India / Bihar demand",
    "cat": "Priority"
   }
