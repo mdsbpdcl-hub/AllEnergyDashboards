@@ -105,8 +105,15 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 .og{text-decoration:none;background:var(--ogbg,#f0f2f5);border-color:var(--ogbd,#dfe3ee)}
 .og b{color:var(--ogc,#444)}
 .og:hover{filter:brightness(.97)}
-.og .og-s{display:none}
-@media (max-width:480px){.og .og-l,.og .og-d{display:none}.og .og-s{display:inline}.chiprow .wx{padding:3px 8px 3px 6px;gap:5px}}
+.og .og-s,.og .og-d{display:none}
+.og .spark{display:inline-block;vertical-align:middle;margin-left:2px}
+.og .tr{font-weight:700;font-size:11px}
+.wn{flex-basis:100%;display:block;text-decoration:none;border-radius:10px;padding:6px 10px;font-size:12px;line-height:1.4;background:#fff4e5;border:1px solid #f6d3a1;color:#7a3e00}
+.wn.red{background:#fdecec;border-color:#f4bcbc;color:#8f1d1d}
+.wn:hover{filter:brightness(.98)}
+.wn b{font-weight:700}
+.wn .wd{font-weight:700;text-transform:uppercase;font-size:10.5px;letter-spacing:.04em;margin-right:4px}
+@media (max-width:480px){.og .og-l,.og .og-d,.og .spark{display:none}.og .og-s{display:inline}.chiprow .wx{padding:3px 8px 3px 6px;gap:5px}}
 .aq .dot{width:9px;height:9px;border-radius:50%;background:var(--aqc,#888)}
 .aq b{color:var(--aqc,#444)}
 .badge{flex:0 0 auto;width:42px;height:44px;border-radius:10px;border:1.5px solid var(--gold);background:var(--gold-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
@@ -251,7 +258,7 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
           <div class="k-today" id="kSub"></div>
         </div>
         <div class="badge"><b id="tNum"></b><span id="tMon"></span></div>
-        <div class="chiprow"><div class="wx" id="wx" hidden></div><span class="chipbr"></span><div class="wx aq" id="aq" hidden></div><a class="wx og" id="og" hidden target="_blank" rel="noopener" href="https://sites.google.com/view/energy-department-analytics/dailymonitoring/outage"></a></div>
+        <div class="chiprow"><div class="wx" id="wx" hidden></div><span class="chipbr"></span><div class="wx aq" id="aq" hidden></div><a class="wx og" id="og" hidden target="_blank" rel="noopener" href="https://sites.google.com/view/energy-department-analytics/dailymonitoring/outage"></a><a class="wn" id="wn" hidden target="_blank" rel="noopener" href="https://sites.google.com/view/energy-department-analytics/dailymonitoring/weatherforecast"></a></div>
       </div>
 
       <div class="k-sec pmsg" id="pmsg" hidden>
@@ -901,10 +908,26 @@ window.renderOutage=function(O){
   const d=new Date(String(O.date).replace(/-/g,' ')), ds=isNaN(d)?O.date:d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
   box.innerHTML=''; const add=(tag,cls,t)=>{const e=document.createElement(tag); if(cls) e.className=cls; e.textContent=t; box.appendChild(e); return e;};
   add('span','ic','⚡'); add('b',null,hm(m)); add('span','og-l','outage / feeder'); add('span','og-s','/ feeder'); add('span','og-d','· '+ds);
+  const T=(O.trend||[]).filter(x=>x&&x.avg!=null);
+  let trendTxt='';
+  if(T.length>=3){
+    const vals=T.map(x=>x.avg), lo=Math.min(...vals), hi=Math.max(...vals), W=46, H=14;
+    const pts=vals.map((v,i)=>(i*(W-2)/(vals.length-1)+1).toFixed(1)+','+(hi===lo?H/2:(H-2)-(v-lo)/(hi-lo)*(H-4)).toFixed(1)).join(' ');
+    const last=pts.split(' ').pop().split(',');
+    const sv=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    sv.setAttribute('class','spark'); sv.setAttribute('width',W); sv.setAttribute('height',H); sv.setAttribute('viewBox','0 0 '+W+' '+H);
+    sv.innerHTML='<polyline points="'+pts+'" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" opacity=".75"/><circle cx="'+last[0]+'" cy="'+last[1]+'" r="2" fill="currentColor"/>';
+    sv.style.color=c[0];
+    box.insertBefore(sv, box.querySelector('.og-l'));
+    const avg7=vals.reduce((a,b)=>a+b,0)/vals.length, diff=m-avg7;
+    if(Math.abs(diff)>=0.5){ const t=add('span','tr',(diff<0?'▼':'▲')); t.style.color=diff<0?'#15803d':'#b91c1c'; box.insertBefore(t, box.querySelector('.og-l')); }
+    const f=d=>new Date(d+'T00:00:00Z').toLocaleDateString('en-IN',{timeZone:'UTC',day:'numeric',month:'short'});
+    trendTxt=' · 7-day average '+hm(avg7)+' · last 7 days: '+T.map(x=>f(x.d)+' '+Math.round(x.avg)+'m').join(', ');
+  }
   box.title='Bihar average outage per feeder on '+ds+(O.complete?'':' (one DISCOM only)')+
     (O.sbpdcl_min!=null?' · SBPDCL '+hm(O.sbpdcl_min):'')+(O.nbpdcl_min!=null?' · NBPDCL '+hm(O.nbpdcl_min):'')+
     (O.interruptions_per_feeder!=null?' · '+O.interruptions_per_feeder+' interruptions per feeder':'')+
-    (O.over4h!=null?' · '+O.over4h+' feeders out over 4 hours':'');
+    (O.over4h!=null?' · '+O.over4h+' feeders out over 4 hours':'')+trendTxt;
   box.hidden=false;
 };
 window.renderPmsg=function(P){
@@ -938,6 +961,66 @@ window.renderPmsg=function(P){
   document.getElementById('pmsgWhen').textContent=when?'· '+new Date(when+'T00:00:00Z').toLocaleDateString('en-IN',{timeZone:'UTC',day:'numeric',month:'short'}):'';
   box.hidden=false;
 };
+</script>
+<script>
+/* =====================================================================
+   WEATHER WARNINGS — today & tomorrow for all 38 districts (Open-Meteo forecast).
+   Shown only when a district crosses a threshold below.
+   ===================================================================== */
+(function(){
+  const box=document.getElementById('wn'); if(!box) return;
+  const D=[['Patna',25.59,85.14],['Gaya',24.79,85.00],['Nalanda',25.20,85.52],['Bhojpur',25.56,84.66],['Rohtas',24.95,84.03],['Kaimur',25.04,83.61],
+    ['Buxar',25.56,83.98],['Aurangabad',24.75,84.37],['Jehanabad',25.21,84.99],['Arwal',25.25,84.68],['Nawada',24.89,85.54],['Sheikhpura',25.14,85.85],
+    ['Lakhisarai',25.17,86.09],['Jamui',24.92,86.22],['Munger',25.37,86.47],['Bhagalpur',25.25,87.01],['Banka',24.89,86.92],['Begusarai',25.42,86.13],
+    ['Khagaria',25.50,86.48],['Muzaffarpur',26.12,85.39],['Vaishali',25.69,85.21],['Saran',25.78,84.73],['Siwan',26.22,84.36],['Gopalganj',26.47,84.44],
+    ['East Champaran',26.65,84.92],['West Champaran',26.80,84.50],['Sitamarhi',26.59,85.49],['Sheohar',26.51,85.29],['Madhubani',26.35,86.07],
+    ['Darbhanga',26.15,85.90],['Samastipur',25.86,85.78],['Saharsa',25.88,86.60],['Supaul',26.12,86.60],['Madhepura',25.92,86.79],['Purnea',25.78,87.47],
+    ['Araria',26.15,87.52],['Kishanganj',26.10,87.95],['Katihar',25.54,87.58]];
+  // [key, icon, label, test(day), severe(day)]
+  const RULES=[
+    ['ts','⛈️','Thunderstorm',d=>[95,96,99].includes(d.code),d=>d.code>=96],
+    ['rain','🌧️','Heavy rain',d=>d.rain>=64.5,d=>d.rain>=115.6],
+    ['heat','🔥','Heatwave',d=>d.tmax>=40,d=>d.tmax>=45],
+    ['cold','🥶','Cold wave',d=>d.tmin<=6,d=>d.tmin<=4],
+    ['wind','💨','Strong wind',d=>d.gust>=60,d=>d.gust>=80]];
+  const KEY='wn1', FRESH=3*3600*1000;
+  function show(W){
+    if(!W||!W.days) return;
+    const parts=[], full=[]; let severe=false;
+    W.days.forEach((day,di)=>{
+      const label=di===0?'Today':'Tomorrow';
+      const bits=[];
+      RULES.forEach(([k,ic,name,test,sev])=>{
+        const hit=day.d.filter(x=>test(x)); if(!hit.length) return;
+        if(hit.some(sev)) severe=true;
+        const names=hit.map(x=>x.n);
+        bits.push(`${ic} <b>${name}</b> ${names.slice(0,3).join(', ')}${names.length>3?' +'+(names.length-3):''}`);
+        full.push(`${label}: ${name} — ${names.join(', ')}`);
+      });
+      if(bits.length) parts.push(`<span class="wd">${label}</span>${bits.join(' · ')}`);
+    });
+    if(!parts.length){ box.hidden=true; return; }
+    box.className='wn'+(severe?' red':'');
+    box.innerHTML='⚠️ '+parts.join('<br>');
+    box.title=full.join('\n')+'\n\nModel forecast (Open-Meteo), not an IMD warning. Click for the Weather Prediction dashboard.';
+    box.hidden=false;
+  }
+  function load(){
+    const u='https://api.open-meteo.com/v1/forecast?latitude='+D.map(x=>x[1]).join(',')+'&longitude='+D.map(x=>x[2]).join(',')+
+      '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max&forecast_days=2&timezone=Asia%2FKolkata';
+    fetch(u).then(r=>r.ok?r.json():Promise.reject(r.status)).then(j=>{
+      const arr=Array.isArray(j)?j:[j];
+      const days=[0,1].map(i=>({d:arr.map((loc,k)=>{const y=loc.daily||{}; return {n:D[k][0],code:(y.weather_code||[])[i],tmax:(y.temperature_2m_max||[])[i],
+        tmin:(y.temperature_2m_min||[])[i],rain:(y.precipitation_sum||[])[i]||0,gust:(y.wind_gusts_10m_max||[])[i]||0};})}));
+      const W={days,at:Date.now()}; show(W); try{localStorage.setItem(KEY,JSON.stringify(W))}catch(e){}
+    }).catch(()=>{});
+  }
+  let saved=null; try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+  const sameDay=saved&&new Date(saved.at+19800000).toISOString().slice(0,10)===new Date(Date.now()+19800000).toISOString().slice(0,10);
+  if(saved&&sameDay) show(saved);
+  if(!saved||!sameDay||Date.now()-saved.at>FRESH) load();
+  setInterval(load, FRESH);
+})();
 </script>
 <script>
 /* Offline cache: after the first visit the page opens from this computer's cache */
