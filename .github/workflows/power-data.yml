@@ -1,0 +1,49 @@
+name: Power market data
+
+# Collects IEX prices and Grid-India demand figures into data/power.json.
+# Times are in UTC: 04:05 = 9:35 am IST, 06:35 = 12:05 pm IST, 08:35 = 2:05 pm IST.
+# (Grid-India's report for the previous day usually appears in the morning;
+#  IEX's day-ahead prices for tomorrow appear around 1 pm.)
+on:
+  schedule:
+    - cron: "5 4 * * *"
+    - cron: "35 6 * * *"
+    - cron: "35 8 * * *"
+  workflow_dispatch: {}   # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: power-data
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install requests beautifulsoup4 pandas xlrd openpyxl
+
+      - name: Collect
+        run: python scripts/power_collect.py
+
+      - name: Save if changed
+        run: |
+          if git diff --quiet -- data/power.json && git ls-files --error-unmatch data/power.json >/dev/null 2>&1; then
+            echo "No change."
+            exit 0
+          fi
+          git config user.name  "power-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/power.json
+          git commit -m "Update power market data"
+          git pull --rebase --autostash || true
+          git push
