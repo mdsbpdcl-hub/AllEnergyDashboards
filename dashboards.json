@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T09:54:51.123Z",
+ "updated": "2026-11-15T10:35:51.046Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -178,5 +178,30 @@
    "desc": "IEX prices & All-India / Bihar demand",
    "cat": "Priority"
   }
- ]
+ ],
+ "pmsg": {
+  "regular": {
+   "target": 500000,
+   "applications": 198832,
+   "installed": 38956,
+   "capacity_kw": 139531.3,
+   "last7": 949,
+   "last30": 4026,
+   "subsidy_apps": 30201,
+   "subsidy_lakh": 23377.19,
+   "asOf": "2026-11-15T04:39:48.543Z"
+  },
+  "ula": {
+   "target": 250000,
+   "structures": 153735,
+   "panels": 122047,
+   "inverters": 71754,
+   "portal": 36978,
+   "accepted": 21995,
+   "inspected": 19900,
+   "subsidy_redeemed": 18430,
+   "subsidy_disbursed": 10167,
+   "asOf": "2026-11-15"
+  }
+ }
 }
