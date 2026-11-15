@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Power Market · Energy Analytics</title>
+<meta name="theme-color" content="#6d4fe0">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+:root{
+  --ink:#1f2c4d; --muted:#5b6988; --faint:#9aa3b1; --line:#e6e9ee; --line2:#eef0f3; --page:#fbfaff;
+  --dam:#1f7fd6; --rtm:#e0701f; --tmr:#6d4fe0; --tdy:#0f95a3; --grid:#149a68; --bihar:#d93b74;
+  --body:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,"Nirmala UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{background:var(--page)}
+body{margin:0;font-family:var(--body);color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased;
+  background:radial-gradient(60rem 30rem at 0% 0%,#e6f1ff 0%,rgba(230,241,255,0) 70%),radial-gradient(50rem 28rem at 100% 10%,#ffeef3 0%,rgba(255,238,243,0) 70%),var(--page);background-repeat:no-repeat}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 24px 28px}
+a{color:inherit}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px 20px;flex-wrap:wrap;margin-bottom:16px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 4px}
+h1{margin:0;font-size:34px;line-height:1.05;letter-spacing:-.02em;font-weight:700}
+.sub{margin:6px 0 0;color:var(--muted);font-size:14px}
+.back{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:99px;background:#fff;border:1.5px solid #dfe3ee;text-decoration:none;font-weight:600;font-size:13.5px}
+.back:hover{border-color:#6d4fe0;color:#6d4fe0}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px;box-shadow:0 1px 2px rgba(31,44,77,.05);border-top:3px solid var(--c,#ccc)}
+.kpi .l{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.kpi .v{font-size:26px;font-weight:700;letter-spacing:-.01em;margin-top:2px;font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:13px;font-weight:600;color:var(--muted);margin-left:3px}
+.kpi .s{font-size:12.5px;color:var(--muted);margin-top:1px}
+.kpi .d{font-size:12px;font-weight:600}
+.d{color:var(--muted)} .up{color:#b42318}.down{color:#15803d}
+
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px 10px;box-shadow:0 1px 2px rgba(31,44,77,.05);min-width:0}
+.card h2{margin:0;font-size:15.5px;font-weight:700}
+.card .h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.card .note{font-size:12px;color:var(--muted)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin:2px 0 4px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:14px;height:3px;border-radius:2px;background:var(--c)}
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .ax{font-size:11px;fill:var(--faint)}
+.chart .gl{stroke:var(--line2)}
+.tip{position:absolute;pointer-events:none;background:#1f2c4d;color:#fff;font-size:12px;line-height:1.4;padding:6px 9px;border-radius:9px;white-space:nowrap;transform:translate(-50%,-110%);box-shadow:0 8px 20px -10px rgba(0,0,0,.5)}
+.tip b{font-weight:700}
+.empty{padding:40px 10px;text-align:center;color:var(--muted);font-size:14px}
+footer{margin-top:16px;font-size:12.5px;color:var(--muted)}
+footer p{margin:3px 0}
+@media (max-width:820px){ .grid2{grid-template-columns:minmax(0,1fr)} h1{font-size:28px} .wrap{padding:16px 12px 24px} .kpi .v{font-size:22px} }
+@media (max-width:420px){ .kpis{grid-template-columns:repeat(2,minmax(0,1fr))} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <p class="eyebrow">Energy Department · Government of Bihar</p>
+      <h1>Power Market</h1>
+      <p class="sub" id="sub">IEX exchange prices and Grid-India demand, collected daily</p>
+    </div>
+    <a class="back" href="./" target="_self">← All dashboards</a>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="h"><h2>IEX price by time of day</h2><span class="note">₹ per unit, 15-minute blocks</span></div>
+      <div class="legend" id="lg1"></div>
+      <div class="chart" id="c1"></div>
+    </div>
+    <div class="card">
+      <div class="h"><h2>IEX daily average price</h2><span class="note">₹ per unit, last 30 days</span></div>
+      <div class="legend" id="lg2"></div>
+      <div class="chart" id="c2"></div>
+    </div>
+    <div class="card">
+      <div class="h"><h2>All-India peak demand met</h2><span class="note">GW, last 30 days</span></div>
+      <div class="legend" id="lg3"></div>
+      <div class="chart" id="c3"></div>
+    </div>
+    <div class="card">
+      <div class="h"><h2>Bihar peak demand met</h2><span class="note">MW, last 30 days</span></div>
+      <div class="legend" id="lg4"></div>
+      <div class="chart" id="c4"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p id="upd"></p>
+    <p>Sources: IEX market snapshot (Day-Ahead and Real-Time Markets, market clearing price) and Grid-India daily Power Supply Position report. ₹/unit = MCP in ₹/MWh ÷ 1000. Peak demand is the maximum demand met during the day.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const IST=19800000, DAY=864e5;
+const istKey=t=>new Date(t+IST).toISOString().slice(0,10);
+const todayKey=()=>istKey(Date.now());
+const addDays=(k,n)=>new Date(Date.parse(k+'T00:00:00Z')+n*DAY).toISOString().slice(0,10);
+const fmtD=k=>new Date(k+'T00:00:00Z').toLocaleDateString('en-IN',{timeZone:'UTC',day:'numeric',month:'short'});
+const fmtDW=k=>new Date(k+'T00:00:00Z').toLocaleDateString('en-IN',{timeZone:'UTC',weekday:'short',day:'numeric',month:'short'});
+const n0=v=>v==null?'–':Math.round(v).toLocaleString('en-IN');
+const rs=v=>v==null?'–':(v/1000).toFixed(2);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- tiny SVG line/bar chart ---------- */
+function chart(el, opt){
+  const W=Math.round(Math.max(300,Math.min(680,el.clientWidth||560))),H=W<460?200:230,L=46,R=10,T=10,B=28;
+  const xs=opt.labels, n=xs.length;
+  if(!n || !opt.series.some(s=>s.values.some(v=>v!=null))){ el.innerHTML='<div class="empty">No figures yet</div>'; return; }
+  const all=opt.series.flatMap(s=>s.values.filter(v=>v!=null));
+  let lo=opt.zero?0:Math.min(...all), hi=Math.max(...all);
+  if(lo===hi){ lo-=1; hi+=1; }
+  const pad=(hi-lo)*.08; if(!opt.zero) lo-=pad; hi+=pad;
+  const step=niceStep((hi-lo)/4); lo=Math.floor(lo/step)*step; hi=Math.ceil(hi/step)*step;
+  const X=i=>L+(n===1?(W-L-R)/2:i*(W-L-R)/(n-1)), Y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo));
+  const bw=Math.max(2,(W-L-R)/n*.62), Xb=i=>L+(i+.5)*(W-L-R)/n;
+  let g='';
+  for(let v=lo; v<=hi+1e-9; v+=step){ const y=Y(v); g+=`<line class="gl" x1="${L}" x2="${W-R}" y1="${y}" y2="${y}"/><text class="ax" x="${L-6}" y="${y+3.5}" text-anchor="end">${opt.fy?opt.fy(v):v}</text>`; }
+  const every=Math.max(1,Math.ceil(n/(W<460?4:(opt.maxTicks||7))));
+  xs.forEach((x,i)=>{ if(i%every===0||i===n-1&&n<12){ const xx=opt.bars?Xb(i):X(i); g+=`<text class="ax" x="${xx}" y="${H-8}" text-anchor="middle">${esc(opt.fx?opt.fx(x,i):x)}</text>`; } });
+  let p='';
+  opt.series.forEach(s=>{
+    if(opt.bars){ s.values.forEach((v,i)=>{ if(v==null) return; const y=Y(v); p+=`<rect x="${Xb(i)-bw/2}" y="${y}" width="${bw}" height="${Y(lo)-y}" rx="2" fill="${s.color}" opacity=".85"/>`; }); return; }
+    let d='', pen=false;
+    s.values.forEach((v,i)=>{ if(v==null){pen=false;return;} d+=(pen?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1); pen=true; });
+    p+=`<path d="${d}" fill="none" stroke="${s.color}" stroke-width="${s.w||2}" stroke-linejoin="round" stroke-linecap="round"${s.dash?' stroke-dasharray="5 4"':''}/>`;
+    if(n<=40) s.values.forEach((v,i)=>{ if(v!=null) p+=`<circle cx="${X(i)}" cy="${Y(v)}" r="2.4" fill="${s.color}"/>`; });
+  });
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opt.aria||'chart')}">${g}${p}<line class="hl" x1="0" x2="0" y1="${T}" y2="${H-B}" stroke="#9aa3b1" stroke-dasharray="3 3" visibility="hidden"/></svg><div class="tip" hidden></div>`;
+  const svg=el.querySelector('svg'), tip=el.querySelector('.tip'), hl=el.querySelector('.hl');
+  const move=e=>{
+    const r=svg.getBoundingClientRect(), x=(e.clientX-r.left)*W/r.width;
+    let i=opt.bars?Math.floor((x-L)/((W-L-R)/n)):Math.round((x-L)/((W-L-R)/(Math.max(1,n-1))));
+    i=Math.max(0,Math.min(n-1,i));
+    const xx=opt.bars?Xb(i):X(i);
+    hl.setAttribute('x1',xx); hl.setAttribute('x2',xx); hl.setAttribute('visibility','visible');
+    const rows=opt.series.map(s=>s.values[i]==null?'':`<div><span style="color:${s.color}">●</span> ${esc(s.name)}: <b>${opt.ft?opt.ft(s.values[i],s,i):s.values[i]}</b></div>`).join('');
+    tip.innerHTML=`<div>${esc(opt.tx?opt.tx(xs[i],i):xs[i])}</div>${rows}${opt.extra?opt.extra(i):''}`;
+    tip.hidden=false; tip.style.left=(xx/W*r.width)+'px'; tip.style.top=(T/H*r.height+8)+'px';
+  };
+  svg.addEventListener('pointermove',move); svg.addEventListener('pointerdown',move);
+  svg.addEventListener('pointerleave',()=>{tip.hidden=true;hl.setAttribute('visibility','hidden')});
+}
+function niceStep(raw){ const p=Math.pow(10,Math.floor(Math.log10(raw||1))); const f=raw/p; return (f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p; }
+const legend=(id,items)=>{$(id).innerHTML=items.map(([n,c])=>`<span style="--c:${c}"><i></i>${esc(n)}</span>`).join('')};
+
+/* ---------- render ---------- */
+function kpi(label,value,unit,sub,color,delta){
+  return `<div class="kpi" style="--c:${color}"><div class="l">${esc(label)}</div><div class="v">${value}<small>${unit}</small></div>`+
+    `<div class="s">${sub}</div>${delta||''}</div>`;
+}
+function delta(cur,prev,unit,dec,neutral){ if(cur==null||prev==null) return ''; const d=cur-prev; if(Math.abs(d)<1e-9) return '<div class="d">no change</div>';
+  return `<div class="d ${neutral?'':d>0?'up':'down'}">${d>0?'▲':'▼'} ${Math.abs(d).toFixed(dec)} ${unit} vs previous day</div>`; }
+
+function render(J){
+  const dam=J.iex&&J.iex.dam||{}, rtm=J.iex&&J.iex.rtm||{}, B=J.iex_blocks||{dam:{},rtm:{}}, G=J.grid||{};
+  const T=todayKey(), Y=addDays(T,-1), TM=addDays(T,1);
+  const last=(o,before)=>Object.keys(o).filter(k=>!before||k<=before).sort().pop();
+  const prevOf=(o,k)=>Object.keys(o).filter(x=>x<k).sort().pop();
+
+  // KPIs
+  let h='';
+  const dTm=dam[TM]?TM:null, dY=last(dam,Y), rY=last(rtm,Y), gK=last(G);
+  if(dTm) h+=kpi('IEX DAM · tomorrow',rs(dam[TM].avg),'₹/unit',`${fmtDW(TM)} · range ₹${rs(dam[TM].min)}–${rs(dam[TM].max)}`,'var(--tmr)',delta(dam[TM].avg/1000,dam[T]&&dam[T].avg/1000,'₹',2));
+  if(dam[T]) h+=kpi('IEX DAM · today',rs(dam[T].avg),'₹/unit',`${fmtDW(T)} · range ₹${rs(dam[T].min)}–${rs(dam[T].max)}`,'var(--tdy)',delta(dam[T].avg/1000,dY&&dam[dY].avg/1000,'₹',2));
+  if(dY&&dY!==T) h+=kpi('IEX DAM · '+(dY===Y?'yesterday':fmtD(dY)),rs(dam[dY].avg),'₹/unit',`range ₹${rs(dam[dY].min)}–${rs(dam[dY].max)} · ${n0((dam[dY].vol_mwh||0)/1000)} MU traded`,'var(--dam)');
+  if(rY) h+=kpi('IEX RTM · '+(rY===Y?'yesterday':fmtD(rY)),rs(rtm[rY].avg),'₹/unit',`range ₹${rs(rtm[rY].min)}–${rs(rtm[rY].max)}`,'var(--rtm)',delta(rtm[rY].avg/1000,prevOf(rtm,rY)&&rtm[prevOf(rtm,rY)].avg/1000,'₹',2));
+  if(gK){ const g=G[gK], gp=G[prevOf(G,gK)]||{};
+    h+=kpi('All-India peak · '+fmtD(gK),g.all_peak_mw!=null?(g.all_peak_mw/1000).toFixed(1):'–','GW',`${g.all_peak_time?'at '+esc(g.all_peak_time)+' · ':''}energy ${n0(g.all_energy_mu)} MU${g.all_peak_shortage_mw?' · shortage '+n0(g.all_peak_shortage_mw)+' MW':''}`,'var(--grid)',delta(g.all_peak_mw!=null?g.all_peak_mw/1000:null,gp.all_peak_mw!=null?gp.all_peak_mw/1000:null,'GW',1,true));
+    h+=kpi('Bihar peak · '+fmtD(gK),n0(g.bihar_peak_mw),'MW',`energy ${g.bihar_energy_mu!=null?g.bihar_energy_mu.toFixed(1):'–'} MU${g.bihar_peak_shortage_mw?' · shortage '+n0(g.bihar_peak_shortage_mw)+' MW':''}`,'var(--bihar)',delta(g.bihar_peak_mw,gp.bihar_peak_mw,'MW',0,true));
+  }
+  $('kpis').innerHTML=h||'<div class="empty" style="grid-column:1/-1">Waiting for the first data collection. It runs every morning and afternoon.</div>';
+
+  // Chart 1: by time of day
+  const blocks=[...Array(96)].map((_,i)=>{const m=i*15; return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');});
+  const ser1=[]; const lg1=[];
+  const addB=(k,o,name,color,dash)=>{ const v=o&&o[k]; if(v&&v.length){ ser1.push({name,color,dash,values:blocks.map((_,i)=>v[i]!=null?v[i]/1000:null)}); lg1.push([name,color]); } };
+  addB(TM,B.dam,'DAM tomorrow','#6d4fe0');
+  addB(T,B.dam,'DAM today','#0f95a3');
+  addB(Y,B.dam,'DAM yesterday','#1f7fd6',true);
+  addB(Y,B.rtm,'RTM yesterday','#e0701f');
+  if(!B.rtm[Y]) addB(T,B.rtm,'RTM today (so far)','#e0701f');
+  legend('lg1',lg1);
+  chart($('c1'),{labels:blocks,series:ser1,maxTicks:8,fx:x=>x,fy:v=>'₹'+v,ft:v=>'₹'+v.toFixed(2),aria:'IEX price by 15-minute block'});
+
+  // Chart 2: daily averages (30 days)
+  const days=[...Array(30)].map((_,i)=>addDays(T,i-29)); if(dam[TM]) days.push(TM);
+  chart($('c2'),{labels:days,series:[
+      {name:'DAM',color:'#1f7fd6',values:days.map(k=>dam[k]?dam[k].avg/1000:null)},
+      {name:'RTM',color:'#e0701f',values:days.map(k=>rtm[k]?rtm[k].avg/1000:null)}],
+    fx:k=>fmtD(k),tx:k=>fmtDW(k),fy:v=>'₹'+v,ft:v=>'₹'+v.toFixed(2),aria:'IEX daily average price'});
+  legend('lg2',[['DAM (day-ahead)','#1f7fd6'],['RTM (real-time)','#e0701f']]);
+
+  // Chart 3: All-India peak
+  const gd=[...Array(30)].map((_,i)=>addDays(T,i-30));
+  chart($('c3'),{labels:gd,bars:true,zero:false,series:[{name:'Peak met',color:'#149a68',values:gd.map(k=>G[k]&&G[k].all_peak_mw!=null?G[k].all_peak_mw/1000:null)}],
+    fx:k=>fmtD(k),tx:k=>fmtDW(k),fy:v=>v,ft:v=>v.toFixed(1)+' GW',
+    extra:i=>{const g=G[gd[i]]; return g?`<div>Energy met: <b>${n0(g.all_energy_mu)} MU</b>${g.all_peak_time?' · peak at '+esc(g.all_peak_time):''}</div>`:''},aria:'All-India peak demand met'});
+  legend('lg3',[['Maximum demand met','#149a68']]);
+
+  // Chart 4: Bihar
+  chart($('c4'),{labels:gd,bars:true,zero:false,series:[{name:'Bihar peak met',color:'#d93b74',values:gd.map(k=>G[k]&&G[k].bihar_peak_mw!=null?G[k].bihar_peak_mw:null)}],
+    fx:k=>fmtD(k),tx:k=>fmtDW(k),fy:v=>v.toLocaleString('en-IN'),ft:v=>n0(v)+' MW',
+    extra:i=>{const g=G[gd[i]]; return g&&g.bihar_energy_mu!=null?`<div>Energy met: <b>${g.bihar_energy_mu.toFixed(1)} MU</b></div>`:''},aria:'Bihar peak demand met'});
+  legend('lg4',[['Bihar maximum demand met','#d93b74']]);
+
+  $('upd').textContent=J.updated?'Figures collected '+new Date(J.updated).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})+'.':'';
+}
+
+let shown='';
+const show=j=>{ const s=JSON.stringify(j); if(s!==shown){ shown=s; render(j); } };
+const get=u=>fetch(u,{cache:'no-cache'}).then(r=>r.ok?r.json():Promise.reject(r.status));
+get('data/power.json').then(show).catch(()=>show({}))
+  .then(()=>{ if(navigator.serviceWorker&&navigator.serviceWorker.controller) return get('data/power.json?fresh='+Date.now()).then(show); })
+  .catch(()=>{});
+let rz; window.addEventListener('resize',()=>{ clearTimeout(rz); rz=setTimeout(()=>{ if(shown) render(JSON.parse(shown)); },150); });
+if('serviceWorker' in navigator){ window.addEventListener('load',()=>{ try{navigator.serviceWorker.register('sw.js').catch(()=>{});}catch(e){} }); }
+})();
+</script>
+</body>
+</html>

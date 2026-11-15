@@ -113,6 +113,17 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 .k-h h3{margin:0;font-size:13px;font-weight:700;color:#1f3b63}
 .k-h small{font-weight:500;color:var(--muted);font-size:11.5px}
 
+/* power market card */
+.pm{display:block;text-decoration:none;color:inherit;transition:background .15s}
+.pm:hover{background:#faf8ff}
+.pm-go{font-size:12px;font-weight:700;color:#6d4fe0}
+.pm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.pm-it{border-radius:10px;padding:6px 9px;background:var(--b);border-left:3px solid var(--c)}
+.pm-it .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--c)}
+.pm-it .v{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
+.pm-it .v small{font-size:11px;font-weight:600;color:var(--muted);margin-left:2px}
+.pm-it .s{font-size:11px;color:var(--muted)}
+
 /* filter chips */
 .chips{display:flex;gap:5px;flex-wrap:wrap}
 .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 9px 3px 7px;font-size:11.5px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
@@ -223,6 +234,11 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
         </div>
         <div class="badge"><b id="tNum"></b><span id="tMon"></span></div>
       </div>
+
+      <a class="k-sec pm" id="pm" href="power.html" hidden>
+        <div class="k-h"><h3>Power market <small id="pmWhen"></small></h3><span class="pm-go">Open ›</span></div>
+        <div class="pm-grid" id="pmGrid"></div>
+      </a>
 
       <div class="k-sec">
         <div class="k-h">
@@ -805,6 +821,40 @@ const WEATHER_PLACE = { name: 'Patna', lat: 25.5941, lon: 85.1376 };
   if(!saved||Date.now()-saved.at>FRESH) load();
   setInterval(load, FRESH);
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ let s=null; try{s=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){} if(!s||Date.now()-s.at>FRESH) load(); } });
+})();
+</script>
+<script>
+/* =====================================================================
+   POWER MARKET card — reads data/power.json (filled daily by the GitHub job)
+   ===================================================================== */
+(function(){
+  const box=document.getElementById('pm'); if(!box) return;
+  const IST=19800000, DAY=864e5;
+  const key=t=>new Date(t+IST).toISOString().slice(0,10);
+  const T=key(Date.now()), Y=key(Date.now()-DAY), TM=key(Date.now()+DAY);
+  const fd=k=>new Date(k+'T00:00:00Z').toLocaleDateString('en-IN',{timeZone:'UTC',day:'numeric',month:'short'});
+  const last=(o,max)=>Object.keys(o||{}).filter(k=>!max||k<=max).sort().pop();
+  const item=(l,v,u,sub,c,b)=>`<div class="pm-it" style="--c:${c};--b:${b}"><div class="l">${l}</div><div class="v">${v}<small>${u}</small></div><div class="s">${sub}</div></div>`;
+  let shown='';
+  function show(J){
+    const s=JSON.stringify(J); if(s===shown) return; shown=s;
+    const dam=(J.iex||{}).dam||{}, rtm=(J.iex||{}).rtm||{}, G=J.grid||{};
+    let h='';
+    const dk=dam[TM]?TM:dam[T]?T:last(dam,T);
+    if(dk) h+=item('IEX DAM',(dam[dk].avg/1000).toFixed(2),'₹/unit',dk===TM?'tomorrow':dk===T?'today':fd(dk),'#1f7fd6','#eef5fd');
+    const rk=last(rtm,Y);
+    if(rk) h+=item('IEX RTM',(rtm[rk].avg/1000).toFixed(2),'₹/unit',rk===Y?'yesterday':fd(rk),'#c2570f','#fff3ea');
+    const gk=last(G);
+    if(gk&&G[gk].all_peak_mw!=null) h+=item('India peak',(G[gk].all_peak_mw/1000).toFixed(1),'GW',fd(gk)+(G[gk].all_peak_time?' · '+G[gk].all_peak_time:''),'#0f7a52','#e9f7f0');
+    if(gk&&G[gk].bihar_peak_mw!=null) h+=item('Bihar peak',Math.round(G[gk].bihar_peak_mw).toLocaleString('en-IN'),'MW',fd(gk)+(G[gk].bihar_energy_mu!=null?' · '+G[gk].bihar_energy_mu.toFixed(1)+' MU':''),'#b8285c','#fdeef3');
+    if(!h) return;
+    document.getElementById('pmGrid').innerHTML=h;
+    box.hidden=false;
+  }
+  const get=u=>fetch(u,{cache:'no-cache'}).then(r=>r.ok?r.json():Promise.reject(r.status));
+  get('data/power.json').then(show).catch(()=>{})
+    .then(()=>{ if(navigator.serviceWorker&&navigator.serviceWorker.controller) return get('data/power.json?fresh='+Date.now()).then(show); })
+    .catch(()=>{});
 })();
 </script>
 <script>
