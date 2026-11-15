@@ -13,7 +13,7 @@ Writes data/power.json (keeps ~120 days of daily figures, 15-minute prices for t
 Each source is independent: if one website changes or is down, the other still updates and
 the old figures are kept. A short report of what was read is printed to the job log.
 """
-import io, json, re, sys, datetime as dt
+import io, json, re, sys, time, datetime as dt
 from pathlib import Path
 
 import requests
@@ -141,9 +141,18 @@ def psp_files(today):
     years = {fy_of(today), fy_of(today - dt.timedelta(days=10))}
     files = []
     for fy in years:
-        r = S.post(GI_LIST, json={"_source": "GRDW", "_type": "DAILY_PSP_REPORT", "_fileDate": fy, "_month": "00"},
-                   headers={"Origin": "https://grid-india.in", "Referer": "https://grid-india.in/"}, timeout=60)
-        r.raise_for_status()
+        r = None
+        for attempt in range(3):
+            try:
+                r = S.post(GI_LIST, json={"_source": "GRDW", "_type": "DAILY_PSP_REPORT", "_fileDate": fy, "_month": "00"},
+                           headers={"Origin": "https://grid-india.in", "Referer": "https://grid-india.in/",
+                                    "Accept": "application/json, text/plain, */*"}, timeout=40)
+                r.raise_for_status()
+                break
+            except Exception:
+                if attempt == 2:
+                    raise
+                time.sleep(5 * (attempt + 1))
         for f in r.json().get("retData") or []:
             if "excel" not in (f.get("MimeType") or "") and not str(f.get("FilePath", "")).lower().endswith((".xls", ".xlsx")):
                 continue
@@ -157,6 +166,32 @@ def psp_files(today):
         if rep not in best or fid > best[rep][0]:
             best[rep] = (fid, url)
     return sorted(((d, u) for d, (_, u) in best.items()), reverse=True)
+
+
+LEGACY = "https://report.grid-india.in/ReportData/Daily%20Report/PSP%20Report/{fy}/{mon}%20{yyyy}/{dd}.{mm}.{yy}_NLDC_PSP{new}.{ext}"
+
+
+def legacy_candidates(today):
+    """Older fixed-pattern addresses for the last few reports (tried when the list service is refused)."""
+    out = []
+    for back in range(1, 5):
+        d = today - dt.timedelta(days=back)
+        urls = [LEGACY.format(fy=fy_of(d), mon=d.strftime("%B"), yyyy=d.year, dd=f"{d.day:02d}", mm=f"{d.month:02d}",
+                              yy=f"{d.year % 100:02d}", new=new, ext=ext)
+                for new in ("NEW", "") for ext in ("xls", "xlsx")]
+        out.append((d, urls))
+    return out
+
+
+def probe():
+    """Logs which Grid-India addresses answer from this server (helps choose a route)."""
+    for u in ("https://grid-india.in/", "https://webapi.grid-india.in/api/v1/last-update-date",
+              "https://webcdn.grid-india.in/files/grdw/misc/menu_en.json", "https://report.grid-india.in/"):
+        try:
+            r = S.get(u, timeout=25)
+            log(f"  probe {u} -> HTTP {r.status_code}, {len(r.content)} bytes")
+        except Exception as e:
+            log(f"  probe {u} -> {type(e).__name__}: {str(e)[:120]}")
 
 
 def norm(x):
@@ -240,12 +275,47 @@ def parse_psp(content):
     return {k: (round(v, 2) if isinstance(v, float) else v) for k, v in res.items() if v is not None}
 
 
+def psp_debug(content, url):
+    """Writes data/psp-debug.txt: sheet names and the first rows of each sheet (public report data)."""
+    try:
+        import pandas as pd
+        engine = "xlrd" if content[:4] == b"\xd0\xcf\x11\xe0" else None
+        sheets = pd.read_excel(io.BytesIO(content), sheet_name=None, header=None, engine=engine)
+        lines = [f"Source: {url}", f"Sheets: {list(sheets)}"]
+        for name, df in sheets.items():
+            lines.append(f"\n===== {name}  ({df.shape[0]} rows x {df.shape[1]} cols)")
+            for i, r in enumerate(df.itertuples(index=False)):
+                cells = [norm(v)[:40] for v in r]
+                if any(c and c.lower() != "nan" for c in cells):
+                    lines.append(f"{i:>3}: " + " | ".join("" if c.lower() == "nan" else c for c in cells))
+                if i > 140:
+                    lines.append("...")
+                    break
+        (OUT.parent / "psp-debug.txt").write_text("\n".join(lines), encoding="utf-8")
+    except Exception as e:
+        (OUT.parent / "psp-debug.txt").write_text(f"Could not read {url}: {e!r}", encoding="utf-8")
+
+
 def collect_grid(data, today):
     try:
         files = psp_files(today)
+        log(f"Grid-India report list: {len(files)} Excel reports found, newest {files[0][0] if files else 'none'}")
     except Exception as e:
-        log(f"Grid-India report list: FAILED — {e}")
-        return
+        log(f"Grid-India report list: FAILED — {e!r}")
+        probe()
+        files = []
+        for d, urls in legacy_candidates(today):   # fall back to the older fixed addresses
+            for u in urls:
+                try:
+                    r = S.get(u, timeout=40)
+                    if r.ok and len(r.content) > 20000 and r.content[:2] in (b"\xd0\xcf", b"PK"):
+                        files.append((d, u)); log(f"  older address works for {d}: {u}")
+                        break
+                except Exception:
+                    pass
+        if not files:
+            log("  older addresses: nothing reachable either")
+            return
     for rep, url in files[:5]:
         key = rep.isoformat()
         have = data["grid"].get(key)
@@ -254,6 +324,8 @@ def collect_grid(data, today):
         try:
             r = S.get(url, timeout=90)
             r.raise_for_status()
+            if rep == files[0][0]:
+                psp_debug(r.content, url)
             vals = parse_psp(r.content)
             if not vals:
                 log(f"Grid-India {key}: file read but no figures recognised (report layout may have changed)")
@@ -264,12 +336,161 @@ def collect_grid(data, today):
                 f"energy {vals.get('all_energy_mu')} MU; Bihar peak {vals.get('bihar_peak_mw')} MW, "
                 f"energy {vals.get('bihar_energy_mu')} MU")
         except Exception as e:
-            log(f"Grid-India {key}: FAILED — {e}")
+            log(f"Grid-India {key}: FAILED — {e!r}")
+
+
+# ----------------------------------------------------------------------------- CEA monthly peak report
+# Central Electricity Authority "Peak Power Supply Position Report" (monthly, state-wise).
+# Reachable from outside India (Grid-India is not). Published about 4-8 weeks after the month.
+CEA_PAGES = ["https://cea.nic.in/power-supply-report/?lang=en", "https://cea.nic.in/power-supply-report/"]
+CEA_UP = "https://cea.nic.in/wp-content/uploads/power_supply/"
+MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+          "October", "November", "December"]
+NUM_RE = re.compile(r"-?\d[\d,]*(?:\.\d+)?")
+
+
+def month_of(text):
+    """Finds 'August26' / 'Aug-2026' / 'August_26' / 'Aug 2026' in a link -> (2026, 8)."""
+    t = text.replace("%20", " ")
+    for i, m in enumerate(MONTHS):
+        for name in (m, m[:3]):
+            mm = re.search(name + r"[\s_\-,]*'?(20\d\d|\d\d)(?!\d)", t, re.I)
+            if mm:
+                y = int(mm.group(1)); y = y + 2000 if y < 100 else y
+                if 2015 <= y <= 2100:
+                    return y, i + 1
+    return None
+
+
+def parse_cea_text(text):
+    """Bihar and All-India rows of the peak report text -> dict (None if not found)."""
+    out = {}
+    for line in text.splitlines():
+        low = line.lower()
+        key = "bihar" if re.search(r"\bbihar\b", low) else ("all" if "all india" in low else None)
+        if not key or key in out:
+            continue
+        after = line[low.index("bihar") + 5:] if key == "bihar" else line[low.index("all india") + 9:]
+        nums = [float(x.replace(",", "")) for x in NUM_RE.findall(after)]
+        if len(nums) >= 8:
+            out[key] = {"peak_demand_mw": nums[0], "peak_met_mw": nums[1], "not_met_mw": nums[2],
+                        "fy_peak_demand_mw": nums[4], "fy_peak_met_mw": nums[5], "fy_not_met_mw": nums[6]}
+        elif len(nums) >= 3:
+            out[key] = {"peak_demand_mw": nums[0], "peak_met_mw": nums[1], "not_met_mw": nums[2]}
+    return out
+
+
+def cea_links():
+    """Peak-report PDF links from CEA's report page: {(y,m): [(url, revised?)]}."""
+    found = {}
+    for page in CEA_PAGES:
+        try:
+            r = S.get(page, timeout=40)
+            log(f"CEA report page {page} -> HTTP {r.status_code}, {len(r.content)} bytes")
+            if not r.ok:
+                continue
+            soup = BeautifulSoup(r.text, "html.parser")
+            for a in soup.find_all("a", href=True):
+                href, txt = a["href"], a.get_text(" ", strip=True)
+                blob = f"{href} {txt}"
+                if "peak" not in blob.lower():
+                    continue
+                if not (href.lower().endswith(".pdf") or "view-pdf/en" in href):
+                    continue
+                ym = month_of(href) or month_of(txt)
+                if ym:
+                    url = requests.compat.urljoin(page, href)
+                    found.setdefault(ym, []).append((url, "revis" in blob.lower()))
+            if found:
+                break
+        except Exception as e:
+            log(f"CEA report page {page}: FAILED — {e!r}")
+    return found
+
+
+def cea_guesses(y, m):
+    mon, yy = MONTHS[m - 1], f"{y % 100:02d}"
+    names = [f"PSP_{mon}{yy}_Revised_Peak.pdf", f"Peak_{mon}_{yy}_Revised.pdf", f"Peak_{mon}{yy}_Revised.pdf",
+             f"PSP_{mon}{yy}_Provisional_Peak.pdf", f"Peak_{mon}{yy}_Provisional.pdf",
+             f"peak_PSP_{mon}{yy}_Provisional.pdf", f"Peak_{mon}_{yy}_Provisional.pdf"]
+    nxt = (y + (m == 12), m % 12 + 1)
+    folders = [f"{y}/{m:02d}/", f"{nxt[0]}/{nxt[1]:02d}/"]
+    return [(CEA_UP + f + n, "revis" in n.lower()) for f in folders for n in names]
+
+
+def pdf_text(content):
+    import pdfplumber
+    with pdfplumber.open(io.BytesIO(content)) as pdf:
+        return "\n".join((pg.extract_text() or "") for pg in pdf.pages[:4])
+
+
+CEA_KNOWN = ["https://cea.nic.in/wp-content/uploads/power_supply/2026/08/PSP_August26_Provisional_Peak.pdf",
+             "https://cea.nic.in/wp-content/uploads/power_supply/2026/07/Peak_July26_Provisional.pdf"]
+CEA_HEADERS = {"Accept": "application/pdf,text/html,application/xhtml+xml,*/*;q=0.8",
+               "Referer": "https://cea.nic.in/", "Accept-Language": "en-IN,en;q=0.9"}
+CEA_STATS = {}
+
+
+def cea_get(url):
+    r = S.get(url, timeout=40, headers=CEA_HEADERS, allow_redirects=True)
+    k = f"HTTP {r.status_code} {r.headers.get('Content-Type', '?').split(';')[0]}"
+    CEA_STATS[k] = CEA_STATS.get(k, 0) + 1
+    return r
+
+
+def cea_probe():
+    for u in CEA_KNOWN + ["https://cea.nic.in/"]:
+        try:
+            r = S.get(u, timeout=40, headers=CEA_HEADERS, allow_redirects=True)
+            log(f"  CEA probe {u} -> HTTP {r.status_code}, {r.headers.get('Content-Type','?')}, {len(r.content)} bytes, "
+                f"final {r.url}, starts {r.content[:60]!r}")
+        except Exception as e:
+            log(f"  CEA probe {u} -> {type(e).__name__}: {str(e)[:150]}")
+
+
+def collect_cea(data, today):
+    cea_probe()
+    links = cea_links()
+    log(f"CEA: {sum(len(v) for v in links.values())} peak-report links found on the report page")
+    months = []
+    y, m = today.year, today.month
+    for _ in range(15):                      # this month back ~14 months
+        months.append((y, m)); y, m = (y - 1, 12) if m == 1 else (y, m - 1)
+    for (y, m) in months:
+        key = f"{y}-{m:02d}"
+        have = data["cea"].get(key)
+        if have and have.get("revised"):
+            continue                          # final figures already saved
+        cands = sorted(links.get((y, m), []), key=lambda x: not x[1])   # revised first
+        if not cands and (not have):
+            cands = cea_guesses(y, m)
+        elif not cands:
+            cands = [c for c in cea_guesses(y, m) if c[1]]              # only look for a revised version
+        for url, revised in cands:
+            try:
+                r = cea_get(url)
+                if not r.ok or r.content[:4] != b"%PDF":
+                    continue
+                vals = parse_cea_text(pdf_text(r.content))
+                if "bihar" not in vals:
+                    log(f"CEA {key}: {url} read but Bihar row not recognised")
+                    continue
+                data["cea"][key] = {"bihar": vals.get("bihar"), "all": vals.get("all"), "revised": revised, "src": url}
+                b = vals["bihar"]
+                log(f"CEA {key} ({'revised' if revised else 'provisional'}): Bihar peak demand {b.get('peak_demand_mw')} MW, "
+                    f"met {b.get('peak_met_mw')} MW; FY so far {b.get('fy_peak_demand_mw')} MW")
+                break
+            except Exception as e:
+                log(f"CEA {key}: {url} FAILED — {type(e).__name__}")
+        else:
+            if not have:
+                log(f"CEA {key}: report not found (may not be published yet)")
+    log(f"CEA replies seen: {CEA_STATS}")
 
 
 # ----------------------------------------------------------------------------- main
 def main():
-    data = {"iex": {"dam": {}, "rtm": {}}, "iex_blocks": {"dam": {}, "rtm": {}}, "grid": {}}
+    data = {"iex": {"dam": {}, "rtm": {}}, "iex_blocks": {"dam": {}, "rtm": {}}, "grid": {}, "cea": {}}
     if OUT.exists():
         try:
             old = json.loads(OUT.read_text(encoding="utf-8"))
@@ -278,11 +499,15 @@ def main():
                     data[k].update(old[k])
         except Exception as e:
             log(f"Old power.json unreadable, starting fresh: {e}")
-    before = json.dumps({k: data[k] for k in ("iex", "iex_blocks", "grid")}, sort_keys=True)
+    before = json.dumps({k: data[k] for k in ("iex", "iex_blocks", "grid", "cea")}, sort_keys=True)
 
     now = dt.datetime.now(IST)
     collect_iex(data)
     collect_grid(data, now.date())
+    try:
+        collect_cea(data, now.date())
+    except Exception as e:
+        log(f"CEA: FAILED — {e!r}")
 
     # Trim history
     cut = (now.date() - dt.timedelta(days=KEEP_DAYS)).isoformat()
@@ -291,8 +516,11 @@ def main():
         data["iex"][k] = dict(sorted((d, v) for d, v in data["iex"][k].items() if d >= cut))
         data["iex_blocks"][k] = dict(sorted((d, v) for d, v in data["iex_blocks"][k].items() if d >= cut_b))
     data["grid"] = dict(sorted((d, v) for d, v in data["grid"].items() if d >= cut))
+    data["cea"] = dict(sorted(data["cea"].items())[-36:])   # keep 3 years of monthly figures
 
-    after = json.dumps({k: data[k] for k in ("iex", "iex_blocks", "grid")}, sort_keys=True)
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    (OUT.parent / "power-log.txt").write_text(f"Run {now.isoformat(timespec='minutes')}\n" + "\n".join(LOG), encoding="utf-8")
+    after = json.dumps({k: data[k] for k in ("iex", "iex_blocks", "grid", "cea")}, sort_keys=True)
     if after == before and OUT.exists():
         log("No new figures; power.json left unchanged.")
         return 0
