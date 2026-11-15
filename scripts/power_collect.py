@@ -352,14 +352,15 @@ NUM_RE = re.compile(r"-?\d[\d,]*(?:\.\d+)?")
 def month_of(text):
     """Finds 'August26' / 'Aug-2026' / 'August_26' / 'Aug 2026' in a link -> (2026, 8)."""
     t = text.replace("%20", " ")
+    best = None
     for i, m in enumerate(MONTHS):
         for name in (m, m[:3]):
-            mm = re.search(name + r"[\s_\-,]*'?(20\d\d|\d\d)(?!\d)", t, re.I)
-            if mm:
+            for mm in re.finditer(r"(?<![A-Za-z])" + name + r"[a-z]*[\s_\-,]*'?(20\d\d|\d\d)(?!\d)", t, re.I):
                 y = int(mm.group(1)); y = y + 2000 if y < 100 else y
-                if 2015 <= y <= 2100:
-                    return y, i + 1
-    return None
+                if 2015 <= y <= 2100 and (best is None or mm.start() < best[0]):
+                    best = (mm.start(), y, i + 1)
+                break
+    return (best[1], best[2]) if best else None
 
 
 def parse_cea_text(text):
@@ -486,7 +487,61 @@ def cea_probe():
             log(f"  CEA probe {u} -> {type(e).__name__}: {str(e)[:150]}")
 
 
+CEA_PEAK_PAGE = ("https://cea.nic.in/reports/dashboardView?headingId=107&subHeadingId=1003&subSubHeadingId=10011"
+                 "&title=Power%20Supply%20Position%20-%20Peak&lang=en")
+
+
+def collect_cea_dashboard(data):
+    """Reads the report list on CEA's 'Power Supply Position - Peak' page and the PDFs it links to.
+    The month and Provisional/Revised are read from each report itself."""
+    try:
+        r = S.get(CEA_PEAK_PAGE, timeout=40, headers=CEA_HEADERS)
+        log(f"CEA Peak page -> HTTP {r.status_code}, {len(r.content)} bytes")
+        r.raise_for_status()
+    except Exception as e:
+        log(f"CEA Peak page: FAILED — {e!r}")
+        return 0
+    soup = BeautifulSoup(r.text, "html.parser")
+    links, seen = [], set()
+    for a in soup.find_all("a", href=True):
+        m = re.search(r"/api/dashboardReports/(?:download|view)-pdf/(?:en|hi)/([0-9a-f-]{20,})", a["href"])
+        if m and m.group(1) not in seen:
+            seen.add(m.group(1))
+            links.append("https://cea.nic.in/api/dashboardReports/download-pdf/en/" + m.group(1))
+    log(f"CEA Peak page: {len(links)} report files listed")
+    used = {v.get("src") for v in data["cea"].values()}
+    got = 0
+    for url in links[:30]:
+        if url in used:
+            continue
+        try:
+            rr = cea_get(url)
+            if not rr.ok or rr.content[:4] != b"%PDF":
+                log(f"CEA {url}: not a PDF (HTTP {rr.status_code})")
+                continue
+            text = pdf_text(rr.content)
+            ym = month_of(text)
+            vals = parse_cea_text(text)
+            if not ym or "bihar" not in vals:
+                log(f"CEA {url}: month or Bihar row not recognised")
+                continue
+            key = f"{ym[0]}-{ym[1]:02d}"
+            revised = bool(re.search(r"report\s*\(\s*revised", text, re.I)) or "(revised)" in text.lower()
+            have = data["cea"].get(key)
+            if have and (have.get("revised") or not revised):
+                continue
+            data["cea"][key] = {"bihar": vals.get("bihar"), "all": vals.get("all"), "revised": revised, "src": url}
+            b = vals["bihar"]; got += 1
+            log(f"CEA {key} ({'revised' if revised else 'provisional'}): Bihar peak demand {b.get('peak_demand_mw')} MW, "
+                f"met {b.get('peak_met_mw')} MW; FY so far {b.get('fy_peak_demand_mw')} MW")
+        except Exception as e:
+            log(f"CEA {url}: FAILED — {e!r}")
+    return got
+
+
 def collect_cea(data, today):
+    if collect_cea_dashboard(data) or data["cea"]:
+        return
     cea_probe()
     links = cea_links()
     log(f"CEA: {sum(len(v) for v in links.values())} peak-report links found on the report page")
