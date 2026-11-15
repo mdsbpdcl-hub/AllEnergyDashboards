@@ -1,35 +1,44 @@
-Run 2026-11-15T15:55+05:30
+Run 2026-11-15T16:12+05:30
 IEX DAM YESTERDAY 2026-11-14: avg 4241.45 Rs/MWh, 96 blocks
 IEX DAM TODAY 2026-11-15: avg 2696.48 Rs/MWh, 96 blocks
 IEX DAM TOMORROW 2026-11-16: avg 4026.69 Rs/MWh, 96 blocks
 IEX RTM YESTERDAY 2026-11-14: avg 3771.53 Rs/MWh, 96 blocks
-IEX RTM TODAY 2026-11-15: avg None Rs/MWh, 68 blocks
+IEX RTM TODAY 2026-11-15: avg None Rs/MWh, 70 blocks
 Grid-India report list: FAILED — ConnectionError(ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')))
   probe https://grid-india.in/ -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://webapi.grid-india.in/api/v1/last-update-date -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://webcdn.grid-india.in/files/grdw/misc/menu_en.json -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://report.grid-india.in/ -> ConnectionError: HTTPSConnectionPool(host='report.grid-india.in', port=443): Max retries exceeded with url: / (Caused by NameResolutionEr
   older addresses: nothing reachable either
-  CEA probe https://cea.nic.in/wp-content/uploads/executive/2026/07/Executive_Summary_July_2026_Actual.pdf -> HTTP 404, text/html;charset=UTF-8, 582 bytes, final https://cea.nic.in/wp-content/uploads/executive/2026/07/Executive_Summary_July_2026_Actual.pdf, starts b'<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <meta charset="UTF-8">\r\n '
-  CEA probe https://cea.nic.in/wp-content/uploads/power_supply/2026/08/PSP_August26_Provisional_Peak.pdf -> HTTP 404, text/html;charset=UTF-8, 494 bytes, final https://cea.nic.in/wp-content/uploads/power_supply/2026/08/PSP_August26_Provisional_Peak.pdf, starts b'<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <meta charset="UTF-8">\r\n '
-  CEA probe https://cea.nic.in/wp-content/uploads/power_supply/2026/07/Peak_July26_Provisional.pdf -> HTTP 404, text/html;charset=UTF-8, 494 bytes, final https://cea.nic.in/wp-content/uploads/power_supply/2026/07/Peak_July26_Provisional.pdf, starts b'<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <meta charset="UTF-8">\r\n '
-  CEA probe https://cea.nic.in/ -> HTTP 200, text/html;charset=UTF-8, 232066 bytes, final https://cea.nic.in/, starts b'<!DOCTYPE html>\r\n<html lang="hi">\r\n\r\n<head>\r\n<meta charset="'
-CEA report page https://cea.nic.in/power-supply-report/?lang=en -> HTTP 404, 494 bytes
-CEA report page https://cea.nic.in/power-supply-report/ -> HTTP 404, 494 bytes
-CEA: 0 peak-report links found on the report page
-CEA 2026-11: report not found (may not be published yet)
-CEA 2026-10: report not found (may not be published yet)
-CEA 2026-09: report not found (may not be published yet)
-CEA 2026-08: report not found (may not be published yet)
-CEA 2026-07: report not found (may not be published yet)
-CEA 2026-06: report not found (may not be published yet)
-CEA 2026-05: report not found (may not be published yet)
-CEA 2026-04: report not found (may not be published yet)
-CEA 2026-03: report not found (may not be published yet)
-CEA 2026-02: report not found (may not be published yet)
-CEA 2026-01: report not found (may not be published yet)
-CEA 2025-12: report not found (may not be published yet)
-CEA 2025-11: report not found (may not be published yet)
-CEA 2025-10: report not found (may not be published yet)
-CEA 2025-09: report not found (may not be published yet)
-CEA replies seen: {'HTTP 404 text/html': 210}
+CEA Peak page -> HTTP 200, 299279 bytes
+CEA Peak page: 164 report files listed
+CEA 2026-08 (revised): Bihar peak demand 9591.0 MW, met 9578.0 MW; FY so far 9591.0 MW
+CEA 2026-07 (revised): Bihar peak demand 9475.0 MW, met 9475.0 MW; FY so far 9475.0 MW
+CEA 2026-06 (revised): Bihar peak demand 8917.0 MW, met 8917.0 MW; FY so far 8917.0 MW
+CEA 2026-05 (revised): Bihar peak demand 8646.0 MW, met 8628.0 MW; FY so far 8646.0 MW
+CEA 2026-04 (revised): Bihar peak demand 8172.0 MW, met 8158.0 MW; FY so far None MW
+CEA 2026-03 (revised): Bihar peak demand 6821.0 MW, met 6808.0 MW; FY so far 8597.0 MW
+CEA 2026-02 (revised): Bihar peak demand 5904.0 MW, met 5904.0 MW; FY so far 8597.0 MW
+CEA 2026-01 (revised): Bihar peak demand 6535.0 MW, met 6527.0 MW; FY so far 8597.0 MW
+CEA 2025-12 (revised): Bihar peak demand 6305.0 MW, met 6305.0 MW; FY so far 8597.0 MW
+CEA 2025-11 (revised): Bihar peak demand 5494.0 MW, met 5494.0 MW; FY so far 8597.0 MW
+CEA 2025-10 (revised): Bihar peak demand 7710.0 MW, met 7698.0 MW; FY so far 8597.0 MW
+CEA 2025-09 (revised): Bihar peak demand 8451.0 MW, met 8437.0 MW; FY so far 8597.0 MW
+CEA 2025-08 (revised): Bihar peak demand 8073.0 MW, met 8067.0 MW; FY so far 8597.0 MW
+CEA 2025-07 (revised): Bihar peak demand 8597.0 MW, met 8594.0 MW; FY so far 8597.0 MW
+CEA 2025-06 (revised): Bihar peak demand 8373.0 MW, met 8367.0 MW; FY so far 8373.0 MW
+CEA 2025-05 (revised): Bihar peak demand 7736.0 MW, met 7736.0 MW; FY so far 7736.0 MW
+CEA 2025-04 (revised): Bihar peak demand 7581.0 MW, met 7311.0 MW; FY so far None MW
+CEA 2025-03 (revised): Bihar peak demand 6148.0 MW, met 6139.0 MW; FY so far 8078.0 MW
+CEA 2025-02 (revised): Bihar peak demand 5388.0 MW, met 5388.0 MW; FY so far 8078.0 MW
+CEA 2025-01 (revised): Bihar peak demand 5702.0 MW, met 5702.0 MW; FY so far 8078.0 MW
+CEA 2024-12 (revised): Bihar peak demand 5252.0 MW, met 5252.0 MW; FY so far 8078.0 MW
+CEA 2024-11 (revised): Bihar peak demand 6076.0 MW, met 6076.0 MW; FY so far 8078.0 MW
+CEA 2024-10 (revised): Bihar peak demand 7224.0 MW, met 7221.0 MW; FY so far 8078.0 MW
+CEA 2024-09 (revised): Bihar peak demand 8078.0 MW, met 7852.0 MW; FY so far 8078.0 MW
+CEA 2024-08 (revised): Bihar peak demand 7666.0 MW, met 7666.0 MW; FY so far 7998.0 MW
+CEA 2024-07 (revised): Bihar peak demand 7998.0 MW, met 7888.0 MW; FY so far 7998.0 MW
+CEA 2024-06 (revised): Bihar peak demand 7604.0 MW, met 7601.0 MW; FY so far 7604.0 MW
+CEA 2024-05 (revised): Bihar peak demand 7485.0 MW, met 7466.0 MW; FY so far 7485.0 MW
+CEA 2024-04 (revised): Bihar peak demand 6949.0 MW, met 6949.0 MW; FY so far None MW
+CEA 2024-03 (revised): Bihar peak demand 5869.0 MW, met 5868.0 MW; FY so far 8049.0 MW
