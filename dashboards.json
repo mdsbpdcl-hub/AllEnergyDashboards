@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T11:54:59.634Z",
+ "updated": "2026-11-16T12:55:10.149Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -48,7 +48,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-ula",
    "desc": "PMSG (ULA) Dashboard for Agencies",
    "cat": "Priority",
-   "dataAt": "2026-11-16T06:19:16.223Z",
+   "dataAt": "2026-11-16T12:40:09.236Z",
    "freq": "Daily"
   },
   {
@@ -193,8 +193,8 @@
   },
   "ula": {
    "target": 250000,
-   "structures": 153743,
-   "panels": 122055,
+   "structures": 153753,
+   "panels": 122065,
    "inverters": 71754,
    "portal": 38328,
    "accepted": 22378,
