@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T06:55:02.183Z",
+ "updated": "2026-11-16T07:55:01.859Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -18,7 +18,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/weatherforecast",
    "desc": "Forecast of Outage and Complaints",
    "cat": "Priority",
-   "dataAt": "2026-11-16T06:29:35.370Z",
+   "dataAt": "2026-11-16T07:29:38.753Z",
    "freq": "Daily"
   },
   {
@@ -26,7 +26,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/daily-monitoring",
    "desc": "PwC Agenda Sheet",
    "cat": "Priority",
-   "dataAt": "2026-11-16T05:17:44.530Z",
+   "dataAt": "2026-11-16T07:17:52.939Z",
    "freq": "Daily"
   },
   {
