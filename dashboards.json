@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T13:55:03.688Z",
+ "updated": "2026-11-16T15:55:07.930Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -26,7 +26,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/daily-monitoring",
    "desc": "PwC Agenda Sheet",
    "cat": "Priority",
-   "dataAt": "2026-11-16T13:17:43.709Z",
+   "dataAt": "2026-11-16T15:18:20.583Z",
    "freq": "Daily"
   },
   {
@@ -48,7 +48,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-ula",
    "desc": "PMSG (ULA) Dashboard for Agencies",
    "cat": "Priority",
-   "dataAt": "2026-11-16T12:40:09.236Z",
+   "dataAt": "2026-11-16T15:51:54.272Z",
    "freq": "Daily"
   },
   {
