@@ -1,9 +1,9 @@
-Run 2026-11-16T14:50+05:30
+Run 2026-11-16T15:54+05:30
 IEX DAM YESTERDAY 2026-11-15: avg 2696.48 Rs/MWh, 96 blocks
 IEX DAM TODAY 2026-11-16: avg 4026.69 Rs/MWh, 96 blocks
-IEX DAM TOMORROW: page read but no table found (site layout may have changed)
+IEX DAM TOMORROW 2026-11-17: avg 3922.78 Rs/MWh, 96 blocks
 IEX RTM YESTERDAY 2026-11-15: avg 2901.67 Rs/MWh, 96 blocks
-IEX RTM TODAY 2026-11-16: avg None Rs/MWh, 64 blocks
+IEX RTM TODAY 2026-11-16: avg None Rs/MWh, 68 blocks
 Grid-India report list: FAILED — ConnectionError(ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')))
   probe https://grid-india.in/ -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://webapi.grid-india.in/api/v1/last-update-date -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
@@ -12,10 +12,3 @@ Grid-India report list: FAILED — ConnectionError(ProtocolError('Connection abo
   older addresses: nothing reachable either
 CEA Peak page -> HTTP 200, 299582 bytes
 CEA Peak page: 164 report files listed
-CEA https://cea.nic.in/api/dashboardReports/download-pdf/en/83a78af3-2452-49d4-83c5-61a4777f27f4: FAILED — ChunkedEncodingError(ProtocolError('Connection broken: IncompleteRead(363907 bytes read, 76207 more expected)', IncompleteRead(363907 bytes read, 76207 more expected)))
-CEA https://cea.nic.in/api/dashboardReports/download-pdf/en/07674e9b-13fa-48f4-8bba-0aa8aeff530b: FAILED — ChunkedEncodingError(ProtocolError('Connection broken: IncompleteRead(281970 bytes read, 262040 more expected)', IncompleteRead(281970 bytes read, 262040 more expected)))
-CEA https://cea.nic.in/api/dashboardReports/download-pdf/en/cfa6beb5-df9f-40f0-8d52-8178ef228907: FAILED — ChunkedEncodingError(ProtocolError('Connection broken: IncompleteRead(429428 bytes read, 77560 more expected)', IncompleteRead(429428 bytes read, 77560 more expected)))
-CEA https://cea.nic.in/api/dashboardReports/download-pdf/en/472b4caf-a130-4874-a0ad-d29cd38474e5: FAILED — ConnectionError(ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')))
-CEA https://cea.nic.in/api/dashboardReports/download-pdf/en/6de35edf-9b96-4b4d-a8ba-775026a84fed: FAILED — ConnectionError(ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')))
-CEA https://cea.nic.in/api/dashboardReports/download-pdf/en/af6c87b8-f4b8-4262-9bb3-740d2fe4b99f: FAILED — ChunkedEncodingError(ProtocolError('Connection broken: IncompleteRead(265588 bytes read, 624648 more expected)', IncompleteRead(265588 bytes read, 624648 more expected)))
-CEA https://cea.nic.in/api/dashboardReports/download-pdf/en/2964b09d-7a09-4f4a-85b8-44bec258fb77: FAILED — ConnectionError(ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')))
