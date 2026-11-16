@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T03:55:00.137Z",
+ "updated": "2026-11-16T04:54:57.467Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -18,7 +18,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/weatherforecast",
    "desc": "Forecast of Outage and Complaints",
    "cat": "Priority",
-   "dataAt": "2026-11-15T12:29:45.970Z",
+   "dataAt": "2026-11-16T04:29:28.901Z",
    "freq": "Daily"
   },
   {
@@ -40,7 +40,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-regular",
    "desc": "PMSG Dashboard for Districts",
    "cat": "Priority",
-   "dataAt": "2026-11-15T04:39:48.543Z",
+   "dataAt": "2026-11-16T04:43:37.861Z",
    "freq": "Daily"
   },
   {
@@ -182,14 +182,14 @@
  "pmsg": {
   "regular": {
    "target": 500000,
-   "applications": 198832,
-   "installed": 38956,
-   "capacity_kw": 139531.3,
-   "last7": 949,
-   "last30": 4026,
+   "applications": 198926,
+   "installed": 38986,
+   "capacity_kw": 139631,
+   "last7": 876,
+   "last30": 3911,
    "subsidy_apps": 30201,
    "subsidy_lakh": 23377.19,
-   "asOf": "2026-11-15T04:39:48.543Z"
+   "asOf": "2026-11-16T04:43:37.861Z"
   },
   "ula": {
    "target": 250000,
