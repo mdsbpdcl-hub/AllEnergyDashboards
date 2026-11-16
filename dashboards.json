@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T01:54:59.973Z",
+ "updated": "2026-11-16T02:55:11.063Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -64,7 +64,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/outage",
    "desc": "Outage Monitoring",
    "cat": "Priority",
-   "dataAt": "2026-11-15T02:22:52.418Z",
+   "dataAt": "2026-11-16T02:03:51.411Z",
    "freq": "Daily"
   },
   {
@@ -235,13 +235,13 @@
     "avg": 22.2
    }
   ],
-  "date": "14-Nov-2026",
-  "complete": true,
-  "avg_min": 22.2,
-  "interruptions_per_feeder": 1.71,
-  "over4h": 34,
-  "sbpdcl_min": 21.9,
-  "nbpdcl_min": 22.5
+  "date": "15-Nov-2026",
+  "complete": false,
+  "avg_min": 43.7,
+  "interruptions_per_feeder": 2.11,
+  "over4h": 21,
+  "sbpdcl_min": null,
+  "nbpdcl_min": 43.7
  },
  "followups": {
   "total": 7,
