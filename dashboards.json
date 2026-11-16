@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T17:55:04.529Z",
+ "updated": "2026-11-16T18:55:01.900Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -201,7 +201,7 @@
    "inspected": 20323,
    "subsidy_redeemed": 18430,
    "subsidy_disbursed": 10167,
-   "asOf": "2026-11-16"
+   "asOf": null
   }
  },
  "outage": {
