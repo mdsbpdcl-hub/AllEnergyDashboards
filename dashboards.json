@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T07:50:50.112Z",
+ "updated": "2026-11-17T07:55:01.007Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -183,7 +183,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/meetings",
    "desc": "All Meeting Schedules",
    "cat": "Priority",
-   "dataAt": "2026-11-17T07:42:06.689Z",
+   "dataAt": "2026-11-17T07:51:36.962Z",
    "freq": "Daily"
   },
   {
@@ -191,7 +191,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/mdschedule",
    "desc": "All MD Meeting Schedules",
    "cat": "SBPDCL",
-   "dataAt": "2026-11-17T07:42:06.689Z",
+   "dataAt": "2026-11-17T07:51:36.962Z",
    "freq": "Daily"
   }
  ],
