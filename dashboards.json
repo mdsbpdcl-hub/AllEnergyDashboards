@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T08:11:05.187Z",
+ "updated": "2026-11-17T09:55:08.051Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -26,7 +26,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/daily-monitoring",
    "desc": "PwC Agenda Sheet",
    "cat": "Priority",
-   "dataAt": "2026-11-17T07:19:20.698Z",
+   "dataAt": "2026-11-17T09:17:12.830Z",
    "freq": "Daily"
   },
   {
@@ -48,7 +48,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-ula",
    "desc": "PMSG (ULA) Dashboard for Agencies",
    "cat": "Priority",
-   "dataAt": "2026-11-17T05:24:59.233Z",
+   "dataAt": "2026-11-17T08:49:50.249Z",
    "freq": "Daily"
   },
   {
@@ -217,7 +217,7 @@
    "inspected": 20442,
    "subsidy_redeemed": 18430,
    "subsidy_disbursed": 10167,
-   "asOf": null
+   "asOf": "2026-11-17"
   }
  },
  "outage": {
@@ -304,12 +304,6 @@
    },
    {
     "d": "2026-11-17",
-    "t": "15:30",
-    "x": "Board of Directors (BoD) Meeting of BSPHCL & BSPGCL",
-    "s": "Vidyut Bhawan"
-   },
-   {
-    "d": "2026-11-17",
     "t": "16:00",
     "x": "Pre cabinet meeting",
     "s": "1, Anne Marg"
@@ -337,6 +331,12 @@
     "t": "14:30",
     "x": "सुनवाई (Hearing)",
     "s": ""
+   },
+   {
+    "d": "2026-11-18",
+    "t": "15:30",
+    "x": "Board of Directors (BoD) Meeting of BSPHCL & BSPGCL",
+    "s": "Vidyut Bhawan"
    },
    {
     "d": "2026-11-19",
