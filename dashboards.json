@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T15:55:07.921Z",
+ "updated": "2026-11-17T16:55:03.657Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -260,7 +260,7 @@
   "nbpdcl_min": 71.3
  },
  "followups": {
-  "total": 7,
+  "total": 5,
   "items": [
    {
     "t": "Complete BSRTC EV charging stations",
@@ -281,17 +281,9 @@
    {
     "t": "Review industrial electricity tariff competitiveness",
     "h": false
-   },
-   {
-    "t": "Complete net-metering of on-grid solar installation in Ara",
-    "h": false
-   },
-   {
-    "t": "Process eligible BCF Advance payments",
-    "h": false
    }
   ],
-  "asOf": "2026-11-15T19:23:42.710Z"
+  "asOf": "2026-11-17T16:08:36.352Z"
  },
  "schedule": {
   "from": "2026-11-17",
