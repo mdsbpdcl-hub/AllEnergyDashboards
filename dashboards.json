@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T17:55:02.253Z",
+ "updated": "2026-11-17T18:55:04.800Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -217,7 +217,7 @@
    "inspected": 20442,
    "subsidy_redeemed": 18430,
    "subsidy_disbursed": 10167,
-   "asOf": "2026-11-17"
+   "asOf": null
   }
  },
  "outage": {
@@ -286,32 +286,8 @@
   "asOf": "2026-11-17T16:08:36.352Z"
  },
  "schedule": {
-  "from": "2026-11-17",
+  "from": "2026-11-18",
   "items": [
-   {
-    "d": "2026-11-17",
-    "t": "12:30",
-    "x": "Meeting under the Chairmanship of Chief Secretary with ACS, Principal Secretaries, and Secretaries of the concerned departments regarding the Hon’ble Prime Minister’s visit to Vaishali",
-    "s": "CS Adhiveshan Hall"
-   },
-   {
-    "d": "2026-11-17",
-    "t": "16:00",
-    "x": "Pre cabinet meeting",
-    "s": "1, Anne Marg"
-   },
-   {
-    "d": "2026-11-17",
-    "t": "16:45",
-    "x": "Meeting with Sri Sudhkar Ekiralla, CGM, Corporate Centre Mumbai , Sri Manoranjan Panda, GM CCRO East & Sri Nihar Lenka DGM & BH, CCR Kolkata",
-    "s": "Vidyut Bhawan"
-   },
-   {
-    "d": "2026-11-17",
-    "t": "17:00",
-    "x": "माननीय प्रधानमंत्री की प्रस्तावित यात्रा कार्यक्रम के पूर्व की सभी आवश्यक सुरक्षा संबंधी तैयारियों की समीक्षा हेतु मुख्य सचिव, बिहार की अध्यक्षता में Hybrid Mode में बैठक",
-    "s": "मुख्य सचिवालय स्थित सभाकक्ष"
-   },
    {
     "d": "2026-11-18",
     "t": "12:30",
@@ -364,6 +340,12 @@
     "d": "2026-11-21",
     "t": "18:00",
     "x": "Wedding ceremony of Mr. Anupam & Nidhi, C/o Manoj Kumar, Member, Bihar Electricity Regulatory Commission",
+    "s": ""
+   },
+   {
+    "d": "2026-11-24",
+    "t": "16:15",
+    "x": "मुख्य सचिव, बिहार की अध्यक्षता में Hybrid Mode में Vibrant Villages Programme-II अंतर्गत आयोजित राज्य स्तरीय स्क्रीनिंग कमिटी (SLSC) की बैठक",
     "s": ""
    }
   ]
