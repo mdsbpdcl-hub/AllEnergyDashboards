@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T03:54:56.340Z",
+ "updated": "2026-11-17T04:54:59.663Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -18,7 +18,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/weatherforecast",
    "desc": "Forecast of Outage and Complaints",
    "cat": "Priority",
-   "dataAt": "2026-11-16T08:05:53.773Z",
+   "dataAt": "2026-11-17T04:32:17.484Z",
    "freq": "Daily"
   },
   {
@@ -48,7 +48,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-ula",
    "desc": "PMSG (ULA) Dashboard for Agencies",
    "cat": "Priority",
-   "dataAt": "2026-11-16T15:51:54.272Z",
+   "dataAt": "2026-11-17T04:40:48.195Z",
    "freq": "Daily"
   },
   {
@@ -64,7 +64,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/outage",
    "desc": "Outage Monitoring",
    "cat": "Priority",
-   "dataAt": "2026-11-17T03:51:26.571Z",
+   "dataAt": "2026-11-17T04:07:00.473Z",
    "freq": "Daily"
   },
   {
@@ -87,7 +87,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/others/nsc",
    "desc": "NSC & Load Change Tracker, Bihar",
    "cat": "Others",
-   "dataAt": "2026-11-13T04:33:29.895Z",
+   "dataAt": "2026-11-17T04:51:41.162Z",
    "freq": "Daily"
   },
   {
@@ -135,7 +135,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/electocution",
    "desc": "Status of Pending Electrocution Cases",
    "cat": "SBPDCL",
-   "dataAt": "2026-11-10T10:18:35.206Z",
+   "dataAt": "2026-11-17T04:53:10.302Z",
    "freq": "Monthly"
   },
   {
@@ -195,7 +195,7 @@
    "target": 250000,
    "structures": 153753,
    "panels": 122065,
-   "inverters": 71754,
+   "inverters": 71832,
    "portal": 40090,
    "accepted": 22504,
    "inspected": 20442,
