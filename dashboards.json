@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T11:55:03.946Z",
+ "updated": "2026-11-17T12:54:59.577Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -18,7 +18,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/weatherforecast",
    "desc": "Forecast of Outage and Complaints",
    "cat": "Priority",
-   "dataAt": "2026-11-17T04:32:17.484Z",
+   "dataAt": "2026-11-17T12:31:10.786Z",
    "freq": "Daily"
   },
   {
@@ -48,7 +48,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-ula",
    "desc": "PMSG (ULA) Dashboard for Agencies",
    "cat": "Priority",
-   "dataAt": "2026-11-17T08:49:50.249Z",
+   "dataAt": "2026-11-17T12:38:14.605Z",
    "freq": "Daily"
   },
   {
@@ -211,7 +211,7 @@
    "target": 250000,
    "structures": 153753,
    "panels": 122065,
-   "inverters": 72902,
+   "inverters": 73228,
    "portal": 40090,
    "accepted": 22504,
    "inspected": 20442,
