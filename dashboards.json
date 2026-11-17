@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T05:55:00.496Z",
+ "updated": "2026-11-17T06:35:47.543Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -40,7 +40,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-regular",
    "desc": "PMSG Dashboard for Districts",
    "cat": "Priority",
-   "dataAt": "2026-11-17T05:51:54.360Z",
+   "dataAt": "2026-11-17T05:51:56.578Z",
    "freq": "Daily"
   },
   {
@@ -79,7 +79,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/others/revenue",
    "desc": "Revenue Collection Monitoring",
    "cat": "Others",
-   "dataAt": "2026-11-17T05:51:43.688Z",
+   "dataAt": "2026-11-17T05:55:58.039Z",
    "freq": "Daily"
   },
   {
@@ -189,7 +189,7 @@
    "last30": 3886,
    "subsidy_apps": 30201,
    "subsidy_lakh": 23377.19,
-   "asOf": "2026-11-17T05:51:54.360Z"
+   "asOf": "2026-11-17T05:51:56.578Z"
   },
   "ula": {
    "target": 250000,
@@ -276,5 +276,88 @@
    }
   ],
   "asOf": "2026-11-15T19:23:42.710Z"
+ },
+ "schedule": {
+  "from": "2026-11-17",
+  "items": [
+   {
+    "d": "2026-11-17",
+    "t": "12:30",
+    "x": "Meeting under the Chairmanship of Chief Secretary with ACS, Principal Secretaries, and Secretaries of the concerned departments regarding the Hon’ble Prime Minister’s visit to Vaishali",
+    "s": "CS Adhiveshan Hall"
+   },
+   {
+    "d": "2026-11-17",
+    "t": "15:30",
+    "x": "Board of Directors (BoD) Meeting of BSPHCL & BSPGCL",
+    "s": "Vidyut Bhawan"
+   },
+   {
+    "d": "2026-11-17",
+    "t": "16:00",
+    "x": "Pre cabinet meeting",
+    "s": "1, Anne Marg"
+   },
+   {
+    "d": "2026-11-17",
+    "t": "16:45",
+    "x": "Meeting with Sri Sudhkar Ekiralla, CGM, Corporate Centre Mumbai , Sri Manoranjan Panda, GM CCRO East & Sri Nihar Lenka DGM & BH, CCR Kolkata",
+    "s": "Vidyut Bhawan"
+   },
+   {
+    "d": "2026-11-17",
+    "t": "17:00",
+    "x": "माननीय प्रधानमंत्री की प्रस्तावित यात्रा कार्यक्रम के पूर्व की सभी आवश्यक सुरक्षा संबंधी तैयारियों की समीक्षा हेतु मुख्य सचिव, बिहार की अध्यक्षता में Hybrid Mode में बैठक",
+    "s": "मुख्य सचिवालय स्थित सभाकक्ष"
+   },
+   {
+    "d": "2026-11-18",
+    "t": "12:30",
+    "x": "Cabinet Meeting",
+    "s": "Cabinet Hall, Main Secretariat"
+   },
+   {
+    "d": "2026-11-18",
+    "t": "14:30",
+    "x": "सुनवाई (Hearing)",
+    "s": ""
+   },
+   {
+    "d": "2026-11-19",
+    "t": "15:00",
+    "x": "Review meeting under the chairmanship of Chairperson, CEA on Skill Development in the Power Distribution Sector",
+    "s": "Conf. Room,  'Chintan', Sewa Bhawan, New Delhi"
+   },
+   {
+    "d": "2026-11-19",
+    "t": "15:30",
+    "x": "सुनवाई (Hearing)",
+    "s": ""
+   },
+   {
+    "d": "2026-11-19",
+    "t": "15:30",
+    "x": "सुनवाई (Hearing)",
+    "s": ""
+   },
+   {
+    "d": "2026-11-19",
+    "t": "17:00",
+    "x": "Meeting with CEO, Tiger Analytics",
+    "s": "Vidyut Bhawan"
+   },
+   {
+    "d": "2026-11-20",
+    "t": "15:00",
+    "x": "सुनवाई (Hearing)",
+    "s": ""
+   },
+   {
+    "d": "2026-11-21",
+    "t": "18:00",
+    "x": "Wedding ceremony of Mr. Anupam & Nidhi, C/o Manoj Kumar, Member, Bihar Electricity Regulatory Commission",
+    "s": ""
+   }
+  ]
  }
 }
