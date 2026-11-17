@@ -234,6 +234,20 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 .it.tdy .rel{color:var(--gold);font-weight:700}
 .none{color:var(--muted);font-size:12.5px}
 
+/* ---------- Meetings: next 3 days ---------- */
+.mt .md{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#1f3b63;margin:6px 0 1px}
+.mt .md:first-child{margin-top:2px}
+.mt .md span{font-weight:600;text-transform:none;letter-spacing:0;color:var(--muted);margin-left:3px}
+.mt .mi{display:grid;grid-template-columns:38px minmax(0,1fr);gap:0 7px;padding:3px 0;border-bottom:1px dashed #eeecf4;font-size:11.5px;line-height:1.35}
+.mt .mi:last-child{border-bottom:0}
+.mt .mi .tm{font-weight:700;color:#3a2792;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mt .mi .tm.ad{font-weight:600;color:var(--muted);font-size:10px;padding-top:1px}
+.mt .mi .x{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--ink)}
+.mt .mi .s{grid-column:2;font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mt .mi.past{opacity:.45}
+.mt .mi.now{background:#f6f3ff;border-radius:6px;box-shadow:-4px 0 0 #f6f3ff,4px 0 0 #f6f3ff}
+.mt .none{font-size:11px;padding:2px 0 3px}
+
 /* ---------- Middle column tightening ---------- */
 .fucol .chipbr{display:none}
 .fucol .k-top{padding:7px 11px 7px}
@@ -342,6 +356,10 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
       </a>
 
     </div>
+    <section class="fu mt" id="mt" hidden aria-label="Meetings in the next 3 days">
+      <div class="fu-h"><span class="fu-t">Next 3 days</span><span class="fu-n" id="mtN"></span></div>
+      <div id="mtList"></div>
+    </section>
     <section class="fu" id="fu" hidden>
       <div class="fu-h">
         <a class="fu-t" href="https://sites.google.com/view/energy-department-analytics/followup" target="_blank" rel="noopener">Follow-ups</a>
@@ -694,6 +712,7 @@ function yearly(L, Y){
     if(j&&j.pmsg&&window.renderPmsg) window.renderPmsg(j.pmsg);
     if(j&&j.outage&&window.renderOutage) window.renderOutage(j.outage);
     if(j&&window.renderFollowups) window.renderFollowups(j.followups);
+    if(j&&window.renderSchedule) window.renderSchedule(j.schedule);
     const items=valid(j); if(!items.length) return false;
     const sig=JSON.stringify(items);
     if(sig===shown) return true;                     // same list: nothing to redraw
@@ -996,6 +1015,38 @@ const WEATHER_PLACE = { name: 'Patna', lat: 25.5941, lon: 85.1376 };
 /* =====================================================================
    PM SURYA GHAR card — figures published from the PMSG sheets with the tile list
    ===================================================================== */
+window.renderSchedule=function(S){
+  const box=document.getElementById('mt'); if(!box) return;
+  if(!S||!Array.isArray(S.items)){ box.hidden=true; return; }
+  window.__sched=S;
+  const IST=19800000, now=Date.now(), iso=t=>new Date(t+IST).toISOString().slice(0,10);
+  const days=[0,1,2].map(i=>iso(now+i*864e5));
+  const nowMin=(()=>{const d=new Date(now+IST);return d.getUTCHours()*60+d.getUTCMinutes();})();
+  const list=document.getElementById('mtList'); list.textContent='';
+  const mk=(tag,cls,txt)=>{const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e;};
+  let count=0;
+  days.forEach((d,i)=>{
+    const dt=new Date(d+'T00:00:00Z');
+    const lab=dt.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'});
+    const h=mk('div','md',i===0?'Today':i===1?'Tomorrow':lab.split(',')[0]);
+    if(i<2) h.appendChild(mk('span',null,lab)); else { h.textContent=''; h.append(lab.split(' ')[0].replace(',',''), mk('span',null,lab.split(' ').slice(1).join(' '))); }
+    list.appendChild(h);
+    const its=S.items.filter(x=>x.d===d);
+    if(!its.length){ list.appendChild(mk('div','none','No meetings')); return; }
+    its.forEach(x=>{
+      count++;
+      const r=mk('div','mi'); r.title=x.x+(x.s?' — '+x.s:'');
+      const tm=mk('div','tm'+(x.t?'':' ad'),x.t||'All day');
+      if(i===0&&x.t){ const m=+x.t.slice(0,2)*60+ +x.t.slice(3,5); if(nowMin>m+30) r.classList.add('past'); else if(nowMin>=m-30) r.classList.add('now'); }
+      r.append(tm, mk('div','x',x.x)); if(x.s) r.appendChild(mk('div','s',x.s));
+      list.appendChild(r);
+    });
+  });
+  document.getElementById('mtN').textContent=count?count+(count===1?' meeting':' meetings'):'';
+  box.hidden=false;
+  if(window.__refit) window.__refit();
+};
+setInterval(()=>{ if(window.__sched) window.renderSchedule(window.__sched); },5*60*1000);
 window.renderFollowups=function(F){
   const box=document.getElementById('fu'); if(!box) return;
   if(!F||!F.items||!F.items.length){ box.hidden=true; return; }
