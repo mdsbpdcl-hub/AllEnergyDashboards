@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T23:55:01.123Z",
+ "updated": "2026-11-17T01:54:59.858Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -26,7 +26,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/daily-monitoring",
    "desc": "PwC Agenda Sheet",
    "cat": "Priority",
-   "dataAt": "2026-11-16T23:17:27.073Z",
+   "dataAt": "2026-11-17T01:17:44.583Z",
    "freq": "Daily"
   },
   {
@@ -56,7 +56,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/1912",
    "desc": "Consumer Complaints Statistics",
    "cat": "Priority",
-   "dataAt": "2026-11-15T02:01:00.819Z",
+   "dataAt": "2026-11-17T01:32:11.824Z",
    "freq": "Daily"
   },
   {
@@ -64,7 +64,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/outage",
    "desc": "Outage Monitoring",
    "cat": "Priority",
-   "dataAt": "2026-11-16T08:16:02.645Z",
+   "dataAt": "2026-11-17T00:58:27.610Z",
    "freq": "Daily"
   },
   {
@@ -235,13 +235,13 @@
     "avg": 33.4
    }
   ],
-  "date": "15-Nov-2026",
-  "complete": true,
-  "avg_min": 33.4,
-  "interruptions_per_feeder": 1.81,
-  "over4h": 27,
-  "sbpdcl_min": 23.4,
-  "nbpdcl_min": 43.7
+  "date": "16-Nov-2026",
+  "complete": false,
+  "avg_min": 71.3,
+  "interruptions_per_feeder": 3.08,
+  "over4h": 208,
+  "sbpdcl_min": null,
+  "nbpdcl_min": 71.3
  },
  "followups": {
   "total": 7,
