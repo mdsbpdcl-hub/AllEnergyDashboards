@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T12:54:59.577Z",
+ "updated": "2026-11-17T13:55:15.202Z",
  "items": [
   {
    "name": "Daily Bulletin",
@@ -26,7 +26,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/daily-monitoring",
    "desc": "PwC Agenda Sheet",
    "cat": "Priority",
-   "dataAt": "2026-11-17T11:17:55.298Z",
+   "dataAt": "2026-11-17T13:17:39.269Z",
    "freq": "Daily"
   },
   {
@@ -48,7 +48,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-ula",
    "desc": "PMSG (ULA) Dashboard for Agencies",
    "cat": "Priority",
-   "dataAt": "2026-11-17T12:38:14.605Z",
+   "dataAt": "2026-11-17T13:05:04.160Z",
    "freq": "Daily"
   },
   {
@@ -183,7 +183,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/meetings",
    "desc": "All Meeting Schedules",
    "cat": "Priority",
-   "dataAt": "2026-11-17T08:10:35.779Z",
+   "dataAt": "2026-11-17T13:33:34.673Z",
    "freq": "Daily"
   },
   {
@@ -191,7 +191,7 @@
    "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/mdschedule",
    "desc": "All MD Meeting Schedules",
    "cat": "SBPDCL",
-   "dataAt": "2026-11-17T08:10:35.779Z",
+   "dataAt": "2026-11-17T13:33:34.673Z",
    "freq": "Daily"
   }
  ],
@@ -209,8 +209,8 @@
   },
   "ula": {
    "target": 250000,
-   "structures": 153753,
-   "panels": 122065,
+   "structures": 153876,
+   "panels": 122109,
    "inverters": 73228,
    "portal": 40090,
    "accepted": 22504,
@@ -322,6 +322,24 @@
    },
    {
     "d": "2026-11-18",
+    "t": "10:30",
+    "x": "Meeting of Lok Vitt Samiti Under the Chairmanship of Development Commissioner",
+    "s": "Dev. Comm. Monitoring Hall, Patna"
+   },
+   {
+    "d": "2026-11-18",
+    "t": "11:00",
+    "x": "सचिव, ऊर्जा विभाग की अध्यक्षता में भागलपुर जिले के पीरपैंती में अडानी पावर लिमिटेड द्वारा स्थापित 2400 मेगावाट अल्ट्रा सुपर क्रिटिकल थर्मल पावर प्रोजेक्ट के प्रगति की समीक्षा बैठक",
+    "s": ""
+   },
+   {
+    "d": "2026-11-18",
+    "t": "12:30",
+    "x": "Cabinet Meeting",
+    "s": "Cabinet Hall, Main Secretariat"
+   },
+   {
+    "d": "2026-11-18",
     "t": "12:30",
     "x": "Cabinet Meeting",
     "s": "Cabinet Hall, Main Secretariat"
@@ -334,8 +352,20 @@
    },
    {
     "d": "2026-11-18",
+    "t": "15:00",
+    "x": "Weekly Review of Energy Accounting",
+    "s": "Vidyut Bhawan"
+   },
+   {
+    "d": "2026-11-18",
     "t": "15:30",
     "x": "Board of Directors (BoD) Meeting of BSPHCL & BSPGCL",
+    "s": "Vidyut Bhawan"
+   },
+   {
+    "d": "2026-11-18",
+    "t": "16:00",
+    "x": "Weekly Review of Revenue (STF) of NBPDCL & SBPDCL",
     "s": "Vidyut Bhawan"
    },
    {
