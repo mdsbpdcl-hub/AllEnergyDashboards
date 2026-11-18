@@ -1,12 +1,32 @@
 {
- "updated": "2026-11-18T05:30:32.614Z",
+ "updated": "2026-11-18T05:31:44.701Z",
  "items": [
+  {
+   "name": "Daily Bulletin",
+   "url": "https://sites.google.com/view/energy-department-analytics/energy-bulletin",
+   "desc": "Summary of Priorities",
+   "cat": "Priority"
+  },
+  {
+   "name": "Pending Issues",
+   "url": "https://sites.google.com/view/energy-department-analytics/followup",
+   "desc": "Pending Issues District Wise",
+   "cat": "Priority"
+  },
   {
    "name": "Weather Prediction",
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/weatherforecast",
    "desc": "Forecast of Outage and Complaints",
    "cat": "Others",
    "dataAt": "2026-11-18T04:32:04.491Z",
+   "freq": "Daily"
+  },
+  {
+   "name": "CMD Cell Monitoring Sheet",
+   "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/daily-monitoring",
+   "desc": "PwC Agenda Sheet",
+   "cat": "Priority",
+   "dataAt": "2026-11-18T05:17:27.861Z",
    "freq": "Daily"
   },
   {
@@ -55,6 +75,14 @@
    "freq": "Weekly"
   },
   {
+   "name": "Revenue Collection Analytics",
+   "url": "https://sites.google.com/view/energy-department-analytics/others/revenue",
+   "desc": "Revenue Collection Monitoring",
+   "cat": "Others",
+   "dataAt": "2026-11-17T05:55:58.039Z",
+   "freq": "Daily"
+  },
+  {
    "name": "NSC and Load Change Request Monitoring",
    "url": "https://sites.google.com/view/energy-department-analytics/others/nsc",
    "desc": "NSC & Load Change Tracker, Bihar",
@@ -79,6 +107,14 @@
    "freq": "Weekly"
   },
   {
+   "name": "PSS Details - SBPDCL",
+   "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/pss",
+   "desc": "PSS Details of South Bihar",
+   "cat": "SBPDCL",
+   "dataAt": "2026-10-26T23:18:57.901Z",
+   "freq": "Monthly"
+  },
+  {
    "name": "Pending Utility Shifting - SBPDCL",
    "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/utility-shifting",
    "desc": "Utility Shifting Status",
@@ -87,9 +123,47 @@
    "freq": "Weekly"
   },
   {
+   "name": "Project Monitoring - PSS - SBPDCL",
+   "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/project-pss",
+   "desc": "Project Monitoring - PSS State Plan and RDSS",
+   "cat": "SBPDCL",
+   "dataAt": "2026-11-14T12:03:40.218Z",
+   "freq": "Weekly"
+  },
+  {
+   "name": "Pending Electrocution Cases - SBPDCL",
+   "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/electocution",
+   "desc": "Status of Pending Electrocution Cases",
+   "cat": "SBPDCL",
+   "dataAt": "2026-11-17T04:56:07.918Z",
+   "freq": "Monthly"
+  },
+  {
+   "name": "OffGrid Electrification",
+   "url": "https://sites.google.com/view/energy-department-analytics/others/offgrid-electrification",
+   "desc": "Off grid to on grid connectivity under RDSS",
+   "cat": "Others",
+   "dataAt": "2026-10-26T23:32:37.085Z",
+   "freq": "Weekly"
+  },
+  {
+   "name": "Energy Accounting Bihar",
+   "url": "https://sites.google.com/view/energy-department-analytics/others/energy-accounting",
+   "desc": "Energy Accounting Status",
+   "cat": "Others",
+   "dataAt": "2026-10-18T18:27:36.804Z",
+   "freq": "Monthly"
+  },
+  {
    "name": "Contacts",
    "url": "https://sites.google.com/view/energy-department-analytics/contacts",
    "desc": "All Contacts for BSPHCL",
+   "cat": "Others"
+  },
+  {
+   "name": "Basic Explainers of Sector",
+   "url": "https://sites.google.com/view/energy-department-analytics/library/energy-explainers",
+   "desc": "Department Explainers",
    "cat": "Others"
   },
   {
@@ -103,6 +177,22 @@
    "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/power-market",
    "desc": "IEX prices & All-India / Bihar demand",
    "cat": "Others"
+  },
+  {
+   "name": "Meetings of Energy Department",
+   "url": "https://sites.google.com/view/energy-department-analytics/dailymonitoring/meetings",
+   "desc": "All Meeting Schedules",
+   "cat": "Priority",
+   "dataAt": "2026-11-18T04:33:31.613Z",
+   "freq": "Daily"
+  },
+  {
+   "name": "Meetings of MD SBPDCL",
+   "url": "https://sites.google.com/view/energy-department-analytics/sbpdcl/mdschedule",
+   "desc": "All MD Meeting Schedules",
+   "cat": "SBPDCL",
+   "dataAt": "2026-11-18T04:33:31.613Z",
+   "freq": "Daily"
   }
  ],
  "pmsg": {
