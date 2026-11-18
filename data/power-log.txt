@@ -1,14 +1,14 @@
-Run 2026-11-18T10:28+05:30
+Run 2026-11-18T13:20+05:30
 IEX DAM YESTERDAY 2026-11-17: avg 3922.78 Rs/MWh, 96 blocks
 IEX DAM TODAY 2026-11-18: avg 3727.65 Rs/MWh, 96 blocks
 IEX DAM TOMORROW: page read but no table found (site layout may have changed)
 IEX RTM YESTERDAY 2026-11-17: avg 3780.28 Rs/MWh, 96 blocks
-IEX RTM TODAY 2026-11-18: avg None Rs/MWh, 46 blocks
+IEX RTM TODAY 2026-11-18: avg None Rs/MWh, 58 blocks
 Grid-India report list: FAILED — ConnectionError(ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')))
   probe https://grid-india.in/ -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://webapi.grid-india.in/api/v1/last-update-date -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://webcdn.grid-india.in/files/grdw/misc/menu_en.json -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://report.grid-india.in/ -> ConnectionError: HTTPSConnectionPool(host='report.grid-india.in', port=443): Max retries exceeded with url: / (Caused by NameResolutionEr
   older addresses: nothing reachable either
-CEA Peak page -> HTTP 200, 299582 bytes
+CEA Peak page -> HTTP 200, 299603 bytes
 CEA Peak page: 164 report files listed
