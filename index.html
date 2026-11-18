@@ -420,9 +420,8 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 <div class="pwbox" id="pwbox" hidden role="dialog" aria-modal="true" aria-labelledby="pwTitle">
   <form class="pwcard" id="pwForm" autocomplete="off">
     <h3 id="pwTitle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span id="pwName">Protected dashboard</span></h3>
-    <p>Enter the password to open this dashboard.</p>
+    <p>Enter the password once. This device will remember it.</p>
     <input type="password" id="pwInput" placeholder="Password" aria-label="Password" required>
-    <label><input type="checkbox" id="pwRemember" checked> Remember on this device</label>
     <div class="err" id="pwErr"></div>
     <div class="row"><button type="button" class="no" id="pwCancel">Cancel</button><button type="submit" class="ok">Open</button></div>
   </form>
@@ -651,21 +650,24 @@ function yearly(L, Y){
     const url=new TextDecoder().decode(out);
     return /^https?:\/\//i.test(url)?url:null;
   }
-  const savedPw=()=>{ try{ return localStorage.getItem(PW_KEY)||''; }catch(e){ return ''; } };
-  const savePw=pw=>{ try{ localStorage.setItem(PW_KEY,pw); }catch(e){} };
-  const forgetPw=()=>{ try{ localStorage.removeItem(PW_KEY); }catch(e){} };
+  // Passwords that worked on this device (kept until they stop working)
+  let memPw=[];                                          // fallback if the browser blocks storage
+  const savedPws=()=>{ try{ const v=localStorage.getItem(PW_KEY); if(!v) return memPw; const a=JSON.parse(v); return Array.isArray(a)?a:[v]; }catch(e){ try{ const v=localStorage.getItem(PW_KEY); if(v) return [v]; }catch(x){} return memPw; } };
+  const storePws=a=>{ memPw=a; try{ localStorage.setItem(PW_KEY,JSON.stringify(a)); }catch(e){} };
+  const savePw=pw=>{ const a=savedPws().filter(x=>x!==pw); a.unshift(pw); storePws(a.slice(0,5)); };
   const lockId=d=>d.lock&&d.lock.c;
   function goTo(w,url){ if(w&&!w.closed){ try{w.opener=null;}catch(e){} w.location.href=url; } else toast('Your browser blocked the new tab. Allow pop-ups for this page, then click the tile again.',true); }
   async function openLocked(d){
     const id=lockId(d);
     if(opened.has(id)){ goTo(window.open('about:blank','_blank'),opened.get(id)); return; }
-    const pw=savedPw();
-    if(pw){
+    const pws=savedPws();
+    if(pws.length){
       const w=window.open('about:blank','_blank');            // opened now, so pop-up blockers allow it
-      let url=null; try{ url=await unlockUrl(d.lock,pw); }catch(e){}
-      if(url){ opened.set(id,url); goTo(w,url); return; }
+      for(const pw of pws){
+        let url=null; try{ url=await unlockUrl(d.lock,pw); }catch(e){}
+        if(url){ opened.set(id,url); goTo(w,url); return; }
+      }
       if(w) try{ w.close(); }catch(e){}
-      forgetPw();                                              // saved password no longer fits
     }
     askPassword(d);
   }
@@ -685,7 +687,7 @@ function yearly(L, Y){
       catch(x){ if(w) try{w.close();}catch(e){} err.textContent='This browser cannot open protected links. Try Chrome or Edge.'; return; }
       if(!url){ if(w) try{w.close();}catch(e){} err.textContent='Wrong password. Please try again.'; inp.select(); return; }
       opened.set(lockId(d),url);
-      if($('pwRemember').checked) savePw(pw);
+      savePw(pw);
       close(); goTo(w,url);
       // the same password may open other locked tiles too
       (window.__lastTiles&&window.__lastTiles[0]||[]).forEach(o=>{ if(o.lock&&!opened.has(lockId(o))) unlockUrl(o.lock,pw).then(u=>{ if(u) opened.set(lockId(o),u); }).catch(()=>{}); });

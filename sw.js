@@ -2,7 +2,7 @@
    Opens from cache straight away, then quietly fetches the latest copy from
    GitHub in the background. Your edits show up from the next visit.
    If you ever change the list of files below, raise the version number. */
-const CACHE = 'energy-analytics-v12';
+const CACHE = 'energy-analytics-v13';
 const FILES = ['./', './index.html', './dashboards.json', './power.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
