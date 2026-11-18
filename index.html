@@ -102,6 +102,22 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 
 .tile-go{position:absolute;top:.75em;right:.75em;display:grid;place-items:center;width:1.75em;height:1.75em;border-radius:50%;background:#fff;color:var(--accent);transition:background-color .3s,color .3s,transform .3s}
 .tile-go svg{width:.9em;height:.9em}
+.tile.locked .tile-go{color:#8a6a12;background:#fff7dc}
+/* Password box for locked dashboards */
+.pwbox{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:rgba(31,44,77,.28);padding:16px;animation:fade .15s ease both}
+.pwbox[hidden]{display:none}
+.pwcard{width:min(340px,100%);background:#fff;border:1px solid #e7e3f6;border-radius:16px;box-shadow:0 24px 60px -24px rgba(31,44,77,.55);padding:16px 16px 14px;font:14px/1.45 var(--body);color:var(--ink)}
+.pwcard h3{margin:0 0 2px;font-size:15px;display:flex;align-items:center;gap:7px}
+.pwcard h3 svg{width:16px;height:16px;color:#8a6a12}
+.pwcard p{margin:0 0 10px;font-size:12.5px;color:var(--muted)}
+.pwcard input[type=password]{width:100%;box-sizing:border-box;padding:9px 11px;border:1px solid #d9d4ee;border-radius:10px;font:inherit;outline:none}
+.pwcard input[type=password]:focus{border-color:#6d4fe0;box-shadow:0 0 0 3px #ece7ff}
+.pwcard label{display:flex;align-items:center;gap:6px;margin:9px 0 0;font-size:12.5px;color:var(--muted);cursor:pointer}
+.pwcard .err{min-height:1.2em;margin:6px 0 0;font-size:12px;color:#c0392b}
+.pwcard .row{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.pwcard button{border:0;border-radius:10px;padding:8px 14px;font:600 13px var(--body);cursor:pointer}
+.pwcard .ok{background:#6d4fe0;color:#fff}
+.pwcard .no{background:#f2f0f8;color:var(--ink)}
 .tile:hover,.tile:focus-visible{transform:translateY(-4px);box-shadow:0 14px 24px -12px var(--glow),0 3px 8px var(--glow)}
 .tile:hover::before,.tile:focus-visible::before{transform:scale(1.35)}
 .tile:hover .tile-go,.tile:focus-visible .tile-go{background:var(--accent);color:#fff;transform:rotate(-45deg)}
@@ -401,6 +417,16 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<div class="pwbox" id="pwbox" hidden role="dialog" aria-modal="true" aria-labelledby="pwTitle">
+  <form class="pwcard" id="pwForm" autocomplete="off">
+    <h3 id="pwTitle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span id="pwName">Protected dashboard</span></h3>
+    <p>Enter the password to open this dashboard.</p>
+    <input type="password" id="pwInput" placeholder="Password" aria-label="Password" required>
+    <label><input type="checkbox" id="pwRemember" checked> Remember on this device</label>
+    <div class="err" id="pwErr"></div>
+    <div class="row"><button type="button" class="no" id="pwCancel">Cancel</button><button type="submit" class="ok">Open</button></div>
+  </form>
+</div>
 
 <div class="inst" id="inst" role="dialog" aria-label="Install Energy Analytics" hidden>
   <img src="icon-192.png" alt="" width="44" height="44">
@@ -602,14 +628,82 @@ function yearly(L, Y){
     clearTimeout(toastTimer); toastTimer=setTimeout(()=>{t.hidden=true;},warn?9000:4000);
   }
 
+  /* ---------- Password-locked links ----------
+     d.lock holds the link encrypted with the row's password (see Publish.gs → lockUrl_). */
+  const LOCK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8.5 11V7.5a3.5 3.5 0 0 1 7 0V11"/></svg>';
+  const PW_KEY='ea-dash-pw', opened=new Map();         // decrypted links, this visit only
+  const b64d=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0));
+  async function unlockUrl(L,pw){
+    if(!(window.crypto&&crypto.subtle)) throw new Error('nocrypto');
+    const enc=new TextEncoder();
+    const base=await crypto.subtle.importKey('raw',enc.encode(pw),'PBKDF2',false,['deriveBits']);
+    const bits=await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:b64d(L.s),iterations:L.i||10000},base,256);
+    const K=await crypto.subtle.importKey('raw',bits,{name:'HMAC',hash:'SHA-256'},false,['sign']);
+    const H=async d=>new Uint8Array(await crypto.subtle.sign('HMAC',K,d));
+    const n=b64d(L.n), c=b64d(L.c), t=b64d(L.t);
+    const ti=new Uint8Array(4+n.length+c.length); ti.set(enc.encode('tag|')); ti.set(n,4); ti.set(c,4+n.length);
+    const tag=await H(ti); for(let i=0;i<16;i++) if(tag[i]!==t[i]) return null;   // wrong password
+    const out=new Uint8Array(c.length);
+    for(let b=0;b*32<c.length;b++){
+      const bi=new Uint8Array(n.length+4); bi.set(n); bi.set([0,0,(b>>8)&127,b&127],n.length);
+      const ks=await H(bi); for(let i=0;i<32&&b*32+i<c.length;i++) out[b*32+i]=c[b*32+i]^ks[i];
+    }
+    const url=new TextDecoder().decode(out);
+    return /^https?:\/\//i.test(url)?url:null;
+  }
+  const savedPw=()=>{ try{ return localStorage.getItem(PW_KEY)||''; }catch(e){ return ''; } };
+  const savePw=pw=>{ try{ localStorage.setItem(PW_KEY,pw); }catch(e){} };
+  const forgetPw=()=>{ try{ localStorage.removeItem(PW_KEY); }catch(e){} };
+  const lockId=d=>d.lock&&d.lock.c;
+  function goTo(w,url){ if(w&&!w.closed){ try{w.opener=null;}catch(e){} w.location.href=url; } else toast('Your browser blocked the new tab. Allow pop-ups for this page, then click the tile again.',true); }
+  async function openLocked(d){
+    const id=lockId(d);
+    if(opened.has(id)){ goTo(window.open('about:blank','_blank'),opened.get(id)); return; }
+    const pw=savedPw();
+    if(pw){
+      const w=window.open('about:blank','_blank');            // opened now, so pop-up blockers allow it
+      let url=null; try{ url=await unlockUrl(d.lock,pw); }catch(e){}
+      if(url){ opened.set(id,url); goTo(w,url); return; }
+      if(w) try{ w.close(); }catch(e){}
+      forgetPw();                                              // saved password no longer fits
+    }
+    askPassword(d);
+  }
+  function askPassword(d){
+    const box=$('pwbox'), inp=$('pwInput'), err=$('pwErr');
+    $('pwName').textContent=d.name; err.textContent=''; inp.value=''; box.hidden=false; setTimeout(()=>inp.focus(),30);
+    const close=()=>{ box.hidden=true; $('pwForm').onsubmit=null; };
+    $('pwCancel').onclick=close;
+    box.onclick=e=>{ if(e.target===box) close(); };
+    box.onkeydown=e=>{ if(e.key==='Escape') close(); };
+    $('pwForm').onsubmit=async e=>{
+      e.preventDefault();
+      const pw=inp.value; if(!pw) return;
+      const w=window.open('about:blank','_blank');
+      let url=null;
+      try{ url=await unlockUrl(d.lock,pw); }
+      catch(x){ if(w) try{w.close();}catch(e){} err.textContent='This browser cannot open protected links. Try Chrome or Edge.'; return; }
+      if(!url){ if(w) try{w.close();}catch(e){} err.textContent='Wrong password. Please try again.'; inp.select(); return; }
+      opened.set(lockId(d),url);
+      if($('pwRemember').checked) savePw(pw);
+      close(); goTo(w,url);
+      // the same password may open other locked tiles too
+      (window.__lastTiles&&window.__lastTiles[0]||[]).forEach(o=>{ if(o.lock&&!opened.has(lockId(o))) unlockUrl(o.lock,pw).then(u=>{ if(u) opened.set(lockId(o),u); }).catch(()=>{}); });
+    };
+  }
+
+  window.__openedLocked=d=>opened.get(lockId(d));
   function openAll(group){
-    let opened=0, blocked=0;
+    let opened=0, blocked=0, locked=0;
     group.items.forEach(d=>{
+      const url=d.url||(d.lock&&window.__openedLocked&&window.__openedLocked(d));
+      if(!url){ locked++; return; }
       let w=null;
       try{ w=window.open('about:blank','_blank'); }catch(e){}
-      if(w){ try{w.opener=null;}catch(e){} w.location.href=d.url; opened++; }
+      if(w){ try{w.opener=null;}catch(e){} w.location.href=url; opened++; }
       else blocked++;
     });
+    if(locked&&!blocked){ toast('Opened '+plural(opened,'dashboard')+'. '+plural(locked,'locked dashboard')+' skipped: open '+(locked>1?'them':'it')+' once with the password first.',true); return; }
     if(blocked>0) toast('Your browser blocked '+plural(blocked,'tab')+'. Allow pop-ups for this page (icon at the right end of the address bar), then press Open all again.',true);
     else toast('Opened '+plural(opened,'dashboard')+'.',false);
   }
@@ -640,7 +734,7 @@ function yearly(L, Y){
     /* Build groups */
     const groups=[], lookup=new Map();
     list.forEach(d=>{
-      if(!d||!d.name||!/^https?:\/\//i.test(d.url||'')) return;
+      if(!d||!d.name||!(/^https?:\/\//i.test(d.url||'')||(d.lock&&d.lock.c))) return;
       const k=(d.cat||'').trim()||OTHER;
       if(!lookup.has(k)){ lookup.set(k,{name:k,items:[]}); groups.push(lookup.get(k)); }
       lookup.get(k).items.push(d);
@@ -670,8 +764,9 @@ function yearly(L, Y){
       const grid=el('div','tiles');
       g.items.forEach(d=>{
         const c=PALETTE[index%PALETTE.length];
-        const a=el('a','tile');
-        a.href=d.url; a.target='_blank'; a.rel='noopener';
+        const a=el('a','tile'+(d.lock?' locked':''));
+        if(d.lock){ a.href='#'; a.addEventListener('click',e=>{ e.preventDefault(); openLocked(d); }); }
+        else { a.href=d.url; a.target='_blank'; a.rel='noopener'; }
         a.style.setProperty('--tint',c.tint); a.style.setProperty('--accent',c.accent);
         a.style.setProperty('--deep',c.deep); a.style.setProperty('--glow',c.glow);
         const icon=el('span','tile-icon');
@@ -690,7 +785,8 @@ function yearly(L, Y){
           f.appendChild(el('i')); const ft=el('span',null,fr.text); if(fr.tm) ft.appendChild(el('span','tm',fr.tm)); f.appendChild(ft);
           a.appendChild(f);
         }
-        const go=el('span','tile-go'); go.innerHTML=ARROW; go.setAttribute('aria-hidden','true');
+        const go=el('span','tile-go'); go.innerHTML=d.lock?LOCK_SVG:ARROW; go.setAttribute('aria-hidden','true');
+        if(d.lock) a.title=(a.title||d.name)+' (password protected)';
         a.appendChild(go);
         grid.appendChild(a);
         index++;
@@ -707,7 +803,7 @@ function yearly(L, Y){
   // 1) Draw at once from the saved copy (instant on repeat visits).
   // 2) Ask GitHub for the latest list in the background; redraw only if it changed.
   let shown=null;                                   // items currently on screen, as text
-  const valid=j=>(j&&Array.isArray(j.items))?j.items.filter(d=>d&&d.name&&/^https?:\/\//i.test(d.url||'')):[];
+  const valid=j=>(j&&Array.isArray(j.items))?j.items.filter(d=>d&&d.name&&(/^https?:\/\//i.test(d.url||'')||(d.lock&&d.lock.c))):[];
   const show=j=>{
     if(j&&j.pmsg&&window.renderPmsg) window.renderPmsg(j.pmsg);
     if(j&&j.outage&&window.renderOutage) window.renderOutage(j.outage);
