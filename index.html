@@ -102,6 +102,26 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 
 .tile-go{position:absolute;top:.75em;right:.75em;display:grid;place-items:center;width:1.75em;height:1.75em;border-radius:50%;background:#fff;color:var(--accent);transition:background-color .3s,color .3s,transform .3s}
 .tile-go svg{width:.9em;height:.9em}
+/* Whole-page lock */
+html.locked .shell,html.locked .inst{visibility:hidden}
+.gate{display:none}
+html.locked .gate{display:grid;position:fixed;inset:0;z-index:50;place-items:center;padding:20px;background:linear-gradient(160deg,#f6f3ff 0%,#eef6ff 55%,#f3fbf6 100%)}
+.gate form{width:min(360px,100%);background:#fff;border:1px solid #e7e3f6;border-radius:20px;box-shadow:0 30px 70px -30px rgba(31,44,77,.45);padding:24px 22px 20px;font:14px/1.45 var(--body);color:var(--ink);text-align:center}
+.gate .gi{width:46px;height:46px;margin:0 auto 10px;border-radius:14px;display:grid;place-items:center;background:#f0edfb;color:#6d4fe0}
+.gate .gi svg{width:22px;height:22px}
+.gate .eyebrow{font-size:10.5px;margin:0}
+.gate h1{font-size:26px;margin:2px 0 4px}
+.gate p.sub{margin:0 0 16px;font-size:12.5px;color:var(--muted)}
+.gate input{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid #d9d4ee;border-radius:12px;font:inherit;text-align:center;outline:none}
+.gate input:focus{border-color:#6d4fe0;box-shadow:0 0 0 3px #ece7ff}
+.gate button{width:100%;margin-top:10px;border:0;border-radius:12px;padding:11px;background:#6d4fe0;color:#fff;font:600 14px var(--body);cursor:pointer}
+.gate button[disabled]{opacity:.6;cursor:wait}
+.gate .err{min-height:1.3em;margin:8px 0 0;font-size:12.5px;color:#c0392b}
+.gate .note{margin:6px 0 0;font-size:11.5px;color:var(--muted)}
+.lockbtn{float:right;margin:.2em 0 0 .6em;border:1px solid #e3def4;background:rgba(255,255,255,.8);color:var(--muted);border-radius:99px;padding:.25em .75em .25em .6em;font:600 .72em var(--body);cursor:pointer;display:inline-flex;align-items:center;gap:.35em}
+.lockbtn svg{width:1.05em;height:1.05em}
+.lockbtn:hover{color:#6d4fe0;border-color:#cfc5f5}
+.lockbtn[hidden]{display:none}
 .tile.locked .tile-go{color:#8a6a12;background:#fff7dc}
 /* Password box for locked dashboards */
 .pwbox{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:rgba(31,44,77,.28);padding:16px;animation:fade .15s ease both}
@@ -333,12 +353,14 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
 </style>
 </head>
 <body>
+<script>try{if(!localStorage.getItem('ea-page-key'))document.documentElement.classList.add('locked')}catch(e){document.documentElement.classList.add('locked')}</script>
 <div class="shell has-fu">
 
   <!-- ================= Dashboards ================= -->
   <main class="page" id="main">
     <header class="masthead">
       <div class="mh-title">
+        <button type="button" class="lockbtn" id="lockBtn" hidden title="Lock this page on this device (the password will be asked again)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8.5 11V7.5a3.5 3.5 0 0 1 7 0V11"/></svg>Lock</button>
         <p class="eyebrow">Energy Department · Government of Bihar</p>
         <h1>Energy Analytics</h1>
         <p class="summary" id="summary"></p>
@@ -416,6 +438,18 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
   </aside>
 </div>
 
+<div class="gate" id="gate">
+  <form id="gateForm" autocomplete="off">
+    <div class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+    <p class="eyebrow">Energy Department · Government of Bihar</p>
+    <h1>Energy Analytics</h1>
+    <p class="sub">Enter the password to open the dashboards.</p>
+    <input type="password" id="gateInput" placeholder="Password" aria-label="Password" required>
+    <button type="submit" id="gateBtn">Unlock</button>
+    <div class="err" id="gateErr"></div>
+    <p class="note">Asked once. This device will remember it.</p>
+  </form>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <div class="pwbox" id="pwbox" hidden role="dialog" aria-modal="true" aria-labelledby="pwTitle">
   <form class="pwcard" id="pwForm" autocomplete="off">
@@ -446,35 +480,7 @@ h1{font-family:var(--display);font-weight:700;font-size:2.6em;line-height:1.05;l
    ===================================================================== */
 const CATEGORY_ORDER = ['Priority', 'SBPDCL', 'Others'];
 
-const DASHBOARDS = [
-  // ---- Priority ----
-  { name: 'Daily Bulletin', url: 'https://sites.google.com/view/energy-department-analytics/energy-bulletin', desc: 'Summary of Priorities', cat: 'Priority' },
-  { name: 'Pending Issues', url: 'https://sites.google.com/view/energy-department-analytics/followup', desc: 'Pending Issues District Wise', cat: 'Priority' },
-  { name: 'Weather Prediction', url: 'https://sites.google.com/view/energy-department-analytics/dailymonitoring/weatherforecast', desc: 'Forecast of Outage and Complaints', cat: 'Priority' },
-  { name: 'CMD Cell Monitoring Sheet', url: 'https://sites.google.com/view/energy-department-analytics/dailymonitoring/daily-monitoring', desc: 'PwC Agenda Sheet', cat: 'Priority' },
-  { name: 'BSPHCL Daily News Briefing', url: 'https://sites.google.com/view/energy-department-analytics/dailymonitoring/daily-news', desc: 'Daily News Summary', cat: 'Priority' },
-  { name: 'PMSG-MBY (Regular)', url: 'https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-regular', desc: 'PMSG Dashboard for Districts', cat: 'Priority' },
-  { name: 'PMSG-MBY (ULA)', url: 'https://sites.google.com/view/energy-department-analytics/pmsg/pmsg-mby-ula', desc: 'PMSG (ULA) Dashboard for Agencies', cat: 'Priority' },
-  { name: '1912 Complaint Analytics', url: 'https://sites.google.com/view/energy-department-analytics/dailymonitoring/1912', desc: 'Consumer Complaints Statistics', cat: 'Priority' },
-  { name: 'Bihar Outage Analytics', url: 'https://sites.google.com/view/energy-department-analytics/dailymonitoring/outage', desc: 'Outage Monitoring', cat: 'Priority' },
-  { name: 'Energy Sector Updates', url: 'https://sites.google.com/view/energy-department-analytics/library/energy-weekly-digest', desc: 'Weekly Digest from All Over the World', cat: 'Priority' },
-
-  // ---- SBPDCL ----
-  { name: 'TRW Stock Status - SBPDCL', url: 'https://sites.google.com/view/energy-department-analytics/sbpdcl/trw', desc: 'TRW Status Analytics', cat: 'SBPDCL' },
-  { name: 'Stores Inventory Status - SBPDCL', url: 'https://sites.google.com/view/energy-department-analytics/sbpdcl/stores', desc: 'Stock Status in Stores', cat: 'SBPDCL' },
-  { name: 'PSS Details - SBPDCL', url: 'https://sites.google.com/view/energy-department-analytics/sbpdcl/pss', desc: 'PSS Details of South Bihar', cat: 'SBPDCL' },
-  { name: 'Pending Utility Shifting - SBPDCL', url: 'https://sites.google.com/view/energy-department-analytics/sbpdcl/utility-shifting', desc: 'Utility Shifting Status', cat: 'SBPDCL' },
-  { name: 'Project Monitoring - PSS - SBPDCL', url: 'https://sites.google.com/view/energy-department-analytics/sbpdcl/project-pss', desc: 'Project Monitoring - PSS State Plan and RDSS', cat: 'SBPDCL' },
-  { name: 'Pending Electrocution Cases - SBPDCL', url: 'https://sites.google.com/view/energy-department-analytics/sbpdcl/electocution', desc: 'Status of Pending Electrocution Cases', cat: 'SBPDCL' },
-
-  // ---- Others ----
-  { name: 'Revenue Collection Analytics', url: 'https://sites.google.com/view/energy-department-analytics/others/revenue', desc: 'Revenue Collection Monitoring', cat: 'Others' },
-  { name: 'NSC and Load Change Request Monitoring', url: 'https://sites.google.com/view/energy-department-analytics/others/nsc', desc: 'NSC & Load Change Tracker, Bihar', cat: 'Others' },
-  { name: 'OffGrid Electrification', url: 'https://sites.google.com/view/energy-department-analytics/others/offgrid-electrification', desc: 'Off grid to on grid connectivity under RDSS', cat: 'Others' },
-  { name: 'Energy Accounting Bihar', url: 'https://sites.google.com/view/energy-department-analytics/others/energy-accounting', desc: 'Energy Accounting Status', cat: 'Others' },
-  { name: 'Contacts', url: 'https://sites.google.com/view/energy-department-analytics/contacts', desc: 'All Contacts for BSPHCL', cat: 'Others' },
-  { name: 'Basic Explainers of Sector', url: 'https://sites.google.com/view/energy-department-analytics/library/energy-explainers', desc: 'Department Explainers', cat: 'Others' },
-];
+const DASHBOARDS = [];   // links come only from dashboards.json (encrypted when the page password is on)
 
 /* =====================================================================
    KEY DATES — edit here
@@ -816,15 +822,64 @@ function yearly(L, Y){
     if(sig===shown) return true;                     // same list: nothing to redraw
     shown=sig; buildTiles(items, fmtUpdated(j.updated)); return true;
   };
+  /* ---------- Whole-page lock: dashboards.json may arrive encrypted ({enc:{…}}) ---------- */
+  const PAGE_KEY='ea-page-key';
+  let memKey=null, pendingEnc=null;
+  const setLocked=on=>{ document.documentElement.classList.toggle('locked',on); if(on) setTimeout(()=>{ try{$('gateInput').focus();}catch(e){} },60); };
+  const b64e=u=>{ let x=''; u.forEach(c=>x+=String.fromCharCode(c)); return btoa(x); };
+  const readKey=E=>{ try{ const k=JSON.parse(localStorage.getItem(PAGE_KEY)||'null'); if(k&&k.s===E.s&&k.i===E.i) return b64d(k.k); }catch(e){} return memKey&&memKey.s===E.s&&memKey.i===E.i?b64d(memKey.k):null; };
+  const keepKey=(E,raw)=>{ memKey={s:E.s,i:E.i,k:b64e(raw)}; try{ localStorage.setItem(PAGE_KEY,JSON.stringify(memKey)); }catch(e){} };
+  const dropKey=()=>{ memKey=null; try{ localStorage.removeItem(PAGE_KEY); }catch(e){} };
+  async function deriveKey(pw,E){
+    const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);
+    return new Uint8Array(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:b64d(E.s),iterations:E.i},base,256));
+  }
+  async function unseal(E,raw){
+    const K=await crypto.subtle.importKey('raw',raw,{name:'HMAC',hash:'SHA-256'},false,['sign']);
+    const H=d=>crypto.subtle.sign('HMAC',K,d).then(x=>new Uint8Array(x));
+    const n=b64d(E.n), c=b64d(E.c), t=b64d(E.t), enc=new TextEncoder();
+    const ti=new Uint8Array(4+n.length+c.length); ti.set(enc.encode('tag|')); ti.set(n,4); ti.set(c,4+n.length);
+    const tag=await H(ti); for(let i=0;i<16;i++) if(tag[i]!==t[i]) return null;     // wrong password / key
+    const blocks=Math.ceil(c.length/32), jobs=[];
+    for(let b=0;b<blocks;b++){ const bi=new Uint8Array(n.length+4); bi.set(n); new DataView(bi.buffer).setUint32(n.length,b); jobs.push(H(bi)); }
+    const ks=await Promise.all(jobs), out=new Uint8Array(c.length);
+    for(let i=0;i<c.length;i++) out[i]=c[i]^ks[i>>5][i&31];
+    return JSON.parse(new TextDecoder().decode(out));
+  }
+  async function openData(j){
+    if(!j) return false;
+    if(!j.enc){ setLocked(false); $('lockBtn').hidden=true; return show(j); }      // page not locked
+    $('lockBtn').hidden=false;
+    const raw=readKey(j.enc);
+    if(raw){ let p=null; try{ p=await unseal(j.enc,raw); }catch(e){} if(p){ setLocked(false); return show(p); } dropKey(); }
+    pendingEnc=j.enc; setLocked(true); return true;
+  }
+  $('gateForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const pw=$('gateInput').value, btn=$('gateBtn'), err=$('gateErr');
+    if(!pw) return;
+    if(!pendingEnc){ err.textContent='Still loading. Please try again in a moment.'; return; }
+    if(!(window.crypto&&crypto.subtle)){ err.textContent='This browser cannot open the page. Please use Chrome, Edge or Safari.'; return; }
+    btn.disabled=true; err.textContent='';
+    try{
+      const raw=await deriveKey(pw,pendingEnc), p=await unseal(pendingEnc,raw);
+      if(!p){ err.textContent='Wrong password. Please try again.'; $('gateInput').select(); return; }
+      keepKey(pendingEnc,raw); $('gateInput').value=''; setLocked(false); show(p);
+    }catch(x){ err.textContent='Could not open the page. Please reload and try again.'; }
+    finally{ btn.disabled=false; }
+  });
+  $('lockBtn').addEventListener('click',()=>{ dropKey(); location.reload(); });
+
   const getList=url=>fetch(url,{cache:'no-cache'}).then(r=>r.ok?r.json():Promise.reject(r.status));
   const timer=setTimeout(()=>{ if(shown===null){ shown='builtin'; buildTiles(DASHBOARDS,''); } },4000);
   getList('dashboards.json')
-    .then(j=>{ if(show(j)) clearTimeout(timer); else throw 'empty'; })
+    .then(openData)
+    .then(ok=>{ if(ok) clearTimeout(timer); else throw 'empty'; })
     .catch(()=>{ clearTimeout(timer); if(shown===null){ shown='builtin'; buildTiles(DASHBOARDS,''); } })
     .then(()=>{
       // Only needed when the copy above came from this computer's cache
       if(navigator.serviceWorker&&navigator.serviceWorker.controller)
-        return getList('dashboards.json?fresh='+Date.now()).then(show);
+        return getList('dashboards.json?fresh='+Date.now()).then(openData);
     })
     .catch(()=>{});
 })();
