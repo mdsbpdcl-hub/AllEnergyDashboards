@@ -1,14 +1,16 @@
-Run 2026-11-20T10:28+05:30
+Run 2026-11-20T13:21+05:30
 IEX DAM YESTERDAY 2026-11-19: avg 3747.35 Rs/MWh, 96 blocks
 IEX DAM TODAY 2026-11-20: avg 4205.38 Rs/MWh, 96 blocks
 IEX DAM TOMORROW: page read but no table found (site layout may have changed)
 IEX RTM YESTERDAY 2026-11-19: avg 3361.87 Rs/MWh, 96 blocks
-IEX RTM TODAY 2026-11-20: avg None Rs/MWh, 46 blocks
+IEX RTM TODAY 2026-11-20: avg None Rs/MWh, 58 blocks
 Grid-India report list: FAILED — ConnectionError(ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')))
   probe https://grid-india.in/ -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://webapi.grid-india.in/api/v1/last-update-date -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://webcdn.grid-india.in/files/grdw/misc/menu_en.json -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://report.grid-india.in/ -> ConnectionError: HTTPSConnectionPool(host='report.grid-india.in', port=443): Max retries exceeded with url: / (Caused by NameResolutionEr
   older addresses: nothing reachable either
-CEA Peak page -> HTTP 200, 299664 bytes
-CEA Peak page: 164 report files listed
+CEA Peak page -> HTTP 200, 301710 bytes
+CEA Peak page: 166 report files listed
+CEA 2026-10 (provisional): Bihar peak demand 8490.0 MW, met 8490.0 MW; FY so far 9591.0 MW
+CEA 2026-09 (revised): Bihar peak demand 9025.0 MW, met 9025.0 MW; FY so far 9591.0 MW
