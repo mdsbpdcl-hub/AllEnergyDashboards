@@ -1,9 +1,9 @@
-Run 2026-11-21T13:16+05:30
+Run 2026-11-21T14:50+05:30
 IEX DAM YESTERDAY 2026-11-20: avg 4205.38 Rs/MWh, 96 blocks
 IEX DAM TODAY 2026-11-21: avg 3766.37 Rs/MWh, 96 blocks
 IEX DAM TOMORROW: page read but no table found (site layout may have changed)
 IEX RTM YESTERDAY 2026-11-20: avg 4058.66 Rs/MWh, 96 blocks
-IEX RTM TODAY 2026-11-21: avg None Rs/MWh, 58 blocks
+IEX RTM TODAY 2026-11-21: avg None Rs/MWh, 64 blocks
 Grid-India report list: FAILED — ConnectionError(ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')))
   probe https://grid-india.in/ -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://webapi.grid-india.in/api/v1/last-update-date -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
