@@ -1,9 +1,9 @@
-Run 2026-11-26T10:35+05:30
+Run 2026-11-26T13:28+05:30
 IEX DAM YESTERDAY 2026-11-25: avg 4892.21 Rs/MWh, 96 blocks
 IEX DAM TODAY 2026-11-26: avg 5044.78 Rs/MWh, 96 blocks
 IEX DAM TOMORROW: page read but no table found (site layout may have changed)
 IEX RTM YESTERDAY 2026-11-25: avg 5800.36 Rs/MWh, 96 blocks
-IEX RTM TODAY 2026-11-26: avg None Rs/MWh, 46 blocks
+IEX RTM TODAY 2026-11-26: avg None Rs/MWh, 58 blocks
 Grid-India report list: FAILED — ConnectionError(ProtocolError('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')))
   probe https://grid-india.in/ -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
   probe https://webapi.grid-india.in/api/v1/last-update-date -> ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
@@ -12,4 +12,3 @@ Grid-India report list: FAILED — ConnectionError(ProtocolError('Connection abo
   older addresses: nothing reachable either
 CEA Peak page -> HTTP 200, 516846 bytes
 CEA Peak page: 166 report files listed
-CEA https://cea.nic.in/api/dashboardReports/download-pdf/en/536bc622-d8da-4f6d-921b-03ddc898758e: FAILED — ChunkedEncodingError(ProtocolError('Connection broken: IncompleteRead(265588 bytes read, 173115 more expected)', IncompleteRead(265588 bytes read, 173115 more expected)))
